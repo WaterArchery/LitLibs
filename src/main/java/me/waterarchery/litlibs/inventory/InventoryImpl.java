@@ -4,7 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import dev.dbassett.skullcreator.SkullCreator;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
-import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
+import me.waterarchery.litlibs.handlers.InventoryHandler;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
@@ -33,30 +33,10 @@ public class InventoryImpl {
         size = file.getYml().getInt(path + ".size");
     }
 
-    private void fillGUI(Inventory inventory) {
-        FileConfiguration yaml = file.getYml();
-
-        boolean isFillEnabled = yaml.getBoolean(path + ".fillMenu.enabled", false);
-        if (isFillEnabled) {
-            String rawMaterial = yaml.getString(path + ".fillMenu.fillItem", "STONE");;
-            Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
-            XMaterial material = optMaterial.orElse(XMaterial.STONE);
-            ItemStack itemStack = material.parseItem();
-            itemStack = setGUIAction(itemStack, "none", ActionType.FILL);
-
-            ItemMeta meta = itemStack.getItemMeta();
-            meta.setDisplayName("§7");
-            itemStack.setItemMeta(meta);
-
-            for (int slot = 0; slot < inventory.getSize(); slot++) {
-                inventory.setItem(slot, itemStack);
-            }
-        }
-    }
-
     private void generateItems(Player player, Inventory inventory, HashMap<String, Object> placeholders) {
         FileConfiguration yaml = file.getYml();
         VersionHandler versionHandler = VersionHandler.getInstance();
+        InventoryHandler inventoryHandler = litLibs.getInventoryHandler();
 
         for (String itemPath : yaml.getConfigurationSection( path + ".items").getKeys(false)) {
             int slot = yaml.getInt(path + ".items." + itemPath + ".slot");
@@ -83,15 +63,15 @@ public class InventoryImpl {
 
             ItemStack itemStack = parseItemStack(rawMaterial);
             if (actionType.equalsIgnoreCase("command") || actionType.equalsIgnoreCase("cmd"))
-                itemStack = setGUIAction(itemStack, action, ActionType.COMMAND);
+                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.COMMAND, file);
             else if (actionType.equalsIgnoreCase(""))
-                itemStack = setGUIAction(itemStack, action, ActionType.NONE);
+                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.NONE, file);
             else {
                 if (action != null && !action.equalsIgnoreCase("none")) {
-                    itemStack = setGUIAction(itemStack, action, ActionType.PLUGIN);
+                    itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.PLUGIN, file);
                 }
                 else {
-                    itemStack = setGUIAction(itemStack, itemPath, ActionType.PLUGIN);
+                    itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, file);
                 }
             }
 
@@ -118,21 +98,18 @@ public class InventoryImpl {
         }
     }
 
-    public ItemStack setGUIAction(ItemStack itemStack, String action, ActionType type) {
-        NBTAPIHook nbtapiHook = litLibs.getNBTAPIHook();
-        return nbtapiHook.setGUIAction(action, itemStack, file.getName(), type);
-    }
-
     public Inventory generateInventory(Player player) {
+        InventoryHandler inventoryHandler = litLibs.getInventoryHandler();
         Inventory inventory = Bukkit.createInventory(null, getSize(), getTitle());
-        fillGUI(inventory);
+        inventoryHandler.fillGUI(inventory, path, file);
         generateItems(player, inventory, new HashMap<>());
         return inventory;
     }
 
     public Inventory generateInventory(Player player, HashMap<String, Object> placeholders) {
+        InventoryHandler inventoryHandler = litLibs.getInventoryHandler();
         Inventory inventory = Bukkit.createInventory(null, getSize(), getTitle());
-        fillGUI(inventory);
+        inventoryHandler.fillGUI(inventory, path, file);
         generateItems(player, inventory, placeholders);
         return inventory;
     }

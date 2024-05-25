@@ -11,7 +11,6 @@ import static org.bukkit.ChatColor.COLOR_CHAR;
 
 public class MessageHandler {
 
-
     private final LitLibs litLibs;
 
     public MessageHandler(LitLibs litLibs) { this.litLibs = litLibs; }

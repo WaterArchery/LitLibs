@@ -1,9 +1,6 @@
 package me.waterarchery.litlibs;
 
-import me.waterarchery.litlibs.handlers.HookHandler;
-import me.waterarchery.litlibs.handlers.MessageHandler;
-import me.waterarchery.litlibs.handlers.SoundHandler;
-import me.waterarchery.litlibs.handlers.TitleHandler;
+import me.waterarchery.litlibs.handlers.*;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.version.VersionHandler;
@@ -22,6 +19,7 @@ public class LitLibs {
     private final MessageHandler messageHandler;
     private final SoundHandler soundHandler;
     private final TitleHandler titleHandler;
+    private final InventoryHandler inventoryHandler;
     private final NBTAPIHook nbtapiHook;
     private HookHandler hookHandler;
 
@@ -31,6 +29,7 @@ public class LitLibs {
         messageHandler = new MessageHandler(this);
         soundHandler = new SoundHandler(this);
         titleHandler = new TitleHandler(this);
+        inventoryHandler = new InventoryHandler(this);
         nbtapiHook = new NBTAPIHook(this);
     }
 
@@ -48,6 +47,7 @@ public class LitLibs {
     public TitleHandler getTitleHandler() { return titleHandler; }
     public VersionHandler getVersionHandler() { return VersionHandler.getInstance(); }
     public NBTAPIHook getNBTAPIHook() { return nbtapiHook; }
+    public InventoryHandler getInventoryHandler() { return inventoryHandler; }
     public HookHandler getHookHandler() {
         if (hookHandler == null)
             hookHandler = new HookHandler(this);
