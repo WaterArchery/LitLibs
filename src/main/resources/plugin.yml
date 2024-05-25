@@ -1,0 +1,15 @@
+name: LitLibs
+version: '${project.version}'
+main: me.waterarchery.litlibs.LitLibsPlugin
+api-version: '1.13'
+author: WaterArchery
+softdepend:
+  - BentoBox
+  - SuperiorSkyblock2
+  - Lands
+  - DecentHolograms
+  - CMI
+  - HolographicDisplays
+  - Essentials
+  - ShopGUIPlus
+  - EconomyShopGUI
