@@ -24,8 +24,7 @@ public class NBTAPIHook {
             nbti.setString("GUIAction", action);
         else
             nbti.setString("GUICommand", action);
-        nbti.applyNBT(item);
-        return item;
+        return nbti.getItem();
     }
 
     public @Nullable Action getGUIAction(ItemStack item){
@@ -54,8 +53,7 @@ public class NBTAPIHook {
         NBTItem nbti = new NBTItem(itemStack);
 
         nbti.setString(key, value);
-        nbti.applyNBT(itemStack);
-        return itemStack;
+        return nbti.getItem();
     }
 
     public @Nullable String getNBT(ItemStack itemStack, String key) {

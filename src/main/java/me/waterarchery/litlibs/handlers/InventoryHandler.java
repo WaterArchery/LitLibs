@@ -5,6 +5,7 @@ import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.inventory.ActionType;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +35,9 @@ public class InventoryHandler {
             itemStack.setItemMeta(meta);
 
             for (int slot = 0; slot < inventory.getSize(); slot++) {
-                inventory.setItem(slot, itemStack);
+                ItemStack item = inventory.getItem(slot);
+                if (item == null || item.getType() == Material.AIR)
+                    inventory.setItem(slot, itemStack);
             }
         }
     }

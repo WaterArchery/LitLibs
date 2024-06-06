@@ -1,5 +1,7 @@
 package me.waterarchery.litlibs.version;
 
+import me.waterarchery.litlibs.LitLibs;
+import me.waterarchery.litlibs.LitLibsPlugin;
 import org.bukkit.Bukkit;
 
 public class VersionHandler {
@@ -16,17 +18,16 @@ public class VersionHandler {
 
     public void assignVersion() {
         String rawVersion = Bukkit.getBukkitVersion().split("-")[0];
-        //rawVersion = rawVersion.replace(".", "_");
-        //rawVersion = rawVersion.substring(0, rawVersion.lastIndexOf("_"));
-        rawVersion = rawVersion.substring(0, rawVersion.lastIndexOf("."));
         for (Version versionEnum : Version.values()) {
-            if (versionEnum.toString().equalsIgnoreCase(rawVersion)) {
+            if (versionEnum.toString().contains(rawVersion)) {
                 version = versionEnum;
             }
         }
 
-        if (version == null)
+        if (version == null) {
+            Bukkit.broadcastMessage(rawVersion);
             version = Version.UNKNOWN;
+        }
     }
 
     public boolean isServerNewerThan(Version version) {
