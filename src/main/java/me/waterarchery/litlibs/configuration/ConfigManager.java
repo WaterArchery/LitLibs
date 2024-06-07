@@ -117,7 +117,8 @@ public class ConfigManager {
             });
         else
             try {
-                yml.options().parseComments(true);
+                if (VersionHandler.getInstance().isServerNewerThan(Version.v1_18))
+                    yml.options().parseComments(true);
                 yml.save(file);
             } catch (IOException e) {
                 litLibs.getLogger().log("Error while saving file: " + file.getPath(), LogSeverity.ERROR);

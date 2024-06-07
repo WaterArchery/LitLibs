@@ -48,4 +48,10 @@ public class Logger {
     public void setDebugMessages(boolean debugMessages) {
         this.debugMessages = debugMessages;
     }
+
+    public static void logMessage(String mes) {
+        mes = mes.replace("&", "§");
+        Bukkit.getConsoleSender().sendMessage("§7[§bLitLibs§7] §f" + mes);
+    }
+
 }

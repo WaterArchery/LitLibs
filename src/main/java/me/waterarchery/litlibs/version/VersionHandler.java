@@ -1,7 +1,6 @@
 package me.waterarchery.litlibs.version;
 
-import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litlibs.LitLibsPlugin;
+import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.Bukkit;
 
 public class VersionHandler {
@@ -19,13 +18,15 @@ public class VersionHandler {
     public void assignVersion() {
         String rawVersion = Bukkit.getBukkitVersion().split("-")[0];
         for (Version versionEnum : Version.values()) {
-            if (versionEnum.toString().contains(rawVersion)) {
+            if (rawVersion.contains(versionEnum.toString())) {
                 version = versionEnum;
+                Logger.logMessage("Version found: " + version);
+                return;
             }
         }
 
         if (version == null) {
-            Bukkit.broadcastMessage(rawVersion);
+            Logger.logMessage("Version couldn't found. Raw Version: " + rawVersion);
             version = Version.UNKNOWN;
         }
     }
