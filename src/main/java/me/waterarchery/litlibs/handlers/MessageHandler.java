@@ -26,6 +26,10 @@ public class MessageHandler {
     }
 
     public String updateColors(String str) {
+        return MessageHandler.updateColorsStatic(str);
+    }
+
+    public static String updateColorsStatic(String str) {
         if (str.contains("&#")) {
             final Pattern hexPattern = Pattern.compile("&#" + "([A-Fa-f0-9]{6})");
             Matcher matcher = hexPattern.matcher(str);
@@ -43,10 +47,6 @@ public class MessageHandler {
         }
 
         return str.replace("&", "§");
-    }
-
-    public static String updateColorsStatic(String str) {
-        return updateColorsStatic(str);
     }
 
 }
