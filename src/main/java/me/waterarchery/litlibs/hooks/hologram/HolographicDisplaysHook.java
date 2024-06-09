@@ -6,6 +6,7 @@ import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.hooks.HologramHook;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HolographicDisplaysHook implements HologramHook {
@@ -36,7 +37,9 @@ public class HolographicDisplaysHook implements HologramHook {
     @Override
     public void updateHologram(Location loc, List<String> lines) {
         for (Hologram hologram : getHoloApi().getHolograms()) {
-            if (hologram.getPosition().toLocation() == loc) {
+            Location holoLoc = hologram.getPosition().toLocation();
+            if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())
+                    && holoLoc.distance(loc) < 1.0) {
                 hologram.getLines().clear();
                 for (String lineText : lines) {
                     hologram.getLines().appendText(lineText);
@@ -48,7 +51,9 @@ public class HolographicDisplaysHook implements HologramHook {
     @Override
     public void updateHologram(Location loc, int lineNumber, String line) {
         for (Hologram hologram : getHoloApi().getHolograms()) {
-            if (hologram.getPosition().toLocation() == loc) {
+            Location holoLoc = hologram.getPosition().toLocation();
+            if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())
+                    && holoLoc.distance(loc) < 1.0) {
                 hologram.getLines().remove(lineNumber);
                 hologram.getLines().insertText(lineNumber, line);
             }
@@ -57,8 +62,10 @@ public class HolographicDisplaysHook implements HologramHook {
 
     @Override
     public void deleteHologram(Location loc) {
-        for (Hologram hologram : getHoloApi().getHolograms()) {
-            if (hologram.getPosition().toLocation() == loc) {
+        for (Hologram hologram : new ArrayList<>(getHoloApi().getHolograms())) {
+            Location holoLoc = hologram.getPosition().toLocation();
+            if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())
+                    && holoLoc.distance(loc) < 1.0) {
                 hologram.delete();
                 break;
             }

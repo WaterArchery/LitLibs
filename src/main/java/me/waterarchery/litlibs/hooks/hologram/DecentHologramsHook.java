@@ -2,8 +2,8 @@ package me.waterarchery.litlibs.hooks.hologram;
 
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
-import eu.decentsoftware.holograms.api.holograms.HologramLine;
 import eu.decentsoftware.holograms.api.holograms.HologramPage;
+import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.HologramHook;
 import org.bukkit.Location;
 
@@ -44,6 +44,7 @@ public class DecentHologramsHook implements HologramHook {
             if (lines.size() == page.getLines().size()) {
                 int i = 0;
                 for (String lineText : lines) {
+                    lineText = MessageHandler.updateColorsStatic(lineText);
                     page.setLine(i, lineText);
                     i++;
                 }
@@ -61,6 +62,7 @@ public class DecentHologramsHook implements HologramHook {
         Hologram hologram = DHAPI.getHologram(locString);
         if (hologram != null) {
             HologramPage page = hologram.getPage(0);
+            line = MessageHandler.updateColorsStatic(line);
             page.setLine(lineNumber, line);
         }
     }

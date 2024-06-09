@@ -45,4 +45,8 @@ public class MessageHandler {
         return str.replace("&", "§");
     }
 
+    public static String updateColorsStatic(String str) {
+        return updateColorsStatic(str);
+    }
+
 }

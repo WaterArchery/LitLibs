@@ -6,7 +6,7 @@
 
   <groupId>me.waterarchery</groupId>
   <artifactId>LitLibs</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.6</version>
   <packaging>jar</packaging>
 
   <name>LitLibs</name>
@@ -38,7 +38,7 @@
               <goal>shade</goal>
             </goals>
               <configuration>
-                  <outputFile>C:\Users\smfar\Desktop\Sunucular\test1206\plugins/LitLibs.jar</outputFile>
+                  <outputFile>C:\Users\smfar\Desktop\Sunucular\test117\plugins/LitLibs.jar</outputFile>
                   <relocations>
                       <relocation>
                           <pattern>com.cryptomorin.xseries</pattern>
