@@ -1,6 +1,5 @@
 package me.waterarchery.litlibs;
 
-import me.waterarchery.litlibs.handlers.HookHandler;
 import me.waterarchery.litlibs.listeners.PluginDisabledListener;
 import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
@@ -29,6 +28,7 @@ public class LitLibsPlugin extends JavaPlugin {
     }
 
     public VersionHandler getVersionHandler() { return versionHandler; }
+
     public ProviderHandler getProviderHandler() { return ProviderHandler.getInstance(); }
 
 }
