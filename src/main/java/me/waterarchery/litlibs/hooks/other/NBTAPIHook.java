@@ -4,6 +4,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.inventory.Action;
 import me.waterarchery.litlibs.inventory.ActionType;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
@@ -57,6 +58,9 @@ public class NBTAPIHook {
     }
 
     public @Nullable String getNBT(ItemStack itemStack, String key) {
+        if (itemStack == null || itemStack.getAmount() < 1 || itemStack.getType() == Material.AIR)
+            return null;
+
         NBTItem nbti = new NBTItem(itemStack);
 
         if (nbti.hasTag(key))
