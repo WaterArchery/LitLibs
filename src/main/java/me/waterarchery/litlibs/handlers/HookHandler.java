@@ -7,6 +7,7 @@ import me.waterarchery.litlibs.hooks.ProtectionHook;
 import me.waterarchery.litlibs.hooks.hologram.CMIHook;
 import me.waterarchery.litlibs.hooks.hologram.DecentHologramsHook;
 import me.waterarchery.litlibs.hooks.hologram.HolographicDisplaysHook;
+import me.waterarchery.litlibs.hooks.price.AxGensPriceHook;
 import me.waterarchery.litlibs.hooks.price.EconomyShopGUI;
 import me.waterarchery.litlibs.hooks.price.EssentialsPriceHook;
 import me.waterarchery.litlibs.hooks.price.ShopGUIPriceHook;
@@ -72,6 +73,12 @@ public class HookHandler {
                 logger.log("Found price hook: ShopGUIPlus");
             }
         }
+        else if (defaultPrice.equalsIgnoreCase("axgens") || defaultPrice.equalsIgnoreCase("axgen")) {
+            if (Bukkit.getPluginManager().isPluginEnabled("AxGens")) {
+                priceHook = AxGensPriceHook.getInstance();
+                logger.log("Found price hook: AxGens");
+            }
+        }
         if (priceHook == null) {
             if (Bukkit.getPluginManager().isPluginEnabled("EssentialsX") || Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
                 priceHook = EssentialsPriceHook.getInstance();
@@ -84,6 +91,10 @@ public class HookHandler {
             else if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus")) {
                 priceHook = ShopGUIPriceHook.getInstance();
                 logger.log("Found price hook: ShopGUIPlus");
+            }
+            else if (Bukkit.getPluginManager().isPluginEnabled("AxGens")) {
+                priceHook = AxGensPriceHook.getInstance();
+                logger.log("Found price hook: AxGens");
             }
         }
     }
