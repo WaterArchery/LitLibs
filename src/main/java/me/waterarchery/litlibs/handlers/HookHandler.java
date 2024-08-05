@@ -7,6 +7,7 @@ import me.waterarchery.litlibs.hooks.ProtectionHook;
 import me.waterarchery.litlibs.hooks.hologram.CMIHook;
 import me.waterarchery.litlibs.hooks.hologram.DecentHologramsHook;
 import me.waterarchery.litlibs.hooks.hologram.HolographicDisplaysHook;
+import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
 import me.waterarchery.litlibs.hooks.price.AxGensPriceHook;
 import me.waterarchery.litlibs.hooks.price.EconomyShopGUI;
 import me.waterarchery.litlibs.hooks.price.EssentialsPriceHook;
@@ -31,6 +32,8 @@ public class HookHandler {
         chooseHologramHook();
         chooseIslandHook();
         registerEconomyHooks();
+        registerOtherHooks();
+
     }
 
     public void chooseHologramHook() {
@@ -110,6 +113,13 @@ public class HookHandler {
         }
         else {
             logger.log("No protection hook has been found.");
+        }
+    }
+
+    public void registerOtherHooks() {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            logger.log("Registered PlaceholderAPI hook!");
+            PlaceholderHook.setIsEnabled(true);
         }
     }
 

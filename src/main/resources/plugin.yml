@@ -10,6 +10,7 @@ softdepend:
   - DecentHolograms
   - CMI
   - HolographicDisplays
+  - PlaceholderAPI
   - Essentials
   - ShopGUIPlus
   - EconomyShopGUI
