@@ -6,14 +6,33 @@ import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class SoundHandler {
 
     private final LitLibs litLibs;
 
     public SoundHandler(LitLibs litLibs) { this.litLibs = litLibs; }
+
+
+    public void sendSound(Player p, String configPath) {
+        sendSound(p, configPath, 5);
+    }
+
+    public void sendSound(Player p, String configPath, double volume) {
+        Plugin provider = litLibs.getPlugin();
+        FileConfiguration yaml = provider.getConfig();
+
+        String soundName = yaml.getString(configPath);
+        try {
+            p.playSound(p.getLocation(), Sound.valueOf(soundName), (float) volume, (float) volume);
+        }
+        catch (Exception e){
+            Logger logger = litLibs.getLogger();
+            logger.log("Error in sound : " + soundName, LogSeverity.ERROR);
+        }
+    }
 
     public void sendSound(Player p, String soundPath, ConfigManager configFile) {
         sendSound(p, soundPath, configFile, 5);
@@ -23,12 +42,7 @@ public class SoundHandler {
         FileConfiguration yaml = configFile.getYml();
 
         String soundName = yaml.getString(soundPath);
-        try {
-            p.playSound(p.getLocation(), Sound.valueOf(soundName), (float) volume, (float) volume);
-        }
-        catch (Exception e){
-            Logger logger = litLibs.getLogger();
-            logger.log("Error in sound : " + soundName, LogSeverity.ERROR);
-        }
+        sendSound(p, soundName, volume);
     }
+
 }

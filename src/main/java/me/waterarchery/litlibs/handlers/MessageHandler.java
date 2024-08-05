@@ -1,9 +1,12 @@
 package me.waterarchery.litlibs.handlers;
 
 import me.waterarchery.litlibs.LitLibs;
+import me.waterarchery.litlibs.configuration.ConfigManager;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,11 +15,33 @@ import static org.bukkit.ChatColor.COLOR_CHAR;
 public class MessageHandler {
 
     private final LitLibs litLibs;
+    private FileConfiguration langYml;
 
-    public MessageHandler(LitLibs litLibs) { this.litLibs = litLibs; }
+    public MessageHandler(LitLibs litLibs) {
+        this.litLibs = litLibs;
+        load();
+    }
+
+    public void load() {
+        Plugin provier = litLibs.getPlugin();
+        String lang = provier.getConfig().getString("Language", "en");
+
+        ConfigManager langManager = new ConfigManager(litLibs, "lang", lang, false);
+        langYml = langManager.getYml();
+    }
 
     public void sendMessage(CommandSender commandSender, String mes) {
         commandSender.sendMessage(getPrefix() + updateColors(mes));
+    }
+
+    public void sendLangMessage(CommandSender commandSender, String path) {
+        String mes = langYml.getString(path, "Error: " + path);
+        commandSender.sendMessage(getPrefix() + updateColors(mes));
+    }
+
+    public String getLangMessage(CommandSender commandSender, String path) {
+        String mes = langYml.getString(path, "Error: " + path);
+        return updateColors(mes);
     }
 
     public String getPrefix() {
