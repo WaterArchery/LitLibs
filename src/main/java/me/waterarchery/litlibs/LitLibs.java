@@ -33,6 +33,10 @@ public class LitLibs {
         nbtapiHook = new NBTAPIHook(this);
     }
 
+    public void reload() {
+        messageHandler.load();
+    }
+
     public void unregister() {
         ProviderHandler.getInstance().unregister(plugin);
     }

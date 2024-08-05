@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +18,6 @@ public class MessageHandler {
 
     public MessageHandler(LitLibs litLibs) {
         this.litLibs = litLibs;
-        load();
     }
 
     public void load() {
