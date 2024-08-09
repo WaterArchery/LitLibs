@@ -37,7 +37,7 @@ public class MessageHandler {
         commandSender.sendMessage(getPrefix() + updateColors(mes));
     }
 
-    public String getLangMessage(CommandSender commandSender, String path) {
+    public String getLangMessage(String path) {
         String mes = langYml.getString(path, "Error: " + path);
         return updateColors(mes);
     }
