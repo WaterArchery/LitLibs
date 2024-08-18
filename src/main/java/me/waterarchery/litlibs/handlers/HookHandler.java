@@ -82,7 +82,9 @@ public class HookHandler {
                 logger.log("Found price hook: AxGens");
             }
         }
+
         if (priceHook == null) {
+            logger.log("No price hook found with named: " + defaultPrice + ". Trying to load manually.");
             if (Bukkit.getPluginManager().isPluginEnabled("EssentialsX") || Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
                 priceHook = EssentialsPriceHook.getInstance();
                 logger.log("Found price hook: Essentials");
