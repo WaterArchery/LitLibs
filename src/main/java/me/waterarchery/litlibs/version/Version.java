@@ -22,6 +22,7 @@ public enum Version {
     v1_20_5 (18, "1.20.5"),
     v1_20_6 (19, "1.20.6"),
     v1_21 (20, "1.21"),
+    v1_21_1 (20, "1.21.1"),
     UNKNOWN (999, "UNKNOWN");
 
     private final int versionNumber;

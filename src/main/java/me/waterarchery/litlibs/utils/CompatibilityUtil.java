@@ -1,7 +1,8 @@
 package me.waterarchery.litlibs.utils;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.inventory.InventoryType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,6 +24,17 @@ public class CompatibilityUtil {
             Method getTitle = view.getClass().getMethod("getTitle");
             getTitle.setAccessible(true);
             return (String) getTitle.invoke(view);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static InventoryType getType(Player player) {
+        try {
+            Object openInventory = player.getOpenInventory();
+            Method getType = openInventory.getClass().getMethod("getType");
+            getType.setAccessible(true);
+            return (InventoryType) getType.invoke(openInventory);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
