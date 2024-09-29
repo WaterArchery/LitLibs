@@ -1,7 +1,8 @@
 package me.waterarchery.litlibs.inventory;
 
 import com.cryptomorin.xseries.XMaterial;
-import dev.dbassett.skullcreator.SkullCreator;
+import com.cryptomorin.xseries.profiles.builder.XSkull;
+import com.cryptomorin.xseries.profiles.objects.Profileable;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.handlers.InventoryHandler;
@@ -89,7 +90,9 @@ public class InventoryImpl {
     public ItemStack parseItemStack(String rawMaterial) {
         if (rawMaterial.contains("HEAD-")) {
             rawMaterial = rawMaterial.replace("HEAD-", "");
-            return SkullCreator.itemFromBase64(rawMaterial);
+            return XSkull.createItem()
+                    .profile(Profileable.detect(rawMaterial))
+                    .apply();
         }
         else {
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);

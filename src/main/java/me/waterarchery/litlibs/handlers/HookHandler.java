@@ -63,8 +63,9 @@ public class HookHandler {
                 logger.log("Found price hook: Essentials");
             }
         }
-        else if (defaultPrice.equalsIgnoreCase("economyshopgui") || defaultPrice.equalsIgnoreCase("ECONOMYSHOPGUI")) {
-            if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI") || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
+        else if (defaultPrice.equalsIgnoreCase("economyshopgui") || defaultPrice.equalsIgnoreCase("EconomyShopGUI")) {
+            if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI")
+                    || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
                 priceHook = EconomyShopGUI.getInstance();
                 logger.log("Found price hook: EconomyShopGUI");
             }
