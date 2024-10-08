@@ -85,7 +85,6 @@
                 </goals>
                 <configuration>
                     <relocations>
-
                         <relocation>
                             <pattern>com.cryptomorin.xseries</pattern>
                             <shadedPattern>me.waterarchery.litlibs.libs.xseries</shadedPattern>
@@ -194,13 +193,15 @@
           <scope>provided</scope>
       </dependency>
 
-      <!--XSeries for items-->
+      <!-- Mojang API for heads -->
       <dependency>
           <groupId>com.mojang</groupId>
           <artifactId>authlib</artifactId>
           <version>6.0.54</version>
           <scope>provided</scope>
       </dependency>
+
+      <!--XSeries for items-->
       <dependency>
           <groupId>com.github.poyrazinan</groupId>
           <artifactId>XSeries</artifactId>
