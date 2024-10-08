@@ -6,13 +6,13 @@
 
   <groupId>me.waterarchery</groupId>
   <artifactId>LitLibs</artifactId>
-  <version>1.1.4</version>
+  <version>1.1.4a</version>
   <packaging>jar</packaging>
 
   <name>LitLibs</name>
 
   <properties>
-    <java.version>16</java.version>
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -38,7 +38,6 @@
               <goal>shade</goal>
             </goals>
               <configuration>
-                  <outputFile>C:\Users\smfar\Desktop\Sunucular\test117\plugins/LitLibs.jar</outputFile>
                   <relocations>
                       <relocation>
                           <pattern>com.cryptomorin.xseries</pattern>
@@ -191,7 +190,7 @@
       <dependency>
           <groupId>org.spigotmc</groupId>
           <artifactId>spigot-api</artifactId>
-          <version>1.20.6-R0.1-SNAPSHOT</version>
+          <version>1.21.1-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
 
