@@ -23,11 +23,23 @@ public class ConfigManager {
     private boolean createdNow;
     private final boolean saveAfterLoad;
 
+    public ConfigManager(LitLibs litLibs, String folder, String name, boolean saveAfterLoad, boolean useHeaders) {
+        this.litLibs = litLibs;
+        this.saveAfterLoad = saveAfterLoad;
+        this.name = name;
+
+        initializer(litLibs, folder, name, saveAfterLoad, useHeaders);
+    }
+
     public ConfigManager(LitLibs litLibs, String folder, String name, boolean saveAfterLoad) {
         this.litLibs = litLibs;
         this.saveAfterLoad = saveAfterLoad;
         this.name = name;
 
+        initializer(litLibs, folder, name, saveAfterLoad, true);
+    }
+
+    private void initializer(LitLibs litLibs, String folder, String name, boolean saveAfterLoad, boolean useHeaders) {
         Plugin provider = litLibs.getPlugin();;
         File f = new File(provider.getDataFolder().getPath() + "/" + folder);
         if (!f.exists()) {
@@ -55,11 +67,15 @@ public class ConfigManager {
             }
             createdNow = true;
         }
+
         yml = YamlConfiguration.loadConfiguration(file);
         reload();
-        setHeader();
+
+        setHeader(useHeaders);
+
         getYml().options().copyDefaults(true);
         initializeDefaults();
+
         if (saveAfterLoad) {
             save(false);
         }
@@ -87,17 +103,27 @@ public class ConfigManager {
         }
     }
 
-    public void setHeader() {
+    public void setHeader(boolean pluginInfo) {
         Plugin plugin = litLibs.getPlugin();
         PluginDescriptionFile desc = plugin.getDescription();
-        getYml().options().header(
-                desc.getName() + " by " + desc.getAuthors().get(0) + "\n" +
-                        "Wiki: https://waterarchery.gitbook.io/" + plugin.getName().toLowerCase() + "-wiki/\n" +
-                        "Spigot: https://www.spigotmc.org/members/waterarchery.963492/\n" +
-                        "Builtbybit: https://builtbybit.com/members/waterarchery.164059/\n" +
-                        "\nFile Name: " + name + "\n" +
-                        "Plugin Version: " + desc.getVersion() + "\n"
-        );
+
+        if (pluginInfo) {
+            getYml().options().header(
+                    desc.getName() + " by " + desc.getAuthors().get(0) + "\n" +
+                            "Wiki: https://waterarchery.gitbook.io/" + plugin.getName().toLowerCase() + "-wiki/\n" +
+                            "Spigot: https://www.spigotmc.org/members/waterarchery.963492/\n" +
+                            "Builtbybit: https://builtbybit.com/members/waterarchery.164059/\n" +
+                            "\nFile Name: " + name + "\n" +
+                            "Plugin Version: " + desc.getVersion() + "\n"
+            );
+        }
+        else {
+            getYml().options().header(
+                    desc.getName() + " by " + desc.getAuthors().get(0) + "\n" +
+                            "\nFile Name: " + name + "\n" +
+                            "Plugin Version: " + desc.getVersion() + "\n"
+            );
+        }
     }
 
     public String getString(String path) {
