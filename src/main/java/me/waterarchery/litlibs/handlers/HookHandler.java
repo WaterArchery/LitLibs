@@ -1,28 +1,30 @@
 package me.waterarchery.litlibs.handlers;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.hooks.HologramHook;
+import me.waterarchery.litlibs.hooks.NPCHook;
 import me.waterarchery.litlibs.hooks.PriceHook;
 import me.waterarchery.litlibs.hooks.ProtectionHook;
 import me.waterarchery.litlibs.hooks.hologram.CMIHook;
 import me.waterarchery.litlibs.hooks.hologram.DecentHologramsHook;
 import me.waterarchery.litlibs.hooks.hologram.HolographicDisplaysHook;
+import me.waterarchery.litlibs.hooks.npc.CitizensHook;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
-import me.waterarchery.litlibs.hooks.price.AxGensPriceHook;
-import me.waterarchery.litlibs.hooks.price.EconomyShopGUI;
-import me.waterarchery.litlibs.hooks.price.EssentialsPriceHook;
-import me.waterarchery.litlibs.hooks.price.ShopGUIPriceHook;
+import me.waterarchery.litlibs.hooks.price.*;
 import me.waterarchery.litlibs.hooks.protection.BentoBoxHook;
 import me.waterarchery.litlibs.hooks.protection.SuperiorHook;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+@Getter
 public class HookHandler {
 
     private ProtectionHook protectionHook;
     private PriceHook priceHook;
     private HologramHook hologramHook;
+    private NPCHook npcHook;
     private final Logger logger;
     private final LitLibs litLibs;
 
@@ -31,9 +33,9 @@ public class HookHandler {
         logger = litLibs.getLogger();
         chooseHologramHook();
         chooseIslandHook();
+        chooseNPCHooks();
         registerEconomyHooks();
         registerOtherHooks();
-
     }
 
     public void chooseHologramHook() {
@@ -51,6 +53,16 @@ public class HookHandler {
         }
         else {
             logger.warn("No hologram hook has been found! The plugins that require holograms may not work!");
+        }
+    }
+
+    public void chooseNPCHooks() {
+        if (Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
+            npcHook = CitizensHook.getInstance(litLibs.getPlugin().getName());
+            logger.log("Selected NPC hook: Citizens");
+        }
+        else {
+            logger.warn("No npc hook has been found! The plugins that require npc may not work!");
         }
     }
 
@@ -83,6 +95,12 @@ public class HookHandler {
                 logger.log("Found price hook: AxGens");
             }
         }
+        else if (defaultPrice.equalsIgnoreCase("RoyaleEconomy")) {
+            if (Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy")) {
+                priceHook = RoyaleEconomyHook.getInstance();
+                logger.log("Found price hook: RoyaleEconomy");
+            }
+        }
 
         if (priceHook == null) {
             logger.log("No price hook found with named: " + defaultPrice + ". Trying to load manually.");
@@ -101,6 +119,10 @@ public class HookHandler {
             else if (Bukkit.getPluginManager().isPluginEnabled("AxGens")) {
                 priceHook = AxGensPriceHook.getInstance();
                 logger.log("Found price hook: AxGens");
+            }
+            else if (Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy")) {
+                priceHook = RoyaleEconomyHook.getInstance();
+                logger.log("Found price hook: RoyaleEconomy");
             }
         }
     }
@@ -125,9 +147,5 @@ public class HookHandler {
             PlaceholderHook.setIsEnabled(true);
         }
     }
-
-    public HologramHook getHologramHook() { return hologramHook; }
-    public ProtectionHook getProtectionHook() { return protectionHook; }
-    public PriceHook getPriceHook() { return priceHook; }
 
 }

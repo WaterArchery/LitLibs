@@ -16,3 +16,6 @@ softdepend:
   - EconomyShopGUI
   - EconomyShopGUI-Premium
   - AxGens
+  - Citizens
+  - FancyNpcs
+  - RoyaleEconomy
