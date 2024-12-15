@@ -3,13 +3,11 @@ package me.waterarchery.litlibs.handlers;
 import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.hooks.HologramHook;
-import me.waterarchery.litlibs.hooks.NPCHook;
 import me.waterarchery.litlibs.hooks.PriceHook;
 import me.waterarchery.litlibs.hooks.ProtectionHook;
 import me.waterarchery.litlibs.hooks.hologram.CMIHook;
 import me.waterarchery.litlibs.hooks.hologram.DecentHologramsHook;
 import me.waterarchery.litlibs.hooks.hologram.HolographicDisplaysHook;
-import me.waterarchery.litlibs.hooks.npc.CitizensHook;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
 import me.waterarchery.litlibs.hooks.price.*;
 import me.waterarchery.litlibs.hooks.protection.BentoBoxHook;
@@ -24,7 +22,6 @@ public class HookHandler {
     private ProtectionHook protectionHook;
     private PriceHook priceHook;
     private HologramHook hologramHook;
-    private NPCHook npcHook;
     private final Logger logger;
     private final LitLibs litLibs;
 
@@ -33,7 +30,6 @@ public class HookHandler {
         logger = litLibs.getLogger();
         chooseHologramHook();
         chooseIslandHook();
-        chooseNPCHooks();
         registerEconomyHooks();
         registerOtherHooks();
     }
@@ -53,16 +49,6 @@ public class HookHandler {
         }
         else {
             logger.warn("No hologram hook has been found! The plugins that require holograms may not work!");
-        }
-    }
-
-    public void chooseNPCHooks() {
-        if (Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
-            npcHook = CitizensHook.getInstance(litLibs.getPlugin().getName());
-            logger.log("Selected NPC hook: Citizens");
-        }
-        else {
-            logger.warn("No npc hook has been found! The plugins that require npc may not work!");
         }
     }
 

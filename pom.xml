@@ -6,7 +6,7 @@
 
     <groupId>me.waterarchery</groupId>
     <artifactId>LitLibs</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.8</version>
     <packaging>jar</packaging>
 
     <name>LitLibs</name>
@@ -63,6 +63,14 @@
                                 <relocation>
                                     <pattern>com.github.fierioziy.particlenativeapi</pattern>
                                     <shadedPattern>me.waterarchery.litlibs.libs.particleapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.api</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.impl</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -339,20 +347,15 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--NPC Hooks-->
+        <!-- PacketEvents -->
         <dependency>
-            <groupId>net.citizensnpcs</groupId>
-            <artifactId>citizens-main</artifactId>
-            <version>2.0.35-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents-spigot</artifactId>
+            <version>2.7.0</version>
+            <scope>compile</scope>
         </dependency>
+
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
