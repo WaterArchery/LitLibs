@@ -1,5 +1,6 @@
 package me.waterarchery.litlibs.handlers;
 
+import com.cryptomorin.xseries.XSound;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.logger.LogSeverity;
@@ -25,13 +26,24 @@ public class SoundHandler {
         FileConfiguration yaml = provider.getConfig();
 
         String soundName = yaml.getString(configPath);
-        try {
-            p.playSound(p.getLocation(), Sound.valueOf(soundName), (float) volume, (float) volume);
+        sendRawSound(p, soundName, volume, volume);
+    }
+
+    public void sendRawSound(Player p, String soundName, double volume, double pitch) {
+        XSound xSound = XSound.valueOf(soundName);
+        Sound sound = xSound.parseSound();
+
+        if (sound != null) {
+            p.playSound(p.getLocation(), sound, (float) volume, (float) pitch);
         }
-        catch (Exception e){
+        else {
             Logger logger = litLibs.getLogger();
             logger.log("Error in sound : " + soundName, LogSeverity.ERROR);
         }
+    }
+
+    public void sendRawSound(Player p, String soundName) {
+        sendRawSound(p, soundName, 1, 1);
     }
 
     public void sendSound(Player p, String soundPath, ConfigManager configFile) {

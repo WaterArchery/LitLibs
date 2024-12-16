@@ -28,11 +28,15 @@ public class EconomyShopGUI implements PriceHook {
     @Override
     public double getPrice(ItemStack item) {
         ShopItem shopItem = EconomyShopGUIHook.getShopItem(item);
-        if (shopItem != null && EconomyShopGUIHook.getItemSellPrice(shopItem, item) != null) {
-            return EconomyShopGUIHook.getItemSellPrice(shopItem, item);
-        } else {
-            return -1;
+
+        if (shopItem != null) {
+            Double price = EconomyShopGUIHook.getItemSellPrice(shopItem, item);
+            if (price != null) {
+                return price;
+            }
         }
+
+        return -1;
     }
 
     @Override
