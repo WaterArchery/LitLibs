@@ -1,10 +1,9 @@
-package me.waterarchery.litlibs.impl;
+package me.waterarchery.litlibs.impl.npc.types;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.waterarchery.litlibs.impl.npc.NPC;
 import org.bukkit.Location;
-
-import java.util.UUID;
 
 @Getter
 @Setter

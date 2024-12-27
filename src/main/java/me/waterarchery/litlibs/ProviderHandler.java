@@ -1,11 +1,16 @@
 package me.waterarchery.litlibs;
 
+import lombok.Getter;
+import me.waterarchery.litlibs.handlers.ModuleHandler;
+import me.waterarchery.litlibs.impl.module.ModuleBase;
 import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
+@Getter
 public class ProviderHandler {
 
     private static ProviderHandler instance;
@@ -25,13 +30,6 @@ public class ProviderHandler {
         String pluginName = provider.getName();
         HashMap<String, LitLibs> hashMap = getLoadedPlugins();
         getLoadedPlugins().remove(pluginName);
-        /*
-        for (String name : hashMap.keySet()) {
-            if (name.equalsIgnoreCase(pluginName)) {
-                return hashMap.get(name);
-            }
-        }
-         */
 
         LitLibs litLibs = new LitLibs(provider);
         register(provider, litLibs);
@@ -48,11 +46,12 @@ public class ProviderHandler {
     }
 
     public void unregister(Plugin provider) {
+        ModuleHandler moduleHandler = ModuleHandler.getInstance();
+        moduleHandler.getModules(provider).forEach(ModuleBase::onDisable);
+        moduleHandler.getPluginModuleMap().remove(provider.getName());
+
         getLoadedPlugins().remove(provider.getName());
         logger.log("Provider: " + provider.getName() + " is not hooking LitLibs anymore!", LogSeverity.NORMAL);
     }
 
-    public HashMap<String, LitLibs> getLoadedPlugins() {
-        return loadedPlugins;
-    }
 }

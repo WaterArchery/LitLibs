@@ -362,5 +362,12 @@
             <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Reflection Utils -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.10.2</version>
+        </dependency>
     </dependencies>
 </project>

@@ -2,9 +2,9 @@ package me.waterarchery.litlibs.handlers;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.waterarchery.litlibs.impl.MobNPC;
-import me.waterarchery.litlibs.impl.NPC;
-import me.waterarchery.litlibs.impl.PlayerNPC;
+import me.waterarchery.litlibs.impl.npc.types.MobNPC;
+import me.waterarchery.litlibs.impl.npc.NPC;
+import me.waterarchery.litlibs.impl.npc.types.PlayerNPC;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 

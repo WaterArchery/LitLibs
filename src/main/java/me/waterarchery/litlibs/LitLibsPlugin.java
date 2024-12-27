@@ -15,6 +15,7 @@ public class LitLibsPlugin extends JavaPlugin {
 
     private static LitLibsPlugin instance;
     private static VersionHandler versionHandler;
+    private Logger logger;
 
     @Override
     public void onLoad() {
@@ -28,7 +29,7 @@ public class LitLibsPlugin extends JavaPlugin {
         new Metrics(LitLibsPlugin.getInstance(), 21481);
 
         String version = getDescription().getVersion();
-        Logger logger = new Logger("LitLibs", false);
+        logger = new Logger("LitLibs", false);
 
         versionHandler = VersionHandler.getInstance();
         logger.log("LitLibs enabled version &av" + version, LogSeverity.NORMAL);
@@ -45,5 +46,7 @@ public class LitLibsPlugin extends JavaPlugin {
     public VersionHandler getVersionHandler() { return versionHandler; }
 
     public ProviderHandler getProviderHandler() { return ProviderHandler.getInstance(); }
+
+    public Logger getLitLibsLoggers() { return logger; }
 
 }

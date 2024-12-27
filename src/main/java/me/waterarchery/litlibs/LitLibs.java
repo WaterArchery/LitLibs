@@ -14,7 +14,6 @@ public class LitLibs {
     }
 
     private final Plugin plugin;
-
     private final Logger logger;
     private final MessageHandler messageHandler;
     private final SoundHandler soundHandler;
@@ -41,15 +40,13 @@ public class LitLibs {
         ProviderHandler.getInstance().unregister(plugin);
     }
 
-    public Plugin getPlugin() {
-        return plugin;
-    }
-
+    public Plugin getPlugin() { return plugin; }
     public Logger getLogger() { return logger; }
     public MessageHandler getMessageHandler() { return messageHandler; }
     public SoundHandler getSoundHandler() { return soundHandler; }
     public TitleHandler getTitleHandler() { return titleHandler; }
     public VersionHandler getVersionHandler() { return VersionHandler.getInstance(); }
+    public ModuleHandler getModuleHandler() { return ModuleHandler.getInstance(); }
     public NBTAPIHook getNBTAPIHook() { return nbtapiHook; }
     public InventoryHandler getInventoryHandler() { return inventoryHandler; }
     public HookHandler getHookHandler() {

@@ -1,4 +1,4 @@
-package me.waterarchery.litlibs.impl;
+package me.waterarchery.litlibs.impl.npc;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
