@@ -11,6 +11,7 @@ import me.waterarchery.litlibs.hooks.hologram.HolographicDisplaysHook;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
 import me.waterarchery.litlibs.hooks.price.*;
 import me.waterarchery.litlibs.hooks.protection.BentoBoxHook;
+import me.waterarchery.litlibs.hooks.protection.LandsHook;
 import me.waterarchery.litlibs.hooks.protection.SuperiorHook;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.Bukkit;
@@ -121,6 +122,10 @@ public class HookHandler {
         else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox")) {
             logger.log("Selected island hook: BentoBox");
             protectionHook = BentoBoxHook.getInstance();
+        }
+        else if (Bukkit.getPluginManager().isPluginEnabled("Lands")) {
+            logger.log("Selected protection hook: Lands");
+            protectionHook = LandsHook.getInstance();
         }
         else {
             logger.log("No protection hook has been found.");

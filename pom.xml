@@ -94,6 +94,7 @@
                         </goals>
                         <configuration>
                             <outputFile>${server.directory}/LitLibs.jar</outputFile>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
                                     <pattern>com.cryptomorin.xseries</pattern>
@@ -309,7 +310,7 @@
         <dependency>
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>6.44.14</version>
+            <version>7.11.10</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
