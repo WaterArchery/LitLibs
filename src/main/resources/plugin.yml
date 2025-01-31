@@ -3,6 +3,11 @@ version: '${project.version}'
 main: me.waterarchery.litlibs.LitLibsPlugin
 api-version: '1.13'
 author: WaterArchery
+libraries:
+  - org.reflections:reflections:0.10.2
+  - com.github.fierioziy.particlenativeapi:ParticleNativeAPI-api:4.4.0
+  - com.zaxxer:HikariCP:6.0.0
+  - io.lettuce:lettuce-core:6.5.0.RC1
 softdepend:
   - BentoBox
   - SuperiorSkyblock2

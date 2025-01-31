@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.database.objects.Island;
+import world.bentobox.bentobox.database.objects.Players;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -75,6 +76,12 @@ public class BentoBoxHook implements ProtectionHook, Listener {
     public boolean hasProtection(Player player) {
         Island island = BentoBox.getInstance().getIslandsManager().getIsland(player.getWorld(), player.getUniqueId());
         return island != null;
+    }
+
+    @Override
+    public boolean isInternalChatEnabled(Player player) {
+        Players players = BentoBox.getInstance().getPlayers().getPlayer(player.getUniqueId());
+        return false; // I couldn't find the proper boolean :(
     }
 
 }

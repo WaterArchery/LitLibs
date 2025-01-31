@@ -16,7 +16,6 @@ import java.util.UUID;
 
 public class SuperiorHook implements ProtectionHook, Listener {
 
-
     private static SuperiorHook instance = null;
 
     public static synchronized SuperiorHook getInstance() {
@@ -90,6 +89,12 @@ public class SuperiorHook implements ProtectionHook, Listener {
             return island != null;
         }
         return false;
+    }
+
+    @Override
+    public boolean isInternalChatEnabled(Player player) {
+        SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
+        return superiorPlayer.hasTeamChatEnabled();
     }
 
 }

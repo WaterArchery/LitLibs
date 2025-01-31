@@ -3,6 +3,7 @@ package me.waterarchery.litlibs.hooks.protection;
 import me.angeschossen.lands.api.LandsIntegration;
 import me.angeschossen.lands.api.land.Land;
 import me.angeschossen.lands.api.player.LandPlayer;
+import me.angeschossen.lands.api.player.chat.ChatMode;
 import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.hooks.ProtectionHook;
 import org.bukkit.Bukkit;
@@ -85,6 +86,12 @@ public class LandsHook implements ProtectionHook, Listener {
     public boolean hasProtection(Player player) {
         LandPlayer landPlayer = landsIntegration.getLandPlayer(player.getUniqueId());
         return !landPlayer.getLands().isEmpty();
+    }
+
+    @Override
+    public boolean isInternalChatEnabled(Player player) {
+        ChatMode mode = landsIntegration.getLandPlayer(player.getUniqueId()).getChatMode();
+        return mode == ChatMode.LAND;
     }
 
 }

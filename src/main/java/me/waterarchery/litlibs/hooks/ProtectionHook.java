@@ -21,4 +21,6 @@ public interface ProtectionHook {
 
     boolean hasProtection(Player player);
 
+    boolean isInternalChatEnabled(Player player);
+
 }

@@ -6,7 +6,7 @@
 
     <groupId>me.waterarchery</groupId>
     <artifactId>LitLibs</artifactId>
-    <version>1.1.10</version>
+    <version>1.1.11</version>
     <packaging>jar</packaging>
 
     <name>LitLibs</name>
@@ -246,14 +246,6 @@
             <version>2.14.1</version>
         </dependency>
 
-        <!--ParticleAPI for particles-->
-        <dependency>
-            <groupId>com.github.fierioziy.particlenativeapi</groupId>
-            <artifactId>ParticleNativeAPI-core</artifactId>
-            <version>4.2.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!--bStats for statistics-->
         <dependency>
             <groupId>org.bstats</groupId>
@@ -369,6 +361,15 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Particles -->
+        <dependency>
+            <groupId>com.github.fierioziy.particlenativeapi</groupId>
+            <artifactId>ParticleNativeAPI-api</artifactId>
+            <version>4.4.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

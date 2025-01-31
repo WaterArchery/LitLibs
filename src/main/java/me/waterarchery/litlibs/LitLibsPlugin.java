@@ -39,6 +39,12 @@ public class LitLibsPlugin extends JavaPlugin {
         PacketEvents.getAPI().init();
     }
 
+    @Override
+    public void onDisable() {
+        PacketEvents.getAPI().getEventManager().unregisterAllListeners();
+        PacketEvents.getAPI().terminate();
+    }
+
     public static LitLibsPlugin getInstance() {
         return getPlugin(LitLibsPlugin.class);
     }
