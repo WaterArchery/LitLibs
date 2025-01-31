@@ -1,8 +1,10 @@
 package me.waterarchery.litlibs;
 
+import com.github.fierioziy.particlenativeapi.core.ParticleNativeCore;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import me.waterarchery.litlibs.libs.ParticleAPI;
 import me.waterarchery.litlibs.listeners.PacketListeners;
 import me.waterarchery.litlibs.listeners.PluginDisabledListener;
 import me.waterarchery.litlibs.logger.LogSeverity;
@@ -26,6 +28,7 @@ public class LitLibsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        ParticleAPI.setParticleApi(ParticleNativeCore.loadAPI(this));
         new Metrics(LitLibsPlugin.getInstance(), 21481);
 
         String version = getDescription().getVersion();

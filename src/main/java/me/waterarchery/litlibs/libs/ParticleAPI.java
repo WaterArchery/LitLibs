@@ -1,7 +1,8 @@
 package me.waterarchery.litlibs.libs;
 
 import com.github.fierioziy.particlenativeapi.api.ParticleNativeAPI;
-import me.waterarchery.litlibs.logger.Logger;
+import lombok.Getter;
+import lombok.Setter;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.Location;
@@ -10,7 +11,8 @@ import org.bukkit.entity.Player;
 
 public class ParticleAPI {
 
-    private static ParticleNativeAPI api;
+    @Getter @Setter
+    private static ParticleNativeAPI particleApi;
 
     public static void createParticle(Location location, String particleName, Player player) {
         // TODO IMPLEMENT PROPER PARTICLE API
@@ -23,8 +25,19 @@ public class ParticleAPI {
 
         if (particleName.equalsIgnoreCase("VILLAGER_ANGRY") && VersionHandler.getInstance().isServerNewerThan(Version.v1_20_5))
             player.spawnParticle(Particle.ANGRY_VILLAGER, location, 0, 0, 0, 0, 1);
+    }
 
-        // Logger.logMessage("Particle not found: " + particleName);
+    public static void createParticle(Location location, String particleName) {
+        // TODO IMPLEMENT PROPER PARTICLE API
+        for (Particle particle : Particle.values()) {
+            if (particle.name().equalsIgnoreCase(particleName)) {
+                location.getWorld().spawnParticle(particle, location, 0, 0, 0, 0, 1);
+                return;
+            }
+        }
+
+        if (particleName.equalsIgnoreCase("VILLAGER_ANGRY") && VersionHandler.getInstance().isServerNewerThan(Version.v1_20_5))
+            location.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, location, 0, 0, 0, 0, 1);
     }
 
 }
