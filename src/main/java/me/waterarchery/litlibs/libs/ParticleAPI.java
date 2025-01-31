@@ -1,8 +1,5 @@
 package me.waterarchery.litlibs.libs;
 
-import com.github.fierioziy.particlenativeapi.api.ParticleNativeAPI;
-import lombok.Getter;
-import lombok.Setter;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.Location;
@@ -10,9 +7,6 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 public class ParticleAPI {
-
-    @Getter @Setter
-    private static ParticleNativeAPI particleApi;
 
     public static void createParticle(Location location, String particleName, Player player) {
         // TODO IMPLEMENT PROPER PARTICLE API
