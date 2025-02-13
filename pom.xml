@@ -6,7 +6,7 @@
 
     <groupId>me.waterarchery</groupId>
     <artifactId>LitLibs</artifactId>
-    <version>1.1.12</version>
+    <version>1.1.13</version>
     <packaging>jar</packaging>
 
     <name>LitLibs</name>
@@ -65,12 +65,16 @@
                                     <shadedPattern>me.waterarchery.litlibs.libs.particleapi</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>com.github.retrooper.packetevents</pattern>
-                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.api</shadedPattern>
+                                    <pattern>com.github.retrooper</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.litlibs</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>io.github.retrooper.packetevents</pattern>
-                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.impl</shadedPattern>
+                                    <pattern>io.github.retrooper</pattern>
+                                    <shadedPattern>io.github.waterarchery.litlibs</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.libs.com.google.gson</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -115,6 +119,14 @@
                                 <relocation>
                                     <pattern>dev.triumphteam.gui</pattern>
                                     <shadedPattern>me.waterarchery.litlibs.libs.gui</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.api</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.impl</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -208,6 +220,23 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Text Api -->
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-legacy</artifactId>
+            <version>4.18.0</version>
+        </dependency>
+
         <!-- Mojang API for heads -->
         <dependency>
             <groupId>com.mojang</groupId>
@@ -228,7 +257,7 @@
         <dependency>
             <groupId>dev.triumphteam</groupId>
             <artifactId>triumph-gui</artifactId>
-            <version>3.1.10</version>
+            <version>3.1.11</version>
         </dependency>
 
         <!--PlaceholderAPI for placeholders-->
@@ -251,39 +280,6 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>3.0.2</version>
-        </dependency>
-
-        <!--Price hooks-->
-        <dependency>
-            <groupId>com.github.Gypopo</groupId>
-            <artifactId>EconomyShopGUI-API</artifactId>
-            <version>1.7.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.essentialsx</groupId>
-            <artifactId>EssentialsX</artifactId>
-            <version>2.20.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.brcdev-minecraft</groupId>
-            <artifactId>shopgui-api</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.artillexstudios</groupId>
-            <artifactId>AxGensAPI</artifactId>
-            <version>12</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.qKing12</groupId>
-            <artifactId>RoyaleEconomy</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/libs/RoyaleEconomyAPI.jar</systemPath>
         </dependency>
 
         <!--Protection hooks-->
@@ -361,6 +357,39 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
+        </dependency>
+
+        <!--Price hooks-->
+        <dependency>
+            <groupId>com.github.Gypopo</groupId>
+            <artifactId>EconomyShopGUI-API</artifactId>
+            <version>1.7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.essentialsx</groupId>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.20.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.brcdev-minecraft</groupId>
+            <artifactId>shopgui-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.artillexstudios</groupId>
+            <artifactId>AxGensAPI</artifactId>
+            <version>12</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.qKing12</groupId>
+            <artifactId>RoyaleEconomy</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/RoyaleEconomyAPI.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

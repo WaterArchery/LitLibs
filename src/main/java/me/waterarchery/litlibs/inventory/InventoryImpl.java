@@ -34,7 +34,7 @@ public class InventoryImpl {
         size = file.getYml().getInt(path + ".size");
     }
 
-    private void generateItems(Player player, Inventory inventory, HashMap<String, Object> placeholders) {
+    private void generateItems(Player player, Inventory inventory, HashMap<String, String> placeholders) {
         FileConfiguration yaml = file.getYml();
         VersionHandler versionHandler = VersionHandler.getInstance();
         InventoryHandler inventoryHandler = litLibs.getInventoryHandler();
@@ -64,15 +64,15 @@ public class InventoryImpl {
 
             ItemStack itemStack = parseItemStack(rawMaterial);
             if (actionType.equalsIgnoreCase("command") || actionType.equalsIgnoreCase("cmd"))
-                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.COMMAND, file);
+                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.COMMAND, file.getName());
             else if (actionType.equalsIgnoreCase(""))
-                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.NONE, file);
+                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.NONE, file.getName());
             else {
                 if (action != null && !action.equalsIgnoreCase("none")) {
-                    itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.PLUGIN, file);
+                    itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.PLUGIN, file.getName());
                 }
                 else {
-                    itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, file);
+                    itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, file.getName());
                 }
             }
 
@@ -109,7 +109,7 @@ public class InventoryImpl {
         return inventory;
     }
 
-    public Inventory generateInventory(Player player, HashMap<String, Object> placeholders) {
+    public Inventory generateInventory(Player player, HashMap<String, String> placeholders) {
         InventoryHandler inventoryHandler = litLibs.getInventoryHandler();
         Inventory inventory = Bukkit.createInventory(null, getSize(), getTitle());
         inventoryHandler.fillGUI(inventory, path, file);

@@ -16,12 +16,13 @@ public class PlaceholderHook {
             return string;
     }
 
-    public static String parseLocalPlaceholders(String string, HashMap<String, Object> placeholders) {
+    public static String parseLocalPlaceholders(String string, HashMap<String, String> placeholders) {
         if (!isEnabled) return string;
+        if (placeholders == null) return string;
 
         for (String placeholder : placeholders.keySet()) {
-            Object value = placeholders.get(placeholder);
-            String str = value == null ? "None" : value.toString();
+            String value = placeholders.get(placeholder);
+            String str = value == null ? "None" : value;
             string = string.replace(placeholder, str);
         }
 

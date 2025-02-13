@@ -1,11 +1,13 @@
 package me.waterarchery.litlibs;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.handlers.*;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.plugin.Plugin;
 
+@Getter
 public class LitLibs {
 
     public static LitLibs of(Plugin plugin) {
@@ -40,15 +42,12 @@ public class LitLibs {
         ProviderHandler.getInstance().unregister(plugin);
     }
 
-    public Plugin getPlugin() { return plugin; }
-    public Logger getLogger() { return logger; }
-    public MessageHandler getMessageHandler() { return messageHandler; }
-    public SoundHandler getSoundHandler() { return soundHandler; }
-    public TitleHandler getTitleHandler() { return titleHandler; }
     public VersionHandler getVersionHandler() { return VersionHandler.getInstance(); }
+
     public ModuleHandler getModuleHandler() { return ModuleHandler.getInstance(); }
+
     public NBTAPIHook getNBTAPIHook() { return nbtapiHook; }
-    public InventoryHandler getInventoryHandler() { return inventoryHandler; }
+
     public HookHandler getHookHandler() {
         if (hookHandler == null)
             hookHandler = new HookHandler(this);

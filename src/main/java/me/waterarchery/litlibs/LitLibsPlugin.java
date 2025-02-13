@@ -2,8 +2,8 @@ package me.waterarchery.litlibs;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
+import com.github.retrooper.packetevents.settings.PacketEventsSettings;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
-import me.waterarchery.litlibs.libs.ParticleAPI;
 import me.waterarchery.litlibs.listeners.PacketListeners;
 import me.waterarchery.litlibs.listeners.PluginDisabledListener;
 import me.waterarchery.litlibs.logger.LogSeverity;
@@ -26,6 +26,13 @@ public class LitLibsPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        PacketEvents.getAPI().getEventManager().registerListener(new PacketListeners(), PacketListenerPriority.NORMAL);
+        PacketEvents.getAPI().init();
+
+        PacketEventsSettings settings = PacketEvents.getAPI().getSettings();
+        settings.checkForUpdates(false);
+        settings.debug(false);
+
         instance = this;
         new Metrics(LitLibsPlugin.getInstance(), 21481);
 
@@ -35,9 +42,6 @@ public class LitLibsPlugin extends JavaPlugin {
         versionHandler = VersionHandler.getInstance();
         logger.log("LitLibs enabled version &av" + version, LogSeverity.NORMAL);
         getServer().getPluginManager().registerEvents(new PluginDisabledListener(), this);
-
-        PacketEvents.getAPI().getEventManager().registerListener(new PacketListeners(), PacketListenerPriority.NORMAL);
-        PacketEvents.getAPI().init();
     }
 
     @Override

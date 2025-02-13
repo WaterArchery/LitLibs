@@ -6,7 +6,6 @@ import me.waterarchery.litlibs.impl.module.ModuleBase;
 import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
@@ -29,11 +28,19 @@ public class ProviderHandler {
     public LitLibs getLibs(Plugin provider) {
         String pluginName = provider.getName();
         HashMap<String, LitLibs> hashMap = getLoadedPlugins();
-        getLoadedPlugins().remove(pluginName);
 
-        LitLibs litLibs = new LitLibs(provider);
-        register(provider, litLibs);
-        return litLibs;
+        LitLibs cachedLitLibs = hashMap.get(pluginName);
+
+        if (cachedLitLibs == null) {
+            getLoadedPlugins().remove(pluginName);
+
+            LitLibs litLibs = new LitLibs(provider);
+            register(provider, litLibs);
+
+            return litLibs;
+        }
+
+        return cachedLitLibs;
     }
 
     public boolean isRegistered(Plugin provider) {

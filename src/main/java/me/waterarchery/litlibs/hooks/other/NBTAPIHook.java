@@ -29,6 +29,8 @@ public class NBTAPIHook {
     }
 
     public @Nullable Action getGUIAction(ItemStack item){
+        if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return null;
+
         NBTItem nbti = new NBTItem(item);
         Plugin provider = litLibs.getPlugin();
 
