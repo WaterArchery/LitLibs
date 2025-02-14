@@ -108,6 +108,7 @@ public abstract class NPC {
                 world.getNearbyEntities(location, 32, 32, 32, (e) -> e.getType() == org.bukkit.entity.EntityType.PLAYER)
                         .forEach(player -> {
                             if (player.getLocation().distance(location) > 31) return;
+                            if (player.getName().contains("Loader-")) return; // Wild Loaders
 
                             newSeeingList.add(player.getUniqueId());
 
@@ -236,7 +237,13 @@ public abstract class NPC {
     }
 
     private void sendPacketSync(PacketWrapper<?> packet, Player player) {
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
+        try {
+            PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
+        }
+        catch (Exception ex) {
+            Bukkit.getConsoleSender().sendMessage("§b[LitLibs] §cFailed to send packet: " + packet.toString()
+                    + " on player: " + player.getName() + " with uuid: " + player.getUniqueId());
+        }
     }
 
 }

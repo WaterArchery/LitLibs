@@ -15,24 +15,24 @@ import java.util.UUID;
 
 public class PacketListeners implements PacketListener {
 
-    private final List<UUID> recentlyClicked = new ArrayList<>();
+        private final List<UUID> recentlyClicked = new ArrayList<>();
 
-    @Override
-    public void onPacketReceive(PacketReceiveEvent event) {
-        if (event.getPacketType() != PacketType.Play.Client.INTERACT_ENTITY) return;
+        @Override
+        public void onPacketReceive(PacketReceiveEvent event) {
+            if (event.getPacketType() != PacketType.Play.Client.INTERACT_ENTITY) return;
 
-        NPCHandler npcHandler = NPCHandler.getInstance();
-        WrapperPlayClientInteractEntity eventWrapper = new WrapperPlayClientInteractEntity(event);
-        Player player = event.getPlayer();
-        int entityId = eventWrapper.getEntityId();
+            NPCHandler npcHandler = NPCHandler.getInstance();
+            WrapperPlayClientInteractEntity eventWrapper = new WrapperPlayClientInteractEntity(event);
+            Player player = event.getPlayer();
+            int entityId = eventWrapper.getEntityId();
 
-        if (recentlyClicked.contains(player.getUniqueId())) return;
-        recentlyClicked.add(player.getUniqueId());
-        Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
+            if (recentlyClicked.contains(player.getUniqueId())) return;
+            recentlyClicked.add(player.getUniqueId());
+            Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
 
-        npcHandler.getNpcs().stream()
-                .filter(npc -> npc.getEntityId() == entityId)
-                .forEach(npc -> npc.execute(player));
-    }
+            npcHandler.getNpcs().stream()
+                    .filter(npc -> npc.getEntityId() == entityId)
+                    .forEach(npc -> npc.execute(player));
+        }
 
 }
