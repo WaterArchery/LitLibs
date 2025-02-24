@@ -7,6 +7,7 @@ import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.handlers.InventoryHandler;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
+@Deprecated
 public class InventoryImpl {
 
     private final int size;
@@ -54,7 +56,7 @@ public class InventoryImpl {
 
             List<String> lore = new ArrayList<>();
             for (String part : rawLore) {
-                part = litLibs.getMessageHandler().updateColors(part);
+                part = ChatUtils.colorizeLegacy(part);
                 part = PlaceholderHook.parsePlaceholders(player, part);
                 part = PlaceholderHook.parseLocalPlaceholders(part, placeholders);
 

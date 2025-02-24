@@ -26,6 +26,7 @@ public class PacketListeners implements PacketListener {
             Player player = event.getPlayer();
             int entityId = eventWrapper.getEntityId();
 
+            if (player == null) return;
             if (recentlyClicked.contains(player.getUniqueId())) return;
             recentlyClicked.add(player.getUniqueId());
             Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);

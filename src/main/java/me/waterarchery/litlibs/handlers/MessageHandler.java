@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
-@Deprecated
 public class MessageHandler {
 
     private final LitLibs litLibs;
@@ -38,23 +37,13 @@ public class MessageHandler {
 
     public String getLangMessage(String path) {
         String mes = langYml.getString(path, "Error: " + path);
-        return updateColors(mes);
+        return ChatUtils.colorizeLegacy(mes);
     }
 
     public String getPrefix() {
         Plugin provider = litLibs.getPlugin();
         String prefix = provider.getConfig().getString("Prefix");
-        return updateColors(prefix);
-    }
-
-    @Deprecated
-    public String updateColors(String str) {
-        return ChatUtils.colorizeLegacy(str);
-    }
-
-    @Deprecated
-    public static String updateColorsStatic(String str) {
-        return ChatUtils.colorizeLegacy(str);
+        return ChatUtils.colorizeLegacy(prefix);
     }
 
 }

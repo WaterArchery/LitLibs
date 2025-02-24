@@ -1,8 +1,10 @@
 package me.waterarchery.litlibs.version;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.Bukkit;
 
+@Getter
 public class VersionHandler {
 
     private Version version;
@@ -37,10 +39,6 @@ public class VersionHandler {
 
     public boolean isServerOlderThan(Version version) {
         return this.version.getVersionNumber() <= version.getVersionNumber();
-    }
-
-    public Version getVersion() {
-        return version;
     }
 
 }

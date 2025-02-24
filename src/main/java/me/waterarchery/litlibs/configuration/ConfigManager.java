@@ -2,6 +2,7 @@ package me.waterarchery.litlibs.configuration;
 
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.logger.LogSeverity;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -128,12 +129,12 @@ public class ConfigManager {
 
     public String getString(String path) {
         String str = yml.getString(path, "Error in: " + path);
-        return litLibs.getMessageHandler().updateColors(str);
+        return ChatUtils.colorizeLegacy(str);
     }
 
     public String getString(String path, String defaultValue) {
         String str = yml.getString(path, defaultValue);
-        return litLibs.getMessageHandler().updateColors(str);
+        return ChatUtils.colorizeLegacy(str);
     }
 
     public void save(boolean async) {

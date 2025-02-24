@@ -1,6 +1,7 @@
 package me.waterarchery.litlibs.handlers;
 
 import me.waterarchery.litlibs.LitLibs;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.Bukkit;
@@ -23,8 +24,8 @@ public class TitleHandler {
     }
 
     public void sendTitle(Player player, String rawTitle, String rawSubTitle, int fadeIn, int duration, int fadeOut) {
-        String title = litLibs.getMessageHandler().updateColors(rawTitle);
-        String subTitle = litLibs.getMessageHandler().updateColors(rawSubTitle);
+        String title = ChatUtils.colorizeLegacy(rawTitle);
+        String subTitle = ChatUtils.colorizeLegacy(rawSubTitle);
         VersionHandler versionHandler = VersionHandler.getInstance();
 
         if (versionHandler.isServerNewerThan(Version.v1_9))

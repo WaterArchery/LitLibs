@@ -6,7 +6,7 @@
 
     <groupId>me.waterarchery</groupId>
     <artifactId>LitLibs</artifactId>
-    <version>1.1.14</version>
+    <version>1.1.15</version>
     <packaging>jar</packaging>
 
     <name>LitLibs</name>
@@ -39,7 +39,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
                             <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                             <finalName>${project.artifactId}-${project.version}</finalName>
                             <relocations>
@@ -100,8 +99,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputFile>${server.directory}/LitLibs.jar</outputFile>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <outputFile>${server.directory}/${project.artifactId}-${project.version}.jar</outputFile>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>

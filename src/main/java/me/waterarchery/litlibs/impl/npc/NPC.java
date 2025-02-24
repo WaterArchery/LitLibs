@@ -43,18 +43,24 @@ public abstract class NPC {
     protected final boolean oldVersion;
     protected List<UUID> seeingPlayers;
     protected String name;
-    protected Location location;
+    protected String worldName;
+    protected double x;
+    protected double y;
+    protected double z;
     protected BukkitTask updateSeeingTask;
     protected Consumer<Player> onClickAction;
     protected final NPCHandler npcHandler;
 
-    public NPC(String name, Location location, EntityType entityType, Consumer<Player> onClickAction) {
+    public NPC(String name, String worldName, double x, double y, double z, EntityType entityType, Consumer<Player> onClickAction) {
         this.uuid = UUID.randomUUID();
         this.entityId = SpigotReflectionUtil.generateEntityId();
         this.name = name;
         this.seeingPlayers = new ArrayList<>();
         this.onClickAction = onClickAction;
-        this.location = location;
+        this.worldName = worldName;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         this.equipments = new ArrayList<>();
         this.entityType = entityType;
 
@@ -84,6 +90,9 @@ public abstract class NPC {
         updateSeeingTask = new BukkitRunnable() {
             @Override
             public void run() {
+                Location location = getLocation();
+
+                if (!location.isWorldLoaded()) return;
                 if (!ChunkUtils.isChunkLoaded(location.getWorld(), location.getBlockX() / 16, location.getBlockZ() / 16)) return;
 
                 World world = location.getWorld();
@@ -108,12 +117,12 @@ public abstract class NPC {
                 world.getNearbyEntities(location, 32, 32, 32, (e) -> e.getType() == org.bukkit.entity.EntityType.PLAYER)
                         .forEach(player -> {
                             if (player.getLocation().distance(location) > 31) return;
-                            if (player.getName().contains("Loader-")) return; // Wild Loaders
+                            if (player.getName().startsWith("Loader-")) return; // Wild Loaders
 
                             newSeeingList.add(player.getUniqueId());
 
                             if (!seeingPlayers.contains(player.getUniqueId())) {
-                                Bukkit.getScheduler().runTaskAsynchronously(LitLibsPlugin.getInstance(), () -> spawn((Player) player));
+                                Bukkit.getScheduler().runTaskLaterAsynchronously(LitLibsPlugin.getInstance(), () -> spawn((Player) player), 20);
                             }
                         });
 
@@ -123,6 +132,7 @@ public abstract class NPC {
     }
 
     public void spawn(Player player) {
+        Location location = getLocation();
         com.github.retrooper.packetevents.protocol.world.Location spawnLocation = SpigotConversionUtil.fromBukkitLocation(location);
 
         WrapperPlayServerSpawnEntity spawnPacket = new WrapperPlayServerSpawnEntity(
@@ -157,6 +167,7 @@ public abstract class NPC {
     }
 
     public void updateRotation() {
+        Location location = getLocation();
         float yaw = location.getYaw();
         float pitch = location.getPitch();
 
@@ -244,6 +255,10 @@ public abstract class NPC {
             Bukkit.getConsoleSender().sendMessage("§b[LitLibs] §cFailed to send packet: " + packet.toString()
                     + " on player: " + player.getName() + " with uuid: " + player.getUniqueId());
         }
+    }
+
+    public Location getLocation() {
+        return new Location(Bukkit.getWorld(worldName), x, y, z);
     }
 
 }

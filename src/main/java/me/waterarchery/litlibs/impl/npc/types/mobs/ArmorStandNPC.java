@@ -8,8 +8,6 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEn
 import lombok.Getter;
 import lombok.Setter;
 import me.waterarchery.litlibs.impl.npc.types.MobNPC;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -23,8 +21,8 @@ public class ArmorStandNPC extends MobNPC {
     private boolean hasArms;
     private boolean hasNoBasePlate;
 
-    public ArmorStandNPC(String name, Location location, Consumer<Player> onClickAction) {
-        super(name, location, EntityTypes.ARMOR_STAND, onClickAction);
+    public ArmorStandNPC(String name, String worldName, double x, double y, double z, Consumer<Player> onClickAction) {
+        super(name, worldName, x ,y, z, EntityTypes.ARMOR_STAND, onClickAction);
     }
 
     public void moveArm(Vector3f angle) {

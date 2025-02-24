@@ -100,8 +100,7 @@ public abstract class LitGui extends LitGuiBase {
     public LitMenuItem generateItem(Player player, String itemPath) {
         int slot = menuYaml.getInt(getItemPath() + itemPath + ".slot", -1);
         int modelData = menuYaml.getInt(getItemPath() + itemPath + ".customModelData", -9999);
-        String action = menuYaml.getString(getItemPath() + itemPath + ".action", "");
-        String actionType = menuYaml.getString(getItemPath() + itemPath + ".actionType", "");
+        String command = menuYaml.getString(getItemPath() + itemPath + ".command", "");
         String itemName = menuYaml.getString(getItemPath() + itemPath + ".name");
         String rawMaterial = menuYaml.getString(getItemPath() + itemPath + ".material");
         List<String> rawLore = menuYaml.getStringList(getItemPath() + itemPath + ".lore");
@@ -116,9 +115,9 @@ public abstract class LitGui extends LitGuiBase {
         }
 
         ItemStack itemStack = inventoryHandler.parseItemStack(rawMaterial);
-        if (actionType.equalsIgnoreCase("command") || actionType.equalsIgnoreCase("cmd"))
-            itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.COMMAND, menuId);
-        else if (actionType.equalsIgnoreCase(""))
+        if (!command.equalsIgnoreCase(""))
+            itemStack = inventoryHandler.setGUIAction(itemStack, command, ActionType.COMMAND, menuId);
+        else
             itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, menuId);
 
         ItemMeta meta = itemStack.getItemMeta();
