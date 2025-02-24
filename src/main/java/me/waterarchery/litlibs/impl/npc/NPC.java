@@ -47,6 +47,8 @@ public abstract class NPC {
     protected double x;
     protected double y;
     protected double z;
+    protected float yaw;
+    protected float pitch;
     protected BukkitTask updateSeeingTask;
     protected Consumer<Player> onClickAction;
     protected final NPCHandler npcHandler;
@@ -61,6 +63,8 @@ public abstract class NPC {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.yaw = 0;
+        this.pitch = 0;
         this.equipments = new ArrayList<>();
         this.entityType = entityType;
 
@@ -73,7 +77,6 @@ public abstract class NPC {
         oldVersion = versionHandler.isServerOlderThan(Version.v1_17);
 
         npcHandler.getNpcs().add(this);
-
         startSeeingTask();
     }
 
@@ -108,9 +111,7 @@ public abstract class NPC {
 
                     Location playerLocation = player.getLocation();
                     if (playerLocation.getWorld() != world) despawn(player, false);
-                    else if (playerLocation.distance(location) > 32) {
-                        despawn(player, false);
-                    }
+                    else if (playerLocation.distance(location) > 32) despawn(player, false);
                 });
 
                 List<UUID> newSeeingList = new ArrayList<>();
@@ -146,7 +147,8 @@ public abstract class NPC {
         );
 
         queuePacket(spawnPacket, player);
-        update();
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(LitLibsPlugin.getInstance(), this::update, 10);
     }
 
     public void update() {
@@ -167,10 +169,6 @@ public abstract class NPC {
     }
 
     public void updateRotation() {
-        Location location = getLocation();
-        float yaw = location.getYaw();
-        float pitch = location.getPitch();
-
         WrapperPlayServerEntityRotation packet = new WrapperPlayServerEntityRotation(
                 entityId,
                 yaw,
@@ -259,6 +257,13 @@ public abstract class NPC {
 
     public Location getLocation() {
         return new Location(Bukkit.getWorld(worldName), x, y, z);
+    }
+
+    public void setLocation(Location location) {
+        this.x = location.getX();
+        this.y = location.getY();
+        this.z = location.getZ();
+        this.worldName = location.getWorld().getName();
     }
 
 }
