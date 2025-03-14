@@ -19,12 +19,11 @@ public class ChatUtils {
             .tags(TagResolver.builder()
                     .resolver(StandardTags.color())
                     .resolver(StandardTags.decorations())
-                    .build()
-            )
+                    .build())
             .postProcessor(component -> component.decoration(TextDecoration.ITALIC, false))
             .build();
 
-    public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.legacySection();
+    private static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.legacySection();
 
     public static TextComponent colorize(String message) {
         if (message == null) return Component.text("null text");
@@ -55,7 +54,7 @@ public class ChatUtils {
         if (str.contains("&#")) {
             final Pattern hexPattern = Pattern.compile("&#" + "([A-Fa-f0-9]{6})");
             Matcher matcher = hexPattern.matcher(str);
-            StringBuffer buffer = new StringBuffer(str.length() + 4 * 8);
+            StringBuilder buffer = new StringBuilder(str.length() + 4 * 8);
             while (matcher.find())
             {
                 String group = matcher.group(1);
