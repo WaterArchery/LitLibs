@@ -7,7 +7,6 @@ import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.protocol.player.Equipment;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
 import lombok.Getter;
@@ -26,9 +25,6 @@ import org.bukkit.scoreboard.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
 
 @Getter
@@ -36,7 +32,6 @@ import java.util.function.Consumer;
 public abstract class NPC {
 
     private final UUID uuid;
-    private final ExecutorService executor;
     private List<Equipment> equipments;
     private EntityType entityType;
     protected final int entityId;
@@ -69,9 +64,6 @@ public abstract class NPC {
         this.entityType = entityType;
 
         npcHandler = NPCHandler.getInstance();
-
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("litnpc-" + getEntityId() + "-%d").build();
-        executor = Executors.newSingleThreadExecutor(namedThreadFactory);
 
         VersionHandler versionHandler = VersionHandler.getInstance();
         oldVersion = versionHandler.isServerOlderThan(Version.v1_17);
@@ -123,7 +115,7 @@ public abstract class NPC {
                             newSeeingList.add(player.getUniqueId());
 
                             if (!seeingPlayers.contains(player.getUniqueId())) {
-                                Bukkit.getScheduler().runTaskLaterAsynchronously(LitLibsPlugin.getInstance(), () -> spawn((Player) player), 20);
+                                Bukkit.getScheduler().runTaskLaterAsynchronously(LitLibsPlugin.getInstance(), () -> spawn((Player) player), 5);
                             }
                         });
 
@@ -148,7 +140,7 @@ public abstract class NPC {
 
         queuePacket(spawnPacket, player);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(LitLibsPlugin.getInstance(), this::update, 10);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(LitLibsPlugin.getInstance(), this::update, 5);
     }
 
     public void update() {
@@ -225,19 +217,19 @@ public abstract class NPC {
             });
         };
 
-        executor.execute(runnable);
+        npcHandler.getExecutor().execute(runnable);
     }
 
     public void queuePacket(PacketWrapper<?> packet) {
         Runnable runnable = () -> Bukkit.getOnlinePlayers().forEach(player -> sendPacket(packet, player));
 
-        executor.execute(runnable);
+        npcHandler.getExecutor().execute(runnable);
     }
 
     public void queuePacket(PacketWrapper<?> packet, Player player) {
         Runnable runnable = () -> sendPacket(packet, player);
 
-        executor.execute(runnable);
+        npcHandler.getExecutor().execute(runnable);
     }
 
     private void sendPacket(PacketWrapper<?> packet, Player player) {
