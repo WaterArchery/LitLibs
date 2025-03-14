@@ -29,7 +29,7 @@ public class InventoryHandler {
         boolean isFillEnabled = yaml.getBoolean(path + ".fillMenu.enabled", false);
         if (isFillEnabled) {
             String rawMaterial = yaml.getString(path + ".fillMenu.fillItem", "STONE");;
-            String itemName = yaml.getString(path + ".fillMenu.itemName", "§7");;
+            String itemName = yaml.getString(path + ".fillMenu.name", "§7");;
             int modelData = yaml.getInt(path + ".fillMenu.customModelData", -1);;
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
