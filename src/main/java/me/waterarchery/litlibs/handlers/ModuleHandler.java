@@ -45,7 +45,7 @@ public class ModuleHandler {
         module.onEnable();
         module.setEnabled(true);
 
-        Logger logger = LitLibsPlugin.getInstance().getLitLibsLoggers();
+        Logger logger = LitLibsPlugin.getInstance().getLitLogger();
         logger.log(String.format("§aEnabled module %s", module.getName()));
     }
 
@@ -55,7 +55,7 @@ public class ModuleHandler {
         module.onDisable();
         module.setEnabled(false);
 
-        Logger logger = LitLibsPlugin.getInstance().getLitLibsLoggers();
+        Logger logger = LitLibsPlugin.getInstance().getLitLogger();
         logger.log(String.format("§cDisabled module %s", module.getName()));
     }
 

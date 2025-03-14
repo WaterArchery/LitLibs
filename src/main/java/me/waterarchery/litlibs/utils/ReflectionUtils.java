@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class ReflectionUtils {
 
     public static void loadClass(Class<? extends ModuleBase> moduleBaseClass, Plugin provider, Object... args) {
-        Logger logger = LitLibsPlugin.getInstance().getLitLibsLoggers();
+        Logger logger = LitLibsPlugin.getInstance().getLitLogger();
         ModuleHandler moduleHandler = ModuleHandler.getInstance();
 
         try {
