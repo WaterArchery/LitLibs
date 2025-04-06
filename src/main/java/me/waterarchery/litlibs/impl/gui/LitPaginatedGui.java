@@ -34,7 +34,11 @@ public abstract class LitPaginatedGui extends LitGui {
             fillGUI();
 
             for (LitMenuItem item : getMenuItems(player)) {
-                if (item.getSlot() != -1) cachedGui.setItem(item.getSlot(), item.getGuiItem());
+                if (!item.getSlots().isEmpty()) {
+                    item.getSlots().forEach(slot -> {
+                        cachedGui.setItem(slot, item.getGuiItem());
+                    });
+                }
                 else cachedGui.addItem(item.getGuiItem());
             }
 

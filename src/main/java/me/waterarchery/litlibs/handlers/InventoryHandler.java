@@ -1,13 +1,12 @@
 package me.waterarchery.litlibs.handlers;
 
 import com.cryptomorin.xseries.XMaterial;
-import com.cryptomorin.xseries.profiles.builder.XSkull;
-import com.cryptomorin.xseries.profiles.objects.Profileable;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.inventory.ActionType;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -55,20 +54,26 @@ public class InventoryHandler {
         return nbtapiHook.setGUIAction(action, itemStack, fileName, type);
     }
 
-    public ItemStack parseItemStack(@Nullable String rawMaterial) {
+    public ItemStack parseItemStack(@Nullable String rawMaterial, OfflinePlayer player) {
         if (rawMaterial == null) return new ItemStack(Material.STONE);
 
+        CacheHandler headCache = CacheHandler.getInstance();
         if (rawMaterial.contains("HEAD-")) {
             rawMaterial = rawMaterial.replace("HEAD-", "");
-            return XSkull.createItem()
-                    .profile(Profileable.detect(rawMaterial))
-                    .apply();
+            return headCache.getCachedItem(rawMaterial);
+        }
+        else if (rawMaterial.contains("PLAYER")) {
+            return headCache.getCachedItem(player.getUniqueId().toString());
         }
         else {
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
             return material.parseItem();
         }
+    }
+
+    public ItemStack parseItemStack(@Nullable String rawMaterial) {
+        return parseItemStack(rawMaterial, null);
     }
 
 }

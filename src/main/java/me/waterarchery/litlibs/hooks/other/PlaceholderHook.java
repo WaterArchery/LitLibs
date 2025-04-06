@@ -1,7 +1,7 @@
 package me.waterarchery.litlibs.hooks.other;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 
@@ -9,7 +9,7 @@ public class PlaceholderHook {
 
     private static boolean isEnabled;
 
-    public static String parsePlaceholders(Player player, String string) {
+    public static String parsePlaceholders(OfflinePlayer player, String string) {
         if (player != null && string != null && string.contains("%") && isEnabled)
             return PlaceholderAPI.setPlaceholders(player, string);
         else
@@ -17,7 +17,6 @@ public class PlaceholderHook {
     }
 
     public static String parseLocalPlaceholders(String string, HashMap<String, String> placeholders) {
-        if (!isEnabled) return string;
         if (placeholders == null) return string;
 
         for (String placeholder : placeholders.keySet()) {

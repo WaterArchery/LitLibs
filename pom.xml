@@ -6,7 +6,7 @@
 
     <groupId>me.waterarchery</groupId>
     <artifactId>LitLibs</artifactId>
-    <version>1.1.18</version>
+    <version>1.1.19</version>
     <packaging>jar</packaging>
 
     <name>LitLibs</name>
@@ -78,9 +78,65 @@
                                     <pattern>io.github.retrooper</pattern>
                                     <shadedPattern>io.github.waterarchery.litlibs</shadedPattern>
                                 </relocation>
+                            </relocations>
+
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>com/cryptomorin/xseries/XBiome*</exclude>
+                                        <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
+                                        <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Execution 2</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${server.directory}/${project.artifactId}-${project.version}.jar</outputFile>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
                                 <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.libs.com.google.gson</shadedPattern>
+                                    <pattern>com.cryptomorin.xseries</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.xseries</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.nbtapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.bstats</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>dev.triumphteam.cmd</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.cmd</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>dev.triumphteam.gui</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.gui</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.fierioziy.particlenativeapi</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.particleapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.adventure</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.adventure</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.retrooper</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.litlibs</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper</pattern>
+                                    <shadedPattern>io.github.waterarchery.litlibs</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -89,6 +145,7 @@
                                     <artifact>*:*</artifact>
                                     <excludes>
                                         <exclude>com/cryptomorin/xseries/XBiome*</exclude>
+                                        <exclude>com/cryptomorin/xseries/NMSExtras*</exclude>
                                         <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
                                         <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
                                     </excludes>
@@ -188,6 +245,11 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-legacy</artifactId>
             <version>4.19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.3.4</version>
         </dependency>
 
         <!-- Mojang API for heads -->

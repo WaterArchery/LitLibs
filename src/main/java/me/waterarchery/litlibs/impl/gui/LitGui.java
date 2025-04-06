@@ -8,6 +8,7 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
+import me.waterarchery.litlibs.handlers.CacheHandler;
 import me.waterarchery.litlibs.handlers.InventoryHandler;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
 import me.waterarchery.litlibs.inventory.ActionType;
@@ -17,6 +18,7 @@ import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -35,12 +37,14 @@ public abstract class LitGui extends LitGuiBase {
     protected final InventoryHandler inventoryHandler;
     protected final VersionHandler versionHandler;
     protected final LitLibs litLibs;
+    protected final CacheHandler headCache;
     protected BaseGui cachedGui;
 
     public LitGui(String menuId, FileConfiguration menuYaml, Plugin plugin) {
         this.menuId = menuId;
         this.menuYaml = menuYaml;
 
+        headCache = CacheHandler.getInstance();
         litLibs = LitLibs.of(plugin);
         inventoryHandler = litLibs.getInventoryHandler();
         versionHandler = VersionHandler.getInstance();
@@ -59,26 +63,10 @@ public abstract class LitGui extends LitGuiBase {
 
     public CompletableFuture<BaseGui> getGui(Player player) {
         return CompletableFuture.supplyAsync(() -> {
-            String invName = menuYaml.getString(menuId + ".name");
-            invName = parseColorAndPlaceholders(player, invName);
-            int size = menuYaml.getInt(menuId + ".size");
-
-            cachedGui = Gui.gui()
-                    .title(Component.text(invName))
-                    .rows(size / 9)
-                    .disableAllInteractions()
-                    .create();
-
-            if (getDefaultClickAction() != null) cachedGui.setDefaultClickAction(getDefaultClickAction());
-            if (getDefaultTopClickAction() != null) cachedGui.setDefaultTopClickAction(getDefaultTopClickAction());
-            if (getCloseGuiAction() != null) cachedGui.setCloseGuiAction(getCloseGuiAction());
-
+            initializeGuiObject(player);
+            handleInteractions();
             fillGUI();
-
-            for (LitMenuItem item : getMenuItems(player)) {
-                if (item.getSlot() != -1) cachedGui.setItem(item.getSlot(), item.getGuiItem());
-                else cachedGui.addItem(item.getGuiItem());
-            }
+            createItems(player);
 
             return cachedGui;
         }).exceptionally(throwable -> {
@@ -87,7 +75,36 @@ public abstract class LitGui extends LitGuiBase {
         });
     }
 
-    public List<LitMenuItem> getMenuItems(Player player) {
+    public void initializeGuiObject(OfflinePlayer player) {
+        String invName = menuYaml.getString(menuId + ".name");
+        invName = parseColorAndPlaceholders(player, invName);
+        int size = menuYaml.getInt(menuId + ".size");
+
+        cachedGui = Gui.gui()
+                .title(Component.text(invName))
+                .rows(size / 9)
+                .disableAllInteractions()
+                .create();
+    }
+
+    public void handleInteractions() {
+        if (getDefaultClickAction() != null) cachedGui.setDefaultClickAction(getDefaultClickAction());
+        if (getDefaultTopClickAction() != null) cachedGui.setDefaultTopClickAction(getDefaultTopClickAction());
+        if (getCloseGuiAction() != null) cachedGui.setCloseGuiAction(getCloseGuiAction());
+    }
+
+    public void createItems(OfflinePlayer player) {
+        for (LitMenuItem item : getMenuItems(player)) {
+            if (!item.getSlots().isEmpty()) {
+                item.getSlots().forEach(slot -> {
+                    if (slot != -1) cachedGui.setItem(slot, item.getGuiItem());
+                });
+            }
+            else cachedGui.addItem(item.getGuiItem());
+        }
+    }
+
+    public List<LitMenuItem> getMenuItems(OfflinePlayer player) {
         List<LitMenuItem> items = new ArrayList<>();
 
         for (String itemPath : Objects.requireNonNull(menuYaml.getConfigurationSection(getItemSectionPath())).getKeys(false)) {
@@ -98,10 +115,11 @@ public abstract class LitGui extends LitGuiBase {
         return items;
     }
 
-    public LitMenuItem generateItem(Player player, String itemPath) {
-        int slot = menuYaml.getInt(getItemPath() + itemPath + ".slot", -1);
+    public LitMenuItem generateItem(OfflinePlayer player, String itemPath) {
+        String[] rawSlots = menuYaml.getString(getItemPath() + itemPath + ".slot", "-1").split(",");
         int modelData = menuYaml.getInt(getItemPath() + itemPath + ".customModelData", -9999);
         String command = menuYaml.getString(getItemPath() + itemPath + ".command", "");
+        String type = menuYaml.getString(getItemPath() + itemPath + ".type", "");
         String itemName = menuYaml.getString(getItemPath() + itemPath + ".name");
         String rawMaterial = menuYaml.getString(getItemPath() + itemPath + ".material");
         List<String> rawLore = menuYaml.getStringList(getItemPath() + itemPath + ".lore");
@@ -115,7 +133,7 @@ public abstract class LitGui extends LitGuiBase {
             lore.add(part);
         }
 
-        ItemStack itemStack = inventoryHandler.parseItemStack(rawMaterial);
+        ItemStack itemStack = inventoryHandler.parseItemStack(rawMaterial, player);
         if (!command.equalsIgnoreCase(""))
             itemStack = inventoryHandler.setGUIAction(itemStack, command, ActionType.COMMAND, menuId);
         else
@@ -132,10 +150,23 @@ public abstract class LitGui extends LitGuiBase {
         GuiItem guiItem = ItemBuilder.from(itemStack).asGuiItem();
         setAction(itemPath, guiItem);
 
-        return new LitMenuItem(guiItem, slot);
+        List<Integer> slots = new ArrayList<>();
+        Arrays.stream(rawSlots).forEach(slot -> {
+            int parsedSlot = Integer.parseInt(slot);
+            slots.add(parsedSlot);
+        });
+
+        if (type.equalsIgnoreCase("previous_page"))
+            return new LitMenuItem(guiItem, slots, ActionType.PREVIOUS_PAGE);
+        else if (type.equalsIgnoreCase("next_page"))
+            return new LitMenuItem(guiItem, slots, ActionType.NEXT_PAGE);
+        else if (!command.equalsIgnoreCase(""))
+            return new LitMenuItem(guiItem, slots, ActionType.COMMAND);
+        else
+            return new LitMenuItem(guiItem, slots, ActionType.PLUGIN);
     }
 
-    public String parseColorAndPlaceholders(Player player, String text) {
+    public String parseColorAndPlaceholders(OfflinePlayer player, String text) {
         text = ChatUtils.colorizeLegacy(text);
         text = PlaceholderHook.parsePlaceholders(player, text);
         text = PlaceholderHook.parseLocalPlaceholders(text, getPlaceholders());

@@ -25,14 +25,14 @@ public class MessageHandler {
     }
 
     public void sendMessage(CommandSender commandSender, String mes) {
-        commandSender.sendMessage(ChatUtils.colorizeLegacy(mes));
+        ChatUtils.sendSenderMessage(commandSender, mes);
     }
 
     public void sendLangMessage(CommandSender commandSender, String path) {
         String mes = langYml.getString(path, "Error: " + path);
         mes = getPrefix() + mes;
 
-        commandSender.sendMessage(ChatUtils.colorizeLegacy(mes));
+        ChatUtils.sendSenderMessage(commandSender, mes);
     }
 
     public String getLangMessage(String path) {
@@ -42,8 +42,7 @@ public class MessageHandler {
 
     public String getPrefix() {
         Plugin provider = litLibs.getPlugin();
-        String prefix = provider.getConfig().getString("Prefix");
-        return ChatUtils.colorizeLegacy(prefix);
+        return provider.getConfig().getString("Prefix");
     }
 
 }
