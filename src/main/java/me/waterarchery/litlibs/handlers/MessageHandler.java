@@ -1,5 +1,6 @@
 package me.waterarchery.litlibs.handlers;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.utils.ChatUtils;
@@ -7,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
+@Getter
 public class MessageHandler {
 
     private final LitLibs litLibs;
