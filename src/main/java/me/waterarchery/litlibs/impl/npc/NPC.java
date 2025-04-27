@@ -18,8 +18,6 @@ import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
@@ -44,9 +42,9 @@ public abstract class NPC {
     protected double z;
     protected float yaw;
     protected float pitch;
-    protected BukkitTask updateSeeingTask;
     protected Consumer<Player> onClickAction;
     protected final NPCHandler npcHandler;
+    protected boolean despawned;
 
     public NPC(String name, String worldName, double x, double y, double z, EntityType entityType, Consumer<Player> onClickAction) {
         this.uuid = UUID.randomUUID();
@@ -63,68 +61,22 @@ public abstract class NPC {
         this.equipments = new ArrayList<>();
         this.entityType = entityType;
 
+        despawned = isChunkLoaded();
         npcHandler = NPCHandler.getInstance();
 
         VersionHandler versionHandler = VersionHandler.getInstance();
         oldVersion = versionHandler.isServerOlderThan(Version.v1_17);
 
         npcHandler.getNpcs().add(this);
-        startSeeingTask();
     }
 
     public void execute(Player player) {
         onClickAction.accept(player);
     }
 
-    public void startSeeingTask() {
-        if (updateSeeingTask != null) {
-            seeingPlayers.clear();
-            updateSeeingTask.cancel();
-        }
-
-        updateSeeingTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                Location location = getLocation();
-
-                if (!location.isWorldLoaded()) return;
-                if (!ChunkUtils.isChunkLoaded(location.getWorld(), location.getBlockX() / 16, location.getBlockZ() / 16)) return;
-
-                World world = location.getWorld();
-                if (world == null) return;
-
-                List<UUID> clone = new ArrayList<>(seeingPlayers);
-                clone.forEach(playerUUID -> {
-                    Player player = Bukkit.getPlayer(playerUUID);
-                    if (player == null) {
-                        seeingPlayers.remove(playerUUID);
-                        return;
-                    }
-
-                    Location playerLocation = player.getLocation();
-                    if (playerLocation.getWorld() != world) despawn(player, false);
-                    else if (playerLocation.distance(location) > 32) despawn(player, false);
-                });
-
-                List<UUID> newSeeingList = new ArrayList<>();
-                world.getNearbyEntities(location, 32, 32, 32, (e) -> e.getType() == org.bukkit.entity.EntityType.PLAYER)
-                        .forEach(player -> {
-                            if (player.getLocation().distance(location) > 31) return;
-                            if (player.getName().startsWith("Loader-")) return; // Wild Loaders
-
-                            newSeeingList.add(player.getUniqueId());
-
-                            if (!seeingPlayers.contains(player.getUniqueId())) {
-                                Bukkit.getScheduler().runTaskLaterAsynchronously(LitLibsPlugin.getInstance(), () -> spawn((Player) player), 5);
-                            }
-                        });
-
-                seeingPlayers = new ArrayList<>(newSeeingList);
-            }
-        }.runTaskTimer(LitLibsPlugin.getInstance(), 0, 10);
-    }
-
     public void spawn(Player player) {
+        despawned = false;
+
         Location location = getLocation();
         com.github.retrooper.packetevents.protocol.world.Location spawnLocation = SpigotConversionUtil.fromBukkitLocation(location);
 
@@ -172,7 +124,6 @@ public abstract class NPC {
     }
 
     public void despawn() {
-        updateSeeingTask.cancel();
         seeingPlayers.clear();
 
         Bukkit.getOnlinePlayers().forEach(player -> despawn(player, true));
@@ -245,6 +196,22 @@ public abstract class NPC {
             Bukkit.getConsoleSender().sendMessage("§b[LitLibs] §cFailed to send packet: " + packet.toString()
                     + " on player: " + player.getName() + " with uuid: " + player.getUniqueId());
         }
+    }
+
+    public boolean isChunkLoaded() {
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) return false;
+
+
+        return ChunkUtils.isChunkLoaded(getLocation());
+    }
+
+    public int getChunkX() {
+        return getLocation().getBlockX() >> 4;
+    }
+
+    public int getChunkZ() {
+        return getLocation().getBlockZ() >> 4;
     }
 
     public Location getLocation() {

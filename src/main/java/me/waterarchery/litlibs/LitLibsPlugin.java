@@ -4,6 +4,7 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
+import me.waterarchery.litlibs.listeners.ChunkListeners;
 import me.waterarchery.litlibs.listeners.PacketListeners;
 import me.waterarchery.litlibs.listeners.PluginDisabledListener;
 import me.waterarchery.litlibs.logger.LogSeverity;
@@ -41,7 +42,9 @@ public class LitLibsPlugin extends JavaPlugin {
 
         versionHandler = VersionHandler.getInstance();
         litLogger.log("LitLibs enabled version &av" + version, LogSeverity.NORMAL);
+
         getServer().getPluginManager().registerEvents(new PluginDisabledListener(), this);
+        getServer().getPluginManager().registerEvents(new ChunkListeners(), this);
     }
 
     @Override
