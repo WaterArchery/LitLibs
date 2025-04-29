@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
+import java.util.List;
+
 public class ChunkListeners implements Listener {
 
     @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -22,12 +24,17 @@ public class ChunkListeners implements Listener {
         String world = chunk.getWorld().getName();
 
         NPCHandler npcHandler = NPCHandler.getInstance();
-
+        boolean nullCheck = false;
         for (NPC npc : npcHandler.getNpcs()) {
-            if (world.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z) {
-                npc.setDespawned(false);
+            if (npc == null) {
+                nullCheck = true;
+                continue;
             }
+
+            if (world.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z) npc.setDespawned(false);
         }
+
+        if (nullCheck) npcHandler.getNpcs().remove(null);
     }
 
     @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -42,12 +49,11 @@ public class ChunkListeners implements Listener {
             if (world != null && world.isChunkLoaded(x, z)) return;
 
             NPCHandler npcHandler = NPCHandler.getInstance();
+            List<NPC> validNpcs = npcHandler.getNpcs().stream()
+                    .filter(npc -> npc != null && worldName.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z)
+                    .toList();
 
-            for (NPC npc : npcHandler.getNpcs()) {
-                if (worldName.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z) {
-                    npc.despawn();
-                }
-            }
+            validNpcs.forEach(NPC::despawn);
         }, 10);
     }
 

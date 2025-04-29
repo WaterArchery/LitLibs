@@ -61,13 +61,11 @@ public abstract class NPC {
         this.equipments = new ArrayList<>();
         this.entityType = entityType;
 
-        despawned = isChunkLoaded();
+        despawned = !isChunkLoaded();
         npcHandler = NPCHandler.getInstance();
 
         VersionHandler versionHandler = VersionHandler.getInstance();
         oldVersion = versionHandler.isServerOlderThan(Version.v1_17);
-
-        npcHandler.getNpcs().add(this);
     }
 
     public void execute(Player player) {
@@ -124,6 +122,7 @@ public abstract class NPC {
     }
 
     public void despawn() {
+        despawned = true;
         seeingPlayers.clear();
 
         Bukkit.getOnlinePlayers().forEach(player -> despawn(player, true));
@@ -168,19 +167,19 @@ public abstract class NPC {
             });
         };
 
-        npcHandler.getExecutor().execute(runnable);
+        npcHandler.getExecutor().submit(runnable);
     }
 
     public void queuePacket(PacketWrapper<?> packet) {
         Runnable runnable = () -> Bukkit.getOnlinePlayers().forEach(player -> sendPacket(packet, player));
 
-        npcHandler.getExecutor().execute(runnable);
+        npcHandler.getExecutor().submit(runnable);
     }
 
     public void queuePacket(PacketWrapper<?> packet, Player player) {
         Runnable runnable = () -> sendPacket(packet, player);
 
-        npcHandler.getExecutor().execute(runnable);
+        npcHandler.getExecutor().submit(runnable);
     }
 
     private void sendPacket(PacketWrapper<?> packet, Player player) {
@@ -202,16 +201,15 @@ public abstract class NPC {
         World world = Bukkit.getWorld(worldName);
         if (world == null) return false;
 
-
         return ChunkUtils.isChunkLoaded(getLocation());
     }
 
     public int getChunkX() {
-        return getLocation().getBlockX() >> 4;
+        return (int) x >> 4;
     }
 
     public int getChunkZ() {
-        return getLocation().getBlockZ() >> 4;
+        return (int) z >> 4;
     }
 
     public Location getLocation() {

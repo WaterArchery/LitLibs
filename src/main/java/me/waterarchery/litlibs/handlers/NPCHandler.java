@@ -54,7 +54,6 @@ public class NPCHandler {
                 if (npc.isDespawned()) continue;
 
                 Location location = npc.getLocation();
-
                 if (!location.isWorldLoaded()) continue;
                 if (!ChunkUtils.isChunkLoaded(location.getWorld(), location.getBlockX() / 16, location.getBlockZ() / 16)) continue;
 
@@ -76,17 +75,14 @@ public class NPCHandler {
                 List<UUID> newSeeingList = new ArrayList<>();
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (player.getName().startsWith("Loader-")) continue; // Wild Loaders
-                    if (!player.getLocation().getWorld().equals(location.getWorld())) continue;
+                    if (!Objects.equals(player.getLocation().getWorld(), location.getWorld())) continue;
                     if (player.getLocation().distance(location) > 31) {
                         if (npc.getSeeingPlayers().contains(player.getUniqueId())) npc.despawn(player, false);
                         continue;
                     }
 
                     newSeeingList.add(player.getUniqueId());
-
-                    if (!npc.getSeeingPlayers().contains(player.getUniqueId())) {
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(LitLibsPlugin.getInstance(), () -> npc.spawn(player), 5);
-                    }
+                    if (!npc.getSeeingPlayers().contains(player.getUniqueId())) npc.spawn(player);
                 }
 
                 npc.setSeeingPlayers(new ArrayList<>(newSeeingList));

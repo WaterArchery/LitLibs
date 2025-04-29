@@ -10,6 +10,7 @@ import me.waterarchery.litlibs.listeners.PluginDisabledListener;
 import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.version.VersionHandler;
+import net.byteflux.libby.BukkitLibraryManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,13 +18,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public class LitLibsPlugin extends JavaPlugin {
 
-    private static LitLibsPlugin instance;
-    private static VersionHandler versionHandler;
+    private VersionHandler versionHandler;
     private BukkitAudiences adventure;;
     private Logger litLogger;
+    private BukkitLibraryManager bukkitLibraryManager;
 
     @Override
     public void onLoad() {
+        bukkitLibraryManager = new BukkitLibraryManager(this);
+        bukkitLibraryManager.addMavenCentral();
+        bukkitLibraryManager.addJitPack();
+        bukkitLibraryManager.addSonatype();
+
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
         PacketEvents.getAPI().load();
     }
@@ -33,7 +39,6 @@ public class LitLibsPlugin extends JavaPlugin {
         PacketEvents.getAPI().getEventManager().registerListener(new PacketListeners(), PacketListenerPriority.NORMAL);
         PacketEvents.getAPI().init();
 
-        instance = this;
         adventure = BukkitAudiences.create(this);
         new Metrics(LitLibsPlugin.getInstance(), 21481);
 
