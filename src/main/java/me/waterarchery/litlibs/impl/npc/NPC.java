@@ -45,6 +45,7 @@ public abstract class NPC {
     protected Consumer<Player> onClickAction;
     protected final NPCHandler npcHandler;
     protected boolean despawned;
+    protected boolean visible = true;
 
     public NPC(String name, String worldName, double x, double y, double z, EntityType entityType, Consumer<Player> onClickAction) {
         this.uuid = UUID.randomUUID();
@@ -73,6 +74,7 @@ public abstract class NPC {
     }
 
     public void spawn(Player player) {
+        if (!visible) return;
         despawned = false;
 
         Location location = getLocation();
@@ -94,6 +96,8 @@ public abstract class NPC {
     }
 
     public void update() {
+        if (!visible) return;
+
         updateRotation();
         updateEquipment(equipments);
     }
@@ -140,6 +144,8 @@ public abstract class NPC {
     }
 
     public void setGlowing(boolean glowing) {
+        if (!visible) return;
+
         List<EntityData> entityDataList = new ArrayList<>();
         EntityData data2 = new EntityData(4, EntityDataTypes.BOOLEAN, glowing);
         entityDataList.add(data2);
@@ -213,7 +219,7 @@ public abstract class NPC {
     }
 
     public Location getLocation() {
-        return new Location(Bukkit.getWorld(worldName), x, y, z);
+        return new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
     }
 
     public void setLocation(Location location) {

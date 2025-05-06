@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChunkListeners implements Listener {
@@ -25,7 +26,9 @@ public class ChunkListeners implements Listener {
 
         NPCHandler npcHandler = NPCHandler.getInstance();
         boolean nullCheck = false;
-        for (NPC npc : npcHandler.getNpcs()) {
+
+        // Copying array list to preventing the concurrent modification
+        for (NPC npc : new ArrayList<>(npcHandler.getNpcs())) {
             if (npc == null) {
                 nullCheck = true;
                 continue;
@@ -49,7 +52,7 @@ public class ChunkListeners implements Listener {
             if (world != null && world.isChunkLoaded(x, z)) return;
 
             NPCHandler npcHandler = NPCHandler.getInstance();
-            List<NPC> validNpcs = npcHandler.getNpcs().stream()
+            List<NPC> validNpcs = new ArrayList<>(npcHandler.getNpcs()).stream()
                     .filter(npc -> npc != null && worldName.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z)
                     .toList();
 
