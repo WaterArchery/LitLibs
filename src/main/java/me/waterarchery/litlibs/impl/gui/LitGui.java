@@ -185,7 +185,7 @@ public abstract class LitGui extends LitGuiBase {
     public void fillGUI() {
         if (isFillEnabled()) {
             String rawMaterial = menuYaml.getString(menuId + ".fillMenu.fillItem", "BLACK_STAINED_GLASS_PANE");
-            String itemName = menuYaml.getString(menuId + ".fillMenu.name", "§7");;
+            String itemName = menuYaml.getString(menuId + ".fillMenu.name", "<gray>");;
             int modelData = menuYaml.getInt(menuId + ".fillMenu.customModelData", -1);;
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
