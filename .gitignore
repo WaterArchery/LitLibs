@@ -1,12 +1,5 @@
 # Project exclude paths
 /target/
-/.idea/artifacts/LitLibs_jar.xml
-/.idea/.gitignore
-/.idea/compiler.xml
-/.idea/encodings.xml
-/.idea/jarRepositories.xml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/uiDesigner.xml
-/.idea/vcs.xml
 /dependency-reduced-pom.xml
+
+.idea
