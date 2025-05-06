@@ -9,7 +9,7 @@ import org.bukkit.Location;
 
 import java.util.List;
 
-public class DecentHologramsHook implements HologramHook {
+public class DecentHologramsHook extends HologramHook {
 
     private static DecentHologramsHook instance = null;
 
@@ -29,6 +29,8 @@ public class DecentHologramsHook implements HologramHook {
         if (oldHologram != null) {
             oldHologram.delete();
         }
+
+        lines = parseColors(lines);
         DHAPI.createHologram(locString, loc, lines);
     }
 
@@ -36,15 +38,17 @@ public class DecentHologramsHook implements HologramHook {
     public void updateHologram(Location loc, List<String> lines) {
         String locString = locationToString(loc);
         Hologram hologram = DHAPI.getHologram(locString);
+
         if (hologram == null) {
             createHologram(loc, lines);
         }
         else {
             HologramPage page = hologram.getPage(0);
+            lines = parseColors(lines);
+
             if (lines.size() == page.getLines().size()) {
                 int i = 0;
                 for (String lineText : lines) {
-                    lineText = ChatUtils.colorizeLegacy(lineText);
                     page.setLine(i, lineText);
                     i++;
                 }
@@ -60,6 +64,7 @@ public class DecentHologramsHook implements HologramHook {
     public void updateHologram(Location loc, int lineNumber, String line) {
         String locString = locationToString(loc);
         Hologram hologram = DHAPI.getHologram(locString);
+
         if (hologram != null) {
             HologramPage page = hologram.getPage(0);
             line = ChatUtils.colorizeLegacy(line);
@@ -70,10 +75,6 @@ public class DecentHologramsHook implements HologramHook {
     @Override
     public void deleteHologram(Location loc) {
         DHAPI.removeHologram(locationToString(loc));
-    }
-
-    public String locationToString(Location loc) {
-        return loc.getWorld().getName() + "_" + loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ();
     }
 
 }

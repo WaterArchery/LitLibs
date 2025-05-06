@@ -1,5 +1,6 @@
 package me.waterarchery.litlibs.hooks.hologram;
 
+import lombok.Getter;
 import me.filoghost.holographicdisplays.api.HolographicDisplaysAPI;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import me.waterarchery.litlibs.LitLibsPlugin;
@@ -10,8 +11,9 @@ import org.bukkit.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HolographicDisplaysHook implements HologramHook {
+public class HolographicDisplaysHook extends HologramHook {
 
+    @Getter
     private static HolographicDisplaysAPI holoApi;
     private static HolographicDisplaysHook instance;
 
@@ -79,14 +81,6 @@ public class HolographicDisplaysHook implements HologramHook {
                 }
             }
         });
-    }
-
-    public String locationToString(Location loc) {
-        return loc.getWorld().getName() + "_" + loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ();
-    }
-
-    private HolographicDisplaysAPI getHoloApi() {
-        return holoApi;
     }
 
 }
