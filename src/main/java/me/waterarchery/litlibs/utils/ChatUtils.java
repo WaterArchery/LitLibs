@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class ChatUtils {
 
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.builder()
+    public static final MiniMessage MINI_MESSAGE = MiniMessage.builder()
             .tags(TagResolver.builder()
                     .resolver(StandardTags.defaults())
                     .build())
@@ -23,7 +23,7 @@ public class ChatUtils {
             .postProcessor(component -> component.decoration(TextDecoration.ITALIC, false))
             .build();
 
-    private static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
+    public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
             .character('§')
             .hexColors()
             .useUnusualXRepeatedCharacterHexFormat()

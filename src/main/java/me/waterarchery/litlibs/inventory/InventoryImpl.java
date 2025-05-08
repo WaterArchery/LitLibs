@@ -3,6 +3,7 @@ package me.waterarchery.litlibs.inventory;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.profiles.builder.XSkull;
 import com.cryptomorin.xseries.profiles.objects.Profileable;
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.handlers.InventoryHandler;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
+@Getter
 @Deprecated
 public class InventoryImpl {
 
@@ -62,7 +64,6 @@ public class InventoryImpl {
 
                 lore.add(part);
             }
-
 
             ItemStack itemStack = parseItemStack(rawMaterial);
             if (actionType.equalsIgnoreCase("command") || actionType.equalsIgnoreCase("cmd"))
@@ -117,18 +118,6 @@ public class InventoryImpl {
         inventoryHandler.fillGUI(inventory, path, file);
         generateItems(player, inventory, placeholders);
         return inventory;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPath() {
-        return path;
     }
 
 }
