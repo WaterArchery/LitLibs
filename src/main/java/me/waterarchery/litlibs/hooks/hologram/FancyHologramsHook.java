@@ -6,6 +6,7 @@ import de.oliver.fancyholograms.api.data.TextHologramData;
 import de.oliver.fancyholograms.api.hologram.Hologram;
 import me.waterarchery.litlibs.hooks.HologramHook;
 import me.waterarchery.litlibs.utils.ChatUtils;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 
@@ -36,7 +37,9 @@ public class FancyHologramsHook extends HologramHook {
         oldHologram.ifPresent(Hologram::deleteHologram);
 
         TextHologramData hologramData = new TextHologramData(locString, loc);
-        hologramData.setBillboard(Display.Billboard.FIXED);
+        hologramData.setBillboard(Display.Billboard.VERTICAL);
+        hologramData.setTextShadow(true);
+        hologramData.setBackground(Color.fromARGB(0, 0, 0, 0));
 
         lines = parseColors(lines);
         hologramData.setText(lines);

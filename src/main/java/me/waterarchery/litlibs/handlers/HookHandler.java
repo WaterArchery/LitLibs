@@ -30,37 +30,47 @@ public class HookHandler {
     public HookHandler(LitLibs litLibs) {
         this.litLibs = litLibs;
         logger = litLibs.getLogger();
-        chooseHologramHook();
+
+        chooseHologramHook(true);
         chooseIslandHook();
         registerEconomyHooks();
         registerOtherHooks();
     }
 
-    public void chooseHologramHook() {
-        if (Bukkit.getPluginManager().isPluginEnabled("DecentHolograms")) {
+    public void chooseHologramHook(boolean checkDefault) {
+        Plugin provider = litLibs.getPlugin();
+        String defaultHologram = provider.getConfig().getString("HologramHook", "DecentHolograms");
+
+        if (Bukkit.getPluginManager().isPluginEnabled("DecentHolograms")
+                && (!checkDefault || defaultHologram.equalsIgnoreCase("DecentHolograms"))) {
             hologramHook = DecentHologramsHook.getInstance();
             logger.log("Selected hologram hook: DecentHolograms");
         }
-        else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms")) {
+        else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms")
+                && (!checkDefault || defaultHologram.equalsIgnoreCase("FancyHolograms"))) {
             hologramHook = FancyHologramsHook.getInstance();
             logger.log("Selected hologram hook: FancyHolograms");
         }
-        else if (Bukkit.getPluginManager().isPluginEnabled("CMI")) {
+        else if (Bukkit.getPluginManager().isPluginEnabled("CMI")
+                && (!checkDefault || defaultHologram.equalsIgnoreCase("CMI"))) {
             hologramHook = CMIHook.getInstance();
             logger.log("Selected hologram hook: CMI");
         }
-        else if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        else if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
+                && (!checkDefault || defaultHologram.equalsIgnoreCase("HolographicDisplays"))) {
             hologramHook = HolographicDisplaysHook.getInstance();
             logger.log("Selected hologram hook: HolographicDisplays");
         }
         else {
-            logger.warn("No hologram hook has been found! The plugins that require holograms may not work!");
+            if (checkDefault) chooseHologramHook(false);
+            else logger.warn("No hologram hook has been found! The plugins that require holograms may not work!");
         }
     }
 
     public void registerEconomyHooks() {
         Plugin provider = litLibs.getPlugin();
         String defaultPrice = provider.getConfig().getString("PriceHook", "Essentials");
+
         if (defaultPrice.equalsIgnoreCase("essentials") || defaultPrice.equalsIgnoreCase("essentialsx")) {
             if (Bukkit.getPluginManager().isPluginEnabled("EssentialsX") || Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
                 priceHook = EssentialsPriceHook.getInstance();

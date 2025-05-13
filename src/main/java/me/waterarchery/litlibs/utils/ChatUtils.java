@@ -69,7 +69,7 @@ public class ChatUtils {
     public static TextComponent colorize(String message) {
         if (message == null) return Component.text("null text");
 
-        message = message.replace("&", "§");
+        //message = message.replace("&", "§");
         return (TextComponent) MINI_MESSAGE.deserialize(
                 LEGACY_COMPONENT_SERIALIZER.serialize(Component.text(message))
         );
@@ -78,7 +78,7 @@ public class ChatUtils {
     public static String colorizeLegacy(String message) {
         if (message == null) return "null text";
 
-        message = message.replace("&", "§");
+        //message = message.replace("&", "§");
         try {
             Component component = MINI_MESSAGE.deserialize(message);
             return LEGACY_COMPONENT_SERIALIZER.serialize(component);
