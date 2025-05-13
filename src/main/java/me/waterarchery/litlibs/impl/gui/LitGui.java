@@ -8,6 +8,7 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
+import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.handlers.CacheHandler;
 import me.waterarchery.litlibs.handlers.InventoryHandler;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
@@ -27,7 +28,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 @Getter
 public abstract class LitGui extends LitGuiBase {
@@ -53,26 +53,21 @@ public abstract class LitGui extends LitGuiBase {
     }
 
     public void openAsync(Player player) {
-        getGui(player).thenAccept(gui -> {
-            Bukkit.getScheduler().runTask(litLibs.getPlugin(), () -> gui.open(player));
-        }).exceptionally(throwable -> {
-            throwable.printStackTrace();
-            return null;
+        LitLibsPlugin litLibsPlugin = LitLibsPlugin.getInstance();
+
+        litLibsPlugin.getGuiThread().submit(() -> {
+            BaseGui baseGui = getGui(player);
+            Bukkit.getScheduler().runTask(litLibsPlugin, () -> baseGui.open(player));
         });
     }
 
-    public CompletableFuture<BaseGui> getGui(Player player) {
-        return CompletableFuture.supplyAsync(() -> {
-            initializeGuiObject(player);
-            handleInteractions();
-            fillGUI();
-            createItems(player);
+    public BaseGui getGui(Player player) {
+        initializeGuiObject(player);
+        handleInteractions();
+        fillGUI();
+        createItems(player);
 
-            return cachedGui;
-        }).exceptionally(throwable -> {
-            throwable.printStackTrace();
-            return null;
-        });
+        return cachedGui;
     }
 
     public void initializeGuiObject(OfflinePlayer player) {

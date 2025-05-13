@@ -15,6 +15,9 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Getter
 public class LitLibsPlugin extends JavaPlugin {
 
@@ -22,6 +25,7 @@ public class LitLibsPlugin extends JavaPlugin {
     private BukkitAudiences adventure;;
     private Logger litLogger;
     private BukkitLibraryManager bukkitLibraryManager;
+    private final ExecutorService guiThread = Executors.newSingleThreadExecutor();
 
     @Override
     public void onLoad() {

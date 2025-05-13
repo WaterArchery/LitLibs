@@ -91,9 +91,11 @@ public class NPCHandler {
     }
 
     public void deleteNPC(UUID uuid) {
-        List<NPC> deletedNpcs = npcs.stream().filter(npc -> npc.getUuid().equals(uuid)).toList();
+        List<NPC> deletedNpcs = new ArrayList<>(npcs).stream().filter(npc -> npc != null && npc.getUuid().equals(uuid)).toList();
         deletedNpcs.forEach(npc -> {
             npcs.remove(npc);
+
+            if (npc == null) return;
             npc.despawn();
         });
     }

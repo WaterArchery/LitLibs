@@ -8,8 +8,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.util.concurrent.CompletableFuture;
-
 public abstract class LitPaginatedGui extends LitGui {
 
     public LitPaginatedGui(String menuId, FileConfiguration menuYaml, Plugin plugin) {
@@ -17,36 +15,31 @@ public abstract class LitPaginatedGui extends LitGui {
     }
 
     @Override
-    public CompletableFuture<BaseGui> getGui(Player player) {
-        return CompletableFuture.supplyAsync(() -> {
-            String invName = menuYaml.getString(menuId + ".name");
-            int size = menuYaml.getInt(menuId + ".size");
+    public BaseGui getGui(Player player) {
+        String invName = menuYaml.getString(menuId + ".name");
+        int size = menuYaml.getInt(menuId + ".size");
 
-            cachedGui = Gui.paginated()
-                    .title(ChatUtils.colorize(invName))
-                    .rows(size / 9)
-                    .create();
+        cachedGui = Gui.paginated()
+                .title(ChatUtils.colorize(invName))
+                .rows(size / 9)
+                .create();
 
-            if (getDefaultClickAction() != null) cachedGui.setDefaultClickAction(getDefaultClickAction());
-            if (getDefaultTopClickAction() != null) cachedGui.setDefaultTopClickAction(getDefaultTopClickAction());
-            if (getCloseGuiAction() != null) cachedGui.setCloseGuiAction(getCloseGuiAction());
+        if (getDefaultClickAction() != null) cachedGui.setDefaultClickAction(getDefaultClickAction());
+        if (getDefaultTopClickAction() != null) cachedGui.setDefaultTopClickAction(getDefaultTopClickAction());
+        if (getCloseGuiAction() != null) cachedGui.setCloseGuiAction(getCloseGuiAction());
 
-            fillGUI();
+        fillGUI();
 
-            for (LitMenuItem item : getMenuItems(player)) {
-                if (!item.getSlots().isEmpty()) {
-                    item.getSlots().forEach(slot -> {
-                        cachedGui.setItem(slot, item.getGuiItem());
-                    });
-                }
-                else cachedGui.addItem(item.getGuiItem());
+        for (LitMenuItem item : getMenuItems(player)) {
+            if (!item.getSlots().isEmpty()) {
+                item.getSlots().forEach(slot -> {
+                    cachedGui.setItem(slot, item.getGuiItem());
+                });
             }
+            else cachedGui.addItem(item.getGuiItem());
+        }
 
-            return cachedGui;
-        }).exceptionally(throwable -> {
-            throwable.printStackTrace();
-            return null;
-        });
+        return cachedGui;
     }
 
 }
