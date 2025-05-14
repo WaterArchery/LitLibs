@@ -4,30 +4,65 @@ import de.oliver.fancyholograms.api.FancyHologramsPlugin;
 import de.oliver.fancyholograms.api.HologramManager;
 import de.oliver.fancyholograms.api.data.TextHologramData;
 import de.oliver.fancyholograms.api.hologram.Hologram;
+import lombok.Getter;
+import lombok.Setter;
+import me.waterarchery.litlibs.LitLibs;
+import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.hooks.HologramHook;
 import me.waterarchery.litlibs.utils.ChatUtils;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Display;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
+@Getter
+@Setter
 public class FancyHologramsHook extends HologramHook {
 
     private static FancyHologramsHook instance = null;
     private final HologramManager manager;
+    private LitLibs litLibs;
+    private boolean textShadow;
+    private Color backgroundColor;
+    private Display.Billboard billboard;
 
     public static synchronized FancyHologramsHook getInstance() {
-        if (instance == null)
-            instance = new FancyHologramsHook();
+        if (instance == null) instance = new FancyHologramsHook(new LitLibs(LitLibsPlugin.getInstance()));
 
         return instance;
     }
 
-    private FancyHologramsHook() {
-        manager = FancyHologramsPlugin.get().getHologramManager();;
+    public FancyHologramsHook(LitLibs litLibs) {
+        instance = this;
+        this.litLibs = litLibs;
+        this.manager = FancyHologramsPlugin.get().getHologramManager();;
+
+        reload();
+    }
+
+    public void reload() {
+        FileConfiguration config = litLibs.getPlugin().getConfig();
+        textShadow = config.getBoolean("FancyHolograms.TextShadow", true);
+
+        String rawBillboard = config.getString("FancyHolograms.Billboard", "VERTICAL");
+        try {
+            billboard = Display.Billboard.valueOf(rawBillboard.toUpperCase(Locale.US));
+        }
+        catch (Exception e) {
+            litLibs.getLogger().error("Invalid billboard name on FancyHologramsHook: " + rawBillboard);
+            billboard = Display.Billboard.VERTICAL;
+        }
+
+        int alpha = config.getInt("FancyHolograms.BackgroundColor.Alpha", 0);
+        int red = config.getInt("FancyHolograms.BackgroundColor.Red", 0);
+        int green = config.getInt("FancyHolograms.BackgroundColor.Green", 0);
+        int blue = config.getInt("FancyHolograms.BackgroundColor.Blue", 0);
+        backgroundColor = Color.fromARGB(alpha, red, green, blue);
     }
 
     @Override
@@ -37,9 +72,10 @@ public class FancyHologramsHook extends HologramHook {
         oldHologram.ifPresent(Hologram::deleteHologram);
 
         TextHologramData hologramData = new TextHologramData(locString, loc);
-        hologramData.setBillboard(Display.Billboard.VERTICAL);
-        hologramData.setTextShadow(true);
-        hologramData.setBackground(Color.fromARGB(0, 0, 0, 0));
+        hologramData.setBillboard(billboard);
+        hologramData.setPersistent(false);
+        hologramData.setTextShadow(textShadow);
+        hologramData.setBackground(backgroundColor);
 
         lines = parseColors(lines);
         hologramData.setText(lines);

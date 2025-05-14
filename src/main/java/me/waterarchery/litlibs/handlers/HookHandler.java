@@ -48,7 +48,7 @@ public class HookHandler {
         }
         else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms")
                 && (!checkDefault || defaultHologram.equalsIgnoreCase("FancyHolograms"))) {
-            hologramHook = FancyHologramsHook.getInstance();
+            hologramHook = new FancyHologramsHook(litLibs);
             logger.log("Selected hologram hook: FancyHolograms");
         }
         else if (Bukkit.getPluginManager().isPluginEnabled("CMI")
