@@ -26,8 +26,8 @@ public class ArmorStandNPC extends MobNPC {
     }
 
     public void moveArm(Vector3f angle) {
-        List<EntityData> entityDataList = new ArrayList<>();
-        EntityData handData = new EntityData(isOldVersion() ? 18 : 19, EntityDataTypes.ROTATION, angle);
+        List<EntityData<?>> entityDataList = new ArrayList<>();
+        EntityData<?> handData = new EntityData<>(isOldVersion() ? 18 : 19, EntityDataTypes.ROTATION, angle);
         entityDataList.add(handData);
 
         WrapperPlayServerEntityMetadata handPacket = new WrapperPlayServerEntityMetadata(
@@ -57,8 +57,8 @@ public class ArmorStandNPC extends MobNPC {
     }
 
     public void setAttributes() {
-        List<EntityData> entityDataList = new ArrayList<>();
-        EntityData data = new EntityData(oldVersion ? 14 : 15, EntityDataTypes.BYTE, (byte) (0x01 | 0x04 | 0x08));
+        List<EntityData<?>> entityDataList = new ArrayList<>();
+        EntityData<?> data = new EntityData<>(oldVersion ? 14 : 15, EntityDataTypes.BYTE, (byte) (0x01 | 0x04 | 0x08));
         entityDataList.add(data);
 
         WrapperPlayServerEntityMetadata modifyPacket = new WrapperPlayServerEntityMetadata(

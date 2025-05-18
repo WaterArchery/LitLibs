@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PacketListeners implements PacketListener {
@@ -32,6 +33,7 @@ public class PacketListeners implements PacketListener {
             Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
 
             npcHandler.getNpcs().stream()
+                    .filter(Objects::nonNull)
                     .filter(npc -> npc.getEntityId() == entityId)
                     .forEach(npc -> npc.execute(player));
         }

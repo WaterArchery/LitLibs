@@ -14,6 +14,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Display;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class FancyHologramsHook extends HologramHook {
     public FancyHologramsHook(LitLibs litLibs) {
         instance = this;
         this.litLibs = litLibs;
-        this.manager = FancyHologramsPlugin.get().getHologramManager();;
+        this.manager = FancyHologramsPlugin.get().getHologramManager();
 
         reload();
     }
@@ -71,11 +72,16 @@ public class FancyHologramsHook extends HologramHook {
         Optional<Hologram> oldHologram = manager.getHologram(locString);
         oldHologram.ifPresent(Hologram::deleteHologram);
 
-        TextHologramData hologramData = new TextHologramData(locString, loc);
+        Location holoLoc = loc.clone();
+        holoLoc.setYaw(0);
+        holoLoc.setPitch(0);
+
+        TextHologramData hologramData = new TextHologramData(locString, holoLoc);
         hologramData.setBillboard(billboard);
         hologramData.setPersistent(false);
         hologramData.setTextShadow(textShadow);
         hologramData.setBackground(backgroundColor);
+        hologramData.setTranslation(new Vector3f(0, 0, 0));
 
         lines = parseColors(lines);
         hologramData.setText(lines);

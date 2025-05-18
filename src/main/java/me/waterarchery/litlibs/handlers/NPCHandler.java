@@ -51,6 +51,10 @@ public class NPCHandler {
 
         updateTask = Bukkit.getScheduler().runTaskTimerAsynchronously(LitLibsPlugin.getInstance(), () -> {
             for (NPC npc : new ArrayList<>(npcs)) {
+                if (npc == null) {
+                    npcs.remove(null);
+                    continue;
+                }
                 if (npc.isDespawned()) continue;
 
                 Location location = npc.getLocation();

@@ -146,8 +146,8 @@ public abstract class NPC {
     public void setGlowing(boolean glowing) {
         if (!visible) return;
 
-        List<EntityData> entityDataList = new ArrayList<>();
-        EntityData data2 = new EntityData(4, EntityDataTypes.BOOLEAN, glowing);
+        List<EntityData<?>> entityDataList = new ArrayList<>();
+        EntityData<?> data2 = new EntityData<>(4, EntityDataTypes.BOOLEAN, glowing);
         entityDataList.add(data2);
 
         WrapperPlayServerEntityMetadata modifyPacket = new WrapperPlayServerEntityMetadata(
