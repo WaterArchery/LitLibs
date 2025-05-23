@@ -6,6 +6,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.handlers.NPCHandler;
+import me.waterarchery.litlibs.impl.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -32,7 +33,8 @@ public class PacketListeners implements PacketListener {
             recentlyClicked.add(player.getUniqueId());
             Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
 
-            npcHandler.getNpcs().stream()
+            List<NPC> clone = new ArrayList<>(npcHandler.getNpcs());
+            clone.stream()
                     .filter(Objects::nonNull)
                     .filter(npc -> npc.getEntityId() == entityId)
                     .forEach(npc -> npc.execute(player));

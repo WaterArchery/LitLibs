@@ -92,7 +92,7 @@ public abstract class NPC {
 
         queuePacket(spawnPacket, player);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(LitLibsPlugin.getInstance(), this::update, 5);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(LitLibsPlugin.getInstance(), this::update, 1);
     }
 
     public void update() {
@@ -166,12 +166,10 @@ public abstract class NPC {
     }
 
     public void queuePacketSeeing(PacketWrapper<?> packet) {
-        Runnable runnable = () -> {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                UUID playerUUID = player.getUniqueId();
-                if (seeingPlayers.contains(playerUUID)) queuePacket(packet, player);
-            });
-        };
+        Runnable runnable = () -> Bukkit.getOnlinePlayers().forEach(player -> {
+            UUID playerUUID = player.getUniqueId();
+            if (seeingPlayers.contains(playerUUID)) queuePacket(packet, player);
+        });
 
         npcHandler.getExecutor().submit(runnable);
     }

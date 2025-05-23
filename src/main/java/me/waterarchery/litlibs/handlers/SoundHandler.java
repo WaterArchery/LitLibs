@@ -3,9 +3,6 @@ package me.waterarchery.litlibs.handlers;
 import com.cryptomorin.xseries.XSound;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
-import me.waterarchery.litlibs.logger.LogSeverity;
-import me.waterarchery.litlibs.logger.Logger;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -30,15 +27,14 @@ public class SoundHandler {
     }
 
     public void sendRawSound(Player p, String soundName, double volume, double pitch) {
-        XSound xSound = XSound.valueOf(soundName);
-        Sound sound = xSound.parseSound();
+        try {
+            XSound xSound = XSound.valueOf(soundName);
 
-        if (sound != null) {
-            p.playSound(p.getLocation(), sound, (float) volume, (float) pitch);
+            xSound.play(p, (float) volume, (float) pitch);
         }
-        else {
-            Logger logger = litLibs.getLogger();
-            logger.log("Error in sound : " + soundName, LogSeverity.ERROR);
+        catch (IllegalArgumentException e) {
+            litLibs.getLogger().error("Error sound playing: " + soundName);
+            e.printStackTrace();
         }
     }
 

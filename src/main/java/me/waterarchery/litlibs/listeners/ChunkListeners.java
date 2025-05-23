@@ -38,6 +38,7 @@ public class ChunkListeners implements Listener {
                 continue;
             }
 
+            if (!npc.isDespawned()) continue;
             if (world.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z) npc.setDespawned(false);
         }
 
