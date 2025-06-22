@@ -26,7 +26,11 @@ public class LitLibsPlugin extends JavaPlugin {
     private BukkitAudiences adventure;;
     private Logger litLogger;
     private BukkitLibraryManager bukkitLibraryManager;
-    private final ExecutorService guiThread = Executors.newSingleThreadExecutor();
+    private final ExecutorService guiThread = Executors.newFixedThreadPool(1, r -> {
+        Thread t = new Thread(r);
+        t.setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
+        return t;
+    });
 
     @Override
     public void onLoad() {

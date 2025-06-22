@@ -28,8 +28,15 @@ public class SoundHandler {
 
     public void sendRawSound(Player p, String soundName, double volume, double pitch) {
         try {
-            XSound xSound = XSound.valueOf(soundName);
+            XSound xSound = null;
+            for (XSound sound : XSound.values()) {
+                if (sound.name().equalsIgnoreCase(soundName)) {
+                    xSound = sound;
+                    break;
+                }
+            }
 
+            if (xSound == null) return;
             xSound.play(p, (float) volume, (float) pitch);
         }
         catch (IllegalArgumentException e) {

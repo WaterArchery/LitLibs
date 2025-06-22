@@ -29,20 +29,23 @@ public class ChunkListeners implements Listener {
         String world = chunk.getWorld().getName();
 
         NPCHandler npcHandler = NPCHandler.getInstance();
-        boolean nullCheck = false;
 
         // Copying array list to preventing the concurrent modification
-        for (NPC npc : new ArrayList<>(npcHandler.getNpcs())) {
-            if (npc == null) {
-                nullCheck = true;
-                continue;
+        chunkThreadPool.submit(() -> {
+            boolean nullCheck = false;
+
+            for (NPC npc : new ArrayList<>(npcHandler.getNpcs())) {
+                if (npc == null) {
+                    nullCheck = true;
+                    continue;
+                }
+
+                if (!npc.isDespawned()) continue;
+                if (npc.getChunkX() == x && npc.getChunkZ() == z && world.equals(npc.getWorldName())) npc.setDespawned(false);
             }
 
-            if (!npc.isDespawned()) continue;
-            if (world.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z) npc.setDespawned(false);
-        }
-
-        if (nullCheck) npcHandler.getNpcs().remove(null);
+            if (nullCheck) npcHandler.getNpcs().remove(null);
+        });
     }
 
     @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
