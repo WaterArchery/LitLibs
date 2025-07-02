@@ -28,12 +28,11 @@ public class ChunkListeners implements Listener {
         int z = chunk.getZ();
         String world = chunk.getWorld().getName();
 
-        NPCHandler npcHandler = NPCHandler.getInstance();
-
         // Copying array list to preventing the concurrent modification
         chunkThreadPool.submit(() -> {
             boolean nullCheck = false;
 
+            NPCHandler npcHandler = NPCHandler.getInstance();
             for (NPC npc : new ArrayList<>(npcHandler.getNpcs())) {
                 if (npc == null) {
                     nullCheck = true;

@@ -30,7 +30,11 @@ public class NPCHandler {
     private static NPCHandler instance;
     private final List<NPC> npcs = new ArrayList<>();
     private final ThreadFactory namedThreadFactory;
-    private final ExecutorService executor;
+    private final ExecutorService executor = Executors.newFixedThreadPool(1, r -> {
+        Thread t = new Thread(r);
+        t.setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
+        return t;
+    });
     private BukkitTask updateTask;
 
     public static NPCHandler getInstance() {
@@ -41,7 +45,6 @@ public class NPCHandler {
 
     private NPCHandler() {
         namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("litlibs-%d").build();
-        executor = Executors.newSingleThreadExecutor(namedThreadFactory);
 
         startUpdateTask();
     }
