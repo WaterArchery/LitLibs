@@ -23,6 +23,6 @@ by adding the following lines to your `pom.xml` file:
     <dependency>
         <groupId>me.waterarchery</groupId>
         <artifactId>litlibs</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.34</version>
     </dependency>
 </dependencies>
