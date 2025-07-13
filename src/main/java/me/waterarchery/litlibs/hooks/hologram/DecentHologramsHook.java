@@ -14,8 +14,7 @@ public class DecentHologramsHook extends HologramHook {
     private static DecentHologramsHook instance = null;
 
     public static synchronized DecentHologramsHook getInstance() {
-        if (instance == null)
-            instance = new DecentHologramsHook();
+        if (instance == null) instance = new DecentHologramsHook();
 
         return instance;
     }

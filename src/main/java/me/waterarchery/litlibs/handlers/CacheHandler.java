@@ -4,12 +4,10 @@ import com.cryptomorin.xseries.profiles.builder.XSkull;
 import com.cryptomorin.xseries.profiles.objects.Profileable;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -34,9 +32,7 @@ public class CacheHandler {
 
         if (item == null) {
             try {
-                item = XSkull.createItem()
-                        .profile(Profileable.detect(key))
-                        .apply();
+                item = XSkull.createItem().profile(Profileable.detect(key)).apply();
                 cachedPlayerHeads.put(key, item);
             }
             catch (Exception e) {

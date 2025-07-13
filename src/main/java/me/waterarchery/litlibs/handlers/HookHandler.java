@@ -41,23 +41,20 @@ public class HookHandler {
         Plugin provider = litLibs.getPlugin();
         String defaultHologram = provider.getConfig().getString("HologramHook", "DecentHolograms");
 
-        if (Bukkit.getPluginManager().isPluginEnabled("DecentHolograms")
-                && (!checkDefault || defaultHologram.equalsIgnoreCase("DecentHolograms"))) {
+        if (Bukkit.getPluginManager().isPluginEnabled("DecentHolograms") && (!checkDefault || defaultHologram.equalsIgnoreCase("DecentHolograms"))) {
             hologramHook = DecentHologramsHook.getInstance();
             logger.log("Selected hologram hook: DecentHolograms");
         }
-        else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms")
-                && (!checkDefault || defaultHologram.equalsIgnoreCase("FancyHolograms"))) {
+        else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms") && (!checkDefault || defaultHologram.equalsIgnoreCase("FancyHolograms"))) {
             hologramHook = new FancyHologramsHook(litLibs);
             logger.log("Selected hologram hook: FancyHolograms");
         }
-        else if (Bukkit.getPluginManager().isPluginEnabled("CMI")
-                && (!checkDefault || defaultHologram.equalsIgnoreCase("CMI"))) {
+        else if (Bukkit.getPluginManager().isPluginEnabled("CMI") && (!checkDefault || defaultHologram.equalsIgnoreCase("CMI"))) {
             hologramHook = CMIHook.getInstance();
             logger.log("Selected hologram hook: CMI");
         }
-        else if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
-                && (!checkDefault || defaultHologram.equalsIgnoreCase("HolographicDisplays"))) {
+        else if (Bukkit.getPluginManager()
+            .isPluginEnabled("HolographicDisplays") && (!checkDefault || defaultHologram.equalsIgnoreCase("HolographicDisplays"))) {
             hologramHook = HolographicDisplaysHook.getInstance();
             logger.log("Selected hologram hook: HolographicDisplays");
         }
@@ -78,14 +75,12 @@ public class HookHandler {
             }
         }
         else if (defaultPrice.equalsIgnoreCase("economyshopgui") || defaultPrice.equalsIgnoreCase("EconomyShopGUI")) {
-            if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI")
-                    || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
+            if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI") || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
                 priceHook = EconomyShopGUI.getInstance();
                 logger.log("Found price hook: EconomyShopGUI");
             }
         }
-        else if (defaultPrice.equalsIgnoreCase("shopguiplus") || defaultPrice.equalsIgnoreCase("shopgui")
-                || defaultPrice.equalsIgnoreCase("shopgui+")) {
+        else if (defaultPrice.equalsIgnoreCase("shopguiplus") || defaultPrice.equalsIgnoreCase("shopgui") || defaultPrice.equalsIgnoreCase("shopgui+")) {
             if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus")) {
                 priceHook = ShopGUIPriceHook.getInstance();
                 logger.log("Found price hook: ShopGUIPlus");

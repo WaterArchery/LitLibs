@@ -41,7 +41,7 @@ public class ConfigManager {
     }
 
     private void initializer(LitLibs litLibs, String folder, String name, boolean saveAfterLoad, boolean useHeaders) {
-        Plugin provider = litLibs.getPlugin();;
+        Plugin provider = litLibs.getPlugin();
         File f = new File(provider.getDataFolder().getPath() + "/" + folder);
         if (!f.exists()) {
             if (!f.mkdirs()) {
@@ -62,7 +62,8 @@ public class ConfigManager {
             else {
                 try {
                     file.createNewFile();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     litLibs.getLogger().log("Can't create file: " + file.getPath(), LogSeverity.ERROR);
                 }
             }
@@ -91,11 +92,9 @@ public class ConfigManager {
         Object value = configPart.getValue();
         List<String> comments = configPart.getComments();
 
-        if (value != null)
-            yml.addDefault(path, value);
+        if (value != null) yml.addDefault(path, value);
 
-        if (VersionHandler.getInstance().isServerNewerThan(Version.v1_18) && comments != null && !comments.isEmpty())
-            yml.setComments(path, comments);
+        if (VersionHandler.getInstance().isServerNewerThan(Version.v1_18) && comments != null && !comments.isEmpty()) yml.setComments(path, comments);
     }
 
     public void addOptional(ConfigPart configPart) {
@@ -109,21 +108,14 @@ public class ConfigManager {
         PluginDescriptionFile desc = plugin.getDescription();
 
         if (pluginInfo) {
-            getYml().options().header(
-                    desc.getName() + " by " + desc.getAuthors().get(0) + "\n" +
-                            "Wiki: https://waterarchery.gitbook.io/" + plugin.getName().toLowerCase() + "-wiki/\n" +
-                            "Spigot: https://www.spigotmc.org/members/waterarchery.963492/\n" +
-                            "Builtbybit: https://builtbybit.com/members/waterarchery.164059/\n" +
-                            "\nFile Name: " + name + "\n" +
-                            "Plugin Version: " + desc.getVersion() + "\n"
-            );
+            getYml().options()
+                .header(desc.getName() + " by " + desc.getAuthors().get(0) + "\n" + "Wiki: https://waterarchery.gitbook.io/" + plugin.getName()
+                    .toLowerCase() + "-wiki/\n" + "Spigot: https://www.spigotmc.org/members/waterarchery.963492/\n" + "Builtbybit: https://builtbybit.com/members/waterarchery.164059/\n" + "\nFile Name: " + name + "\n" + "Plugin Version: " + desc.getVersion() + "\n");
         }
         else {
-            getYml().options().header(
-                    desc.getName() + " by " + desc.getAuthors().get(0) + "\n" +
-                            "\nFile Name: " + name + "\n" +
-                            "Plugin Version: " + desc.getVersion() + "\n"
-            );
+            getYml().options()
+                .header(desc.getName() + " by " + desc.getAuthors()
+                    .get(0) + "\n" + "\nFile Name: " + name + "\n" + "Plugin Version: " + desc.getVersion() + "\n");
         }
     }
 
@@ -138,18 +130,16 @@ public class ConfigManager {
     }
 
     public void save(boolean async) {
-        if (async)
-            CompletableFuture.runAsync(saveRunnable()).thenAccept((a) -> {
-                reload();
-            });
-        else
-            try {
-                if (VersionHandler.getInstance().isServerNewerThan(Version.v1_18))
-                    yml.options().parseComments(true);
-                yml.save(file);
-            } catch (IOException e) {
-                litLibs.getLogger().log("Error while saving file: " + file.getPath(), LogSeverity.ERROR);
-            }
+        if (async) CompletableFuture.runAsync(saveRunnable()).thenAccept((a) -> {
+            reload();
+        });
+        else try {
+            if (VersionHandler.getInstance().isServerNewerThan(Version.v1_18)) yml.options().parseComments(true);
+            yml.save(file);
+        }
+        catch (IOException e) {
+            litLibs.getLogger().log("Error while saving file: " + file.getPath(), LogSeverity.ERROR);
+        }
     }
 
     public void reload() {
@@ -161,7 +151,8 @@ public class ConfigManager {
             try {
                 yml.options().parseComments(true);
                 yml.save(file);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 litLibs.getLogger().log("Error while saving file: " + file.getPath(), LogSeverity.ERROR);
             }
         };

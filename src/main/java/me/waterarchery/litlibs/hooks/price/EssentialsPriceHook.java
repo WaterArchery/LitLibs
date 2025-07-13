@@ -13,15 +13,14 @@ public class EssentialsPriceHook implements PriceHook {
     private static EssentialsPriceHook instance = null;
 
     public static synchronized EssentialsPriceHook getInstance() {
-        if (instance == null)
-            instance = new EssentialsPriceHook();
+        if (instance == null) instance = new EssentialsPriceHook();
 
         return instance;
     }
 
     private EssentialsPriceHook() { }
 
-    public double getPrice(ItemStack item){
+    public double getPrice(ItemStack item) {
         Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         BigDecimal price = essentials.getWorth().getPrice(essentials, item);
         if (price == null) {

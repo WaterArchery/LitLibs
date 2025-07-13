@@ -49,8 +49,7 @@ public class LitLibs {
     public NBTAPIHook getNBTAPIHook() { return nbtapiHook; }
 
     public HookHandler getHookHandler() {
-        if (hookHandler == null)
-            hookHandler = new HookHandler(this);
+        if (hookHandler == null) hookHandler = new HookHandler(this);
         return hookHandler;
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JoinLeaveListeners implements Listener {
 
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerLeave(PlayerQuitEvent event) {
         NPCHandler npcHandler = NPCHandler.getInstance();
         Player player = event.getPlayer();

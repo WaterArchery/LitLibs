@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 public class LitLibsPlugin extends JavaPlugin {
 
     private VersionHandler versionHandler;
-    private BukkitAudiences adventure;;
+    private BukkitAudiences adventure;
     private Logger litLogger;
     private BukkitLibraryManager bukkitLibraryManager;
     private final ExecutorService guiThread = Executors.newFixedThreadPool(1, r -> {
@@ -67,14 +67,14 @@ public class LitLibsPlugin extends JavaPlugin {
         PacketEvents.getAPI().getEventManager().unregisterAllListeners();
         PacketEvents.getAPI().terminate();
 
-        if(this.adventure != null) {
+        if (this.adventure != null) {
             this.adventure.close();
             this.adventure = null;
         }
     }
 
     public BukkitAudiences adventure() {
-        if(this.adventure == null) {
+        if (this.adventure == null) {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
         return this.adventure;

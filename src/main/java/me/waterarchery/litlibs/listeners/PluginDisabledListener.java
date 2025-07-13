@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class PluginDisabledListener implements Listener {
 
@@ -22,8 +21,7 @@ public class PluginDisabledListener implements Listener {
         ProviderHandler handler = LitLibsPlugin.getInstance().getProviderHandler();
         Plugin provider = event.getPlugin();
 
-        if (handler.isRegistered(provider))
-            handler.unregister(provider);
+        if (handler.isRegistered(provider)) handler.unregister(provider);
     }
 
 }

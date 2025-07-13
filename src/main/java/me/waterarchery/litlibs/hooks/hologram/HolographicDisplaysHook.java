@@ -44,8 +44,7 @@ public class HolographicDisplaysHook extends HologramHook {
         Bukkit.getScheduler().runTask(LitLibsPlugin.getInstance(), () -> {
             for (Hologram hologram : getHoloApi().getHolograms()) {
                 Location holoLoc = hologram.getPosition().toLocation();
-                if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())
-                        && holoLoc.distance(loc) < 1.0) {
+                if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName()) && holoLoc.distance(loc) < 1.0) {
                     hologram.getLines().clear();
                     for (String lineText : lines) {
                         hologram.getLines().appendText(lineText);
@@ -60,8 +59,7 @@ public class HolographicDisplaysHook extends HologramHook {
         Bukkit.getScheduler().runTask(LitLibsPlugin.getInstance(), () -> {
             for (Hologram hologram : getHoloApi().getHolograms()) {
                 Location holoLoc = hologram.getPosition().toLocation();
-                if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())
-                        && holoLoc.distance(loc) < 1.0) {
+                if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName()) && holoLoc.distance(loc) < 1.0) {
                     hologram.getLines().remove(lineNumber);
                     hologram.getLines().insertText(lineNumber, line);
                 }
@@ -74,8 +72,7 @@ public class HolographicDisplaysHook extends HologramHook {
         Bukkit.getScheduler().runTask(LitLibsPlugin.getInstance(), () -> {
             for (Hologram hologram : new ArrayList<>(getHoloApi().getHolograms())) {
                 Location holoLoc = hologram.getPosition().toLocation();
-                if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())
-                        && holoLoc.distance(loc) < 1.0) {
+                if (holoLoc.getWorld().getName().equalsIgnoreCase(loc.getWorld().getName()) && holoLoc.distance(loc) < 1.0) {
                     hologram.delete();
                     break;
                 }

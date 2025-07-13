@@ -11,8 +11,7 @@ public class ShopGUIPriceHook implements PriceHook {
     private static ShopGUIPriceHook instance = null;
 
     public static synchronized ShopGUIPriceHook getInstance() {
-        if (instance == null)
-            instance = new ShopGUIPriceHook();
+        if (instance == null) instance = new ShopGUIPriceHook();
 
         return instance;
     }

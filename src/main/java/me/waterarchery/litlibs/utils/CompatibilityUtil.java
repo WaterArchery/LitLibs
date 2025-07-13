@@ -16,6 +16,7 @@ public class CompatibilityUtil {
      * In versions 1.21 and later, it is an interface.
      * This method uses reflection to get the top Inventory object from the
      * InventoryView associated with an InventoryEvent, to avoid runtime errors.
+     *
      * @param event The generic InventoryEvent with an InventoryView to inspect.
      * @return The top Inventory object from the event's InventoryView.
      */
@@ -25,7 +26,8 @@ public class CompatibilityUtil {
             Method getTitle = view.getClass().getMethod("getTitle");
             getTitle.setAccessible(true);
             return (String) getTitle.invoke(view);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        }
+        catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -35,8 +37,9 @@ public class CompatibilityUtil {
             Object view = player.getOpenInventory();
             Method getTopInventory = view.getClass().getMethod("getTopInventory");
             getTopInventory.setAccessible(true);
-            return  (Inventory) getTopInventory.invoke(view);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            return (Inventory) getTopInventory.invoke(view);
+        }
+        catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -47,7 +50,8 @@ public class CompatibilityUtil {
             Method getTitle = view.getClass().getMethod("getTitle");
             getTitle.setAccessible(true);
             return (String) getTitle.invoke(view);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        }
+        catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -58,7 +62,8 @@ public class CompatibilityUtil {
             Method getType = openInventory.getClass().getMethod("getType");
             getType.setAccessible(true);
             return (InventoryType) getType.invoke(openInventory);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        }
+        catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

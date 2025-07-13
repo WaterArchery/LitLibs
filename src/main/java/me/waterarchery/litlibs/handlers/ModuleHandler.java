@@ -77,9 +77,7 @@ public class ModuleHandler {
         List<ModuleBase> modules = pluginModuleMap.get(provider.getName());
         if (modules == null) return null;
 
-        ModuleBase result = modules.stream()
-                .filter(moduleBase -> moduleClass.isAssignableFrom(moduleBase.getClass()))
-                .findFirst().orElse(null);
+        ModuleBase result = modules.stream().filter(moduleBase -> moduleClass.isAssignableFrom(moduleBase.getClass())).findFirst().orElse(null);
 
         return moduleClass.cast(result);
     }

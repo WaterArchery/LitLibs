@@ -36,7 +36,7 @@ public abstract class HologramHook {
             }
 
             for (String colorCode : colorCodes) {
-                line = line.replace(colorCode , "");
+                line = line.replace(colorCode, "");
             }
 
             line = line.replace("§", "");

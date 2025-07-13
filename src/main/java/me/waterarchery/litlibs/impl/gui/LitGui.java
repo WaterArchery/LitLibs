@@ -12,8 +12,8 @@ import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.handlers.CacheHandler;
 import me.waterarchery.litlibs.handlers.InventoryHandler;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
-import me.waterarchery.litlibs.inventory.ActionType;
 import me.waterarchery.litlibs.impl.gui.items.LitMenuItem;
+import me.waterarchery.litlibs.inventory.ActionType;
 import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
@@ -129,10 +129,8 @@ public abstract class LitGui extends LitGuiBase {
         }
 
         ItemStack itemStack = inventoryHandler.parseItemStack(rawMaterial, player);
-        if (!command.equalsIgnoreCase(""))
-            itemStack = inventoryHandler.setGUIAction(itemStack, command, ActionType.COMMAND, menuId);
-        else
-            itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, menuId);
+        if (!command.equalsIgnoreCase("")) itemStack = inventoryHandler.setGUIAction(itemStack, command, ActionType.COMMAND, menuId);
+        else itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, menuId);
 
         ItemMeta meta = itemStack.getItemMeta();
         if (meta != null) {
@@ -151,14 +149,10 @@ public abstract class LitGui extends LitGuiBase {
             slots.add(parsedSlot);
         });
 
-        if (type.equalsIgnoreCase("previous_page"))
-            return new LitMenuItem(guiItem, slots, ActionType.PREVIOUS_PAGE);
-        else if (type.equalsIgnoreCase("next_page"))
-            return new LitMenuItem(guiItem, slots, ActionType.NEXT_PAGE);
-        else if (!command.equalsIgnoreCase(""))
-            return new LitMenuItem(guiItem, slots, ActionType.COMMAND);
-        else
-            return new LitMenuItem(guiItem, slots, ActionType.PLUGIN);
+        if (type.equalsIgnoreCase("previous_page")) return new LitMenuItem(guiItem, slots, ActionType.PREVIOUS_PAGE);
+        else if (type.equalsIgnoreCase("next_page")) return new LitMenuItem(guiItem, slots, ActionType.NEXT_PAGE);
+        else if (!command.equalsIgnoreCase("")) return new LitMenuItem(guiItem, slots, ActionType.COMMAND);
+        else return new LitMenuItem(guiItem, slots, ActionType.PLUGIN);
     }
 
     public String parseColorAndPlaceholders(OfflinePlayer player, String text) {
@@ -180,8 +174,8 @@ public abstract class LitGui extends LitGuiBase {
     public void fillGUI() {
         if (isFillEnabled()) {
             String rawMaterial = menuYaml.getString(menuId + ".fillMenu.fillItem", "BLACK_STAINED_GLASS_PANE");
-            String itemName = menuYaml.getString(menuId + ".fillMenu.name", "<gray>");;
-            int modelData = menuYaml.getInt(menuId + ".fillMenu.customModelData", -1);;
+            String itemName = menuYaml.getString(menuId + ".fillMenu.name", "<gray>");
+            int modelData = menuYaml.getInt(menuId + ".fillMenu.customModelData", -1);
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
             ItemStack itemStack = material.parseItem();
@@ -198,7 +192,7 @@ public abstract class LitGui extends LitGuiBase {
             cachedGui.getFiller().fill(new GuiItem(itemStack));
         }
     }
-    
+
     public boolean isFillEnabled() {
         return menuYaml.getBoolean(menuId + ".fillMenu.enabled", false);
     }

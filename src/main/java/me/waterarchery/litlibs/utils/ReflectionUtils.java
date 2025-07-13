@@ -16,14 +16,13 @@ public class ReflectionUtils {
         ModuleHandler moduleHandler = ModuleHandler.getInstance();
 
         try {
-            Class<?>[] argTypes = Arrays.stream(args)
-                    .map(Object::getClass)
-                    .toArray(Class<?>[]::new);
+            Class<?>[] argTypes = Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
 
             ModuleBase module = moduleBaseClass.getDeclaredConstructor(argTypes).newInstance(args);
             logger.log(String.format("Module loaded: %s", module.getName()));
             moduleHandler.getPluginModuleMap().get(provider.getName()).add(module);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ex) {
+        }
+        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
     }

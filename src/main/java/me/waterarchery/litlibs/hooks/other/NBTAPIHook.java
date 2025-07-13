@@ -15,20 +15,18 @@ public class NBTAPIHook {
 
     public NBTAPIHook(LitLibs litLibs) { this.litLibs = litLibs; }
 
-    public ItemStack setGUIAction(String action, ItemStack item, String guiName, ActionType actionType){
+    public ItemStack setGUIAction(String action, ItemStack item, String guiName, ActionType actionType) {
         NBTItem nbti = new NBTItem(item);
         Plugin provider = litLibs.getPlugin();
 
         nbti.setBoolean(provider.getName(), true);
         nbti.setString("GUIName", guiName);
-        if (actionType == ActionType.PLUGIN)
-            nbti.setString("GUIAction", action);
-        else
-            nbti.setString("GUICommand", action);
+        if (actionType == ActionType.PLUGIN) nbti.setString("GUIAction", action);
+        else nbti.setString("GUICommand", action);
         return nbti.getItem();
     }
 
-    public @Nullable Action getGUIAction(ItemStack item){
+    public @Nullable Action getGUIAction(ItemStack item) {
         if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return null;
 
         NBTItem nbti = new NBTItem(item);
@@ -60,13 +58,11 @@ public class NBTAPIHook {
     }
 
     public @Nullable String getNBT(ItemStack itemStack, String key) {
-        if (itemStack == null || itemStack.getAmount() < 1 || itemStack.getType() == Material.AIR)
-            return null;
+        if (itemStack == null || itemStack.getAmount() < 1 || itemStack.getType() == Material.AIR) return null;
 
         NBTItem nbti = new NBTItem(itemStack);
 
-        if (nbti.hasTag(key))
-            return nbti.getString(key);
+        if (nbti.hasTag(key)) return nbti.getString(key);
 
         return null;
     }

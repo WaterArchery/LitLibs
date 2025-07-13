@@ -12,8 +12,7 @@ public class CMIHook extends HologramHook {
     private static CMIHook instance = null;
 
     public static synchronized CMIHook getInstance() {
-        if (instance == null)
-            instance = new CMIHook();
+        if (instance == null) instance = new CMIHook();
 
         return instance;
     }
@@ -23,7 +22,7 @@ public class CMIHook extends HologramHook {
     @Override
     public void createHologram(Location loc, List<String> lines) {
         String locString = locationToString(loc);
-        CMIHologram oldHologram =  CMI.getInstance().getHologramManager().getByName(locString);
+        CMIHologram oldHologram = CMI.getInstance().getHologramManager().getByName(locString);
         if (oldHologram != null) oldHologram.remove();
 
         lines = parseColors(lines);
@@ -38,7 +37,7 @@ public class CMIHook extends HologramHook {
     @Override
     public void updateHologram(Location loc, List<String> lines) {
         String locString = locationToString(loc);
-        CMIHologram hologram =  CMI.getInstance().getHologramManager().getByName(locString);
+        CMIHologram hologram = CMI.getInstance().getHologramManager().getByName(locString);
 
         if (hologram != null) {
             lines = parseColors(lines);
@@ -51,7 +50,7 @@ public class CMIHook extends HologramHook {
     @Override
     public void updateHologram(Location loc, int lineNumber, String line) {
         String locString = locationToString(loc);
-        CMIHologram hologram =  CMI.getInstance().getHologramManager().getByName(locString);
+        CMIHologram hologram = CMI.getInstance().getHologramManager().getByName(locString);
 
         if (hologram != null) {
             hologram.setLine(lineNumber, line);
@@ -62,7 +61,7 @@ public class CMIHook extends HologramHook {
     @Override
     public void deleteHologram(Location loc) {
         String locString = locationToString(loc);
-        CMIHologram hologram =  CMI.getInstance().getHologramManager().getByName(locString);
+        CMIHologram hologram = CMI.getInstance().getHologramManager().getByName(locString);
 
         if (hologram != null) {
             hologram.remove();

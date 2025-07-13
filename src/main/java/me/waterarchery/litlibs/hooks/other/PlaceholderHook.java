@@ -10,10 +10,8 @@ public class PlaceholderHook {
     private static boolean isEnabled;
 
     public static String parsePlaceholders(OfflinePlayer player, String string) {
-        if (player != null && string != null && string.contains("%") && isEnabled)
-            return PlaceholderAPI.setPlaceholders(player, string);
-        else
-            return string;
+        if (player != null && string != null && string.contains("%") && isEnabled) return PlaceholderAPI.setPlaceholders(player, string);
+        else return string;
     }
 
     public static String parseLocalPlaceholders(String string, HashMap<String, String> placeholders) {

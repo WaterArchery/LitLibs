@@ -1,6 +1,7 @@
 # LitLibs
 
-LitLibs is a Java based plugin and library for Minecraft servers. It provides a set of libraries and hooks to enhance the functionality of your plugin and make plugin development easier.
+LitLibs is a Java based plugin and library for Minecraft servers. It provides a set of libraries and hooks to enhance the functionality of your plugin and make
+plugin development easier.
 
 ## Features
 
@@ -14,7 +15,8 @@ LitLibs is a Java based plugin and library for Minecraft servers. It provides a 
 
 ## Getting Started
 
-To use LitLibs in your project, you need to include it as a dependency. You can compile it and use it as depencency. Since it's a Maven project, you can do this by adding the following lines to your `pom.xml` file:
+To use LitLibs in your project, you need to include it as a dependency. You can compile it and use it as depencency. Since it's a Maven project, you can do this
+by adding the following lines to your `pom.xml` file:
 
 ```xml
 <dependencies>

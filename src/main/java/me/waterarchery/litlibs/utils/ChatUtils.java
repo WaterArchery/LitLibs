@@ -15,19 +15,17 @@ import org.bukkit.entity.Player;
 public class ChatUtils {
 
     public static final MiniMessage MINI_MESSAGE = MiniMessage.builder()
-            .tags(TagResolver.builder()
-                    .resolver(StandardTags.defaults())
-                    .build())
-            .strict(false)
-            .emitVirtuals(false)
-            .postProcessor(component -> component.decoration(TextDecoration.ITALIC, false))
-            .build();
+        .tags(TagResolver.builder().resolver(StandardTags.defaults()).build())
+        .strict(false)
+        .emitVirtuals(false)
+        .postProcessor(component -> component.decoration(TextDecoration.ITALIC, false))
+        .build();
 
     public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
-            .character('§')
-            .hexColors()
-            .useUnusualXRepeatedCharacterHexFormat()
-            .build();
+        .character('§')
+        .hexColors()
+        .useUnusualXRepeatedCharacterHexFormat()
+        .build();
 
     public static void sendPlayerMessage(Player player, TextComponent component) {
         LitLibsPlugin litLibsPlugin = LitLibsPlugin.getInstance();
@@ -70,9 +68,7 @@ public class ChatUtils {
         if (message == null) return Component.text("null text");
 
         //message = message.replace("&", "§");
-        return (TextComponent) MINI_MESSAGE.deserialize(
-                LEGACY_COMPONENT_SERIALIZER.serialize(Component.text(message))
-        );
+        return (TextComponent) MINI_MESSAGE.deserialize(LEGACY_COMPONENT_SERIALIZER.serialize(Component.text(message)));
     }
 
     public static String colorizeLegacy(String message) {
@@ -85,8 +81,7 @@ public class ChatUtils {
         }
         catch (Exception ignored) {
             ignored.printStackTrace();
-            return LEGACY_COMPONENT_SERIALIZER.serialize(
-                    LEGACY_COMPONENT_SERIALIZER.deserialize(message));
+            return LEGACY_COMPONENT_SERIALIZER.serialize(LEGACY_COMPONENT_SERIALIZER.deserialize(message));
         }
     }
 

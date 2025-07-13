@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ArmorStandNPC extends MobNPC {
 
     private boolean isSmall;
@@ -22,7 +23,7 @@ public class ArmorStandNPC extends MobNPC {
     private boolean hasNoBasePlate;
 
     public ArmorStandNPC(String name, String worldName, double x, double y, double z, Consumer<Player> onClickAction) {
-        super(name, worldName, x ,y, z, EntityTypes.ARMOR_STAND, onClickAction);
+        super(name, worldName, x, y, z, EntityTypes.ARMOR_STAND, onClickAction);
     }
 
     public void moveArm(Vector3f angle) {
@@ -30,10 +31,7 @@ public class ArmorStandNPC extends MobNPC {
         EntityData<?> handData = new EntityData<>(isOldVersion() ? 18 : 19, EntityDataTypes.ROTATION, angle);
         entityDataList.add(handData);
 
-        WrapperPlayServerEntityMetadata handPacket = new WrapperPlayServerEntityMetadata(
-                entityId,
-                entityDataList
-        );
+        WrapperPlayServerEntityMetadata handPacket = new WrapperPlayServerEntityMetadata(entityId, entityDataList);
 
         queuePacketSeeing(handPacket);
     }
@@ -61,10 +59,7 @@ public class ArmorStandNPC extends MobNPC {
         EntityData<?> data = new EntityData<>(oldVersion ? 14 : 15, EntityDataTypes.BYTE, (byte) (0x01 | 0x04 | 0x08));
         entityDataList.add(data);
 
-        WrapperPlayServerEntityMetadata modifyPacket = new WrapperPlayServerEntityMetadata(
-                entityId,
-                entityDataList
-        );
+        WrapperPlayServerEntityMetadata modifyPacket = new WrapperPlayServerEntityMetadata(entityId, entityDataList);
 
         queuePacketSeeing(modifyPacket);
     }

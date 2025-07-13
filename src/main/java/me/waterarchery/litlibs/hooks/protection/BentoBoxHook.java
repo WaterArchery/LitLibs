@@ -68,8 +68,7 @@ public class BentoBoxHook implements ProtectionHook, Listener {
     @Override
     public boolean canPlayerBuild(Location loc, Player player) {
         Optional<Island> island = BentoBox.getInstance().getIslands().getIslandAt(loc);
-        return island.filter(value -> value.getMemberSet().contains(player.getUniqueId())
-                || value.getOwner().equals(player.getUniqueId())).isPresent();
+        return island.filter(value -> value.getMemberSet().contains(player.getUniqueId()) || value.getOwner().equals(player.getUniqueId())).isPresent();
     }
 
     @Override

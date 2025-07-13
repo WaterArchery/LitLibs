@@ -1,7 +1,9 @@
 package me.waterarchery.litlibs.logger;
 
+import lombok.Setter;
 import org.bukkit.Bukkit;
 
+@Setter
 public class Logger {
 
     private final String name;
@@ -13,14 +15,10 @@ public class Logger {
     }
 
     public void log(String mes, LogSeverity severity) {
-        if (severity == LogSeverity.NORMAL)
-            log(mes);
-        else if (severity == LogSeverity.WARN)
-            warn(mes);
-        else if (severity == LogSeverity.ERROR)
-            error(mes);
-        else if (severity == LogSeverity.DEBUG)
-            debug(mes);
+        if (severity == LogSeverity.NORMAL) log(mes);
+        else if (severity == LogSeverity.WARN) warn(mes);
+        else if (severity == LogSeverity.ERROR) error(mes);
+        else if (severity == LogSeverity.DEBUG) debug(mes);
     }
 
     public void log(String mes) {
@@ -43,10 +41,6 @@ public class Logger {
     public void warn(String mes) {
         mes = mes.replace("&", "§");
         Bukkit.getConsoleSender().sendMessage("§7[§b" + name + "§7] §e[WARN] §f" + mes);
-    }
-
-    public void setDebugMessages(boolean debugMessages) {
-        this.debugMessages = debugMessages;
     }
 
     public static void logMessage(String mes) {

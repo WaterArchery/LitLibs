@@ -21,7 +21,7 @@ public class ChunkListeners implements Listener {
 
     private final ExecutorService chunkThreadPool = Executors.newFixedThreadPool(5);
 
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onNpcLoad(ChunkLoadEvent event) {
         Chunk chunk = event.getChunk();
         int x = chunk.getX();
@@ -47,7 +47,7 @@ public class ChunkListeners implements Listener {
         });
     }
 
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onChunkUnload(ChunkUnloadEvent event) {
         Chunk chunk = event.getChunk();
         int x = chunk.getX();

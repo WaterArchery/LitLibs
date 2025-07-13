@@ -29,16 +29,18 @@ public class SQLite {
             Statement s = connection.createStatement();
             s.executeUpdate(token);
             s.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             litLibs.getLogger().error(e.getMessage());
         }
     }
 
-    private void initialize(){
+    private void initialize() {
         connection = getSQLConnection();
         try (PreparedStatement vac = connection.prepareStatement("vacuum")) {
             vac.execute();
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex) {
             litLibs.getLogger().error("Unable to retreive connection");
         }
     }
@@ -47,23 +49,26 @@ public class SQLite {
         Plugin provider = litLibs.getPlugin();
         String fileName = "database";
         File dataFolder = new File(provider.getDataFolder(), fileName + ".db");
-        if (!dataFolder.exists()){
+        if (!dataFolder.exists()) {
             try {
                 dataFolder.createNewFile();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 litLibs.getLogger().error("File write error: " + fileName + ".db");
             }
         }
         try {
-            if(connection != null && !connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 return connection;
             }
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
             return connection;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex) {
             litLibs.getLogger().error("SQLite exception on initialize");
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex) {
             litLibs.getLogger().error("You need the SQLite JBDC library. Google it. Put it in /lib folder.");
         }
         return null;

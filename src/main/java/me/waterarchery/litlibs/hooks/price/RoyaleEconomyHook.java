@@ -11,8 +11,7 @@ public class RoyaleEconomyHook implements PriceHook {
     private static RoyaleEconomyHook instance = null;
 
     public static synchronized RoyaleEconomyHook getInstance() {
-        if (instance == null)
-            instance = new RoyaleEconomyHook();
+        if (instance == null) instance = new RoyaleEconomyHook();
 
         return instance;
     }

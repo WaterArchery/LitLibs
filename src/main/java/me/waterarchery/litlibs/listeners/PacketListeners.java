@@ -17,27 +17,24 @@ import java.util.UUID;
 
 public class PacketListeners implements PacketListener {
 
-        private final List<UUID> recentlyClicked = new ArrayList<>();
+    private final List<UUID> recentlyClicked = new ArrayList<>();
 
-        @Override
-        public void onPacketReceive(PacketReceiveEvent event) {
-            if (event.getPacketType() != PacketType.Play.Client.INTERACT_ENTITY) return;
+    @Override
+    public void onPacketReceive(PacketReceiveEvent event) {
+        if (event.getPacketType() != PacketType.Play.Client.INTERACT_ENTITY) return;
 
-            NPCHandler npcHandler = NPCHandler.getInstance();
-            WrapperPlayClientInteractEntity eventWrapper = new WrapperPlayClientInteractEntity(event);
-            Player player = event.getPlayer();
-            int entityId = eventWrapper.getEntityId();
+        NPCHandler npcHandler = NPCHandler.getInstance();
+        WrapperPlayClientInteractEntity eventWrapper = new WrapperPlayClientInteractEntity(event);
+        Player player = event.getPlayer();
+        int entityId = eventWrapper.getEntityId();
 
-            if (player == null) return;
-            if (recentlyClicked.contains(player.getUniqueId())) return;
-            recentlyClicked.add(player.getUniqueId());
-            Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
+        if (player == null) return;
+        if (recentlyClicked.contains(player.getUniqueId())) return;
+        recentlyClicked.add(player.getUniqueId());
+        Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
 
-            List<NPC> clone = new ArrayList<>(npcHandler.getNpcs());
-            clone.stream()
-                    .filter(Objects::nonNull)
-                    .filter(npc -> npc.getEntityId() == entityId)
-                    .forEach(npc -> npc.execute(player));
-        }
+        List<NPC> clone = new ArrayList<>(npcHandler.getNpcs());
+        clone.stream().filter(Objects::nonNull).filter(npc -> npc.getEntityId() == entityId).forEach(npc -> npc.execute(player));
+    }
 
 }

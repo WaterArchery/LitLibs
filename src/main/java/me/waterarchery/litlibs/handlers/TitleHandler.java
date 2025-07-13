@@ -28,44 +28,34 @@ public class TitleHandler {
         String subTitle = ChatUtils.colorizeLegacy(rawSubTitle);
         VersionHandler versionHandler = VersionHandler.getInstance();
 
-        if (versionHandler.isServerNewerThan(Version.v1_9))
-            player.sendTitle(title, subTitle, fadeIn, duration, fadeOut);
-        else
-            sendLegacyTitle(player, title, subTitle, fadeIn, duration, fadeOut);
+        if (versionHandler.isServerNewerThan(Version.v1_9)) player.sendTitle(title, subTitle, fadeIn, duration, fadeOut);
+        else sendLegacyTitle(player, title, subTitle, fadeIn, duration, fadeOut);
     }
 
-    private void sendLegacyTitle(Player player, String title, String subtitle, int fadeInTime, int showTime, int fadeOutTime)
-    {
-        try
-        {
-            Object chatTitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0]
-                    .getMethod("a", String.class).invoke(null, "{\"text\": \"" + title + "\n" + subtitle + "\"}");
+    private void sendLegacyTitle(Player player, String title, String subtitle, int fadeInTime, int showTime, int fadeOutTime) {
+        try {
+            Object chatTitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class)
+                .invoke(null, "{\"text\": \"" + title + "\n" + subtitle + "\"}");
 
-            Constructor<?> titleConstructor = getNMSClass("PacketPlayOutTitle")
-                    .getConstructor(getNMSClass("PacketPlayOutTitle")
-                            .getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"), int.class, int.class, int.class);
-            Object packet = titleConstructor.newInstance(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0]
-                    .getField("TITLE").get(null), chatTitle, fadeInTime, showTime, fadeOutTime);
+            Constructor<?> titleConstructor = getNMSClass("PacketPlayOutTitle").getConstructor(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"), int.class, int.class, int.class);
+            Object packet = titleConstructor.newInstance(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TITLE")
+                .get(null), chatTitle, fadeInTime, showTime, fadeOutTime);
 
             sendPacket(player, packet);
         }
 
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             litLibs.getLogger().error(ex.getMessage());
         }
     }
 
-    private void sendPacket(Player player, Object packet)
-    {
-        try
-        {
+    private void sendPacket(Player player, Object packet) {
+        try {
             Object handle = player.getClass().getMethod("getHandle").invoke(player);
             Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
             playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
         }
-        catch(Exception ex)
-        {
+        catch (Exception ex) {
             litLibs.getLogger().error(ex.getMessage());
         }
     }
@@ -73,17 +63,15 @@ public class TitleHandler {
 
     /**
      * Get NMS class using reflection
+     *
      * @param name Name of the class
      * @return Class
      */
-    private Class<?> getNMSClass(String name)
-    {
-        try
-        {
+    private Class<?> getNMSClass(String name) {
+        try {
             return Class.forName("net.minecraft.server" + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3] + "." + name);
         }
-        catch(ClassNotFoundException ex)
-        {
+        catch (ClassNotFoundException ex) {
             litLibs.getLogger().error(ex.getMessage());
         }
         return null;

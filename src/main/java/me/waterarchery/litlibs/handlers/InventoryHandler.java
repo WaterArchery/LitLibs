@@ -27,9 +27,9 @@ public class InventoryHandler {
 
         boolean isFillEnabled = yaml.getBoolean(path + ".fillMenu.enabled", false);
         if (isFillEnabled) {
-            String rawMaterial = yaml.getString(path + ".fillMenu.fillItem", "STONE");;
-            String itemName = yaml.getString(path + ".fillMenu.name", "§7");;
-            int modelData = yaml.getInt(path + ".fillMenu.customModelData", -1);;
+            String rawMaterial = yaml.getString(path + ".fillMenu.fillItem", "STONE");
+            String itemName = yaml.getString(path + ".fillMenu.name", "§7");
+            int modelData = yaml.getInt(path + ".fillMenu.customModelData", -1);
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
             ItemStack itemStack = material.parseItem();
@@ -37,14 +37,12 @@ public class InventoryHandler {
 
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(itemName.replace("&", "§"));
-            if (modelData != -1)
-                meta.setCustomModelData(modelData);
+            if (modelData != -1) meta.setCustomModelData(modelData);
             itemStack.setItemMeta(meta);
 
             for (int slot = 0; slot < inventory.getSize(); slot++) {
                 ItemStack item = inventory.getItem(slot);
-                if (item == null || item.getType() == Material.AIR)
-                    inventory.setItem(slot, itemStack);
+                if (item == null || item.getType() == Material.AIR) inventory.setItem(slot, itemStack);
             }
         }
     }

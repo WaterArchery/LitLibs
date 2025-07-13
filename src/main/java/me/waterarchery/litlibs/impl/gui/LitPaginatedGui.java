@@ -19,10 +19,7 @@ public abstract class LitPaginatedGui extends LitGui {
         String invName = menuYaml.getString(menuId + ".name");
         int size = menuYaml.getInt(menuId + ".size");
 
-        cachedGui = Gui.paginated()
-                .title(ChatUtils.colorize(invName))
-                .rows(size / 9)
-                .create();
+        cachedGui = Gui.paginated().title(ChatUtils.colorize(invName)).rows(size / 9).create();
 
         if (getDefaultClickAction() != null) cachedGui.setDefaultClickAction(getDefaultClickAction());
         if (getDefaultTopClickAction() != null) cachedGui.setDefaultTopClickAction(getDefaultTopClickAction());

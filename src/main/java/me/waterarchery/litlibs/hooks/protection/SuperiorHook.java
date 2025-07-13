@@ -32,8 +32,7 @@ public class SuperiorHook implements ProtectionHook, Listener {
     @Override
     public @Nullable UUID getIslandUUID(Location loc) {
         Island island = SuperiorSkyblockAPI.getIslandAt(loc);
-        if (island != null)
-            return island.getUniqueId();
+        if (island != null) return island.getUniqueId();
         return null;
     }
 
@@ -50,8 +49,7 @@ public class SuperiorHook implements ProtectionHook, Listener {
     @Override
     public @Nullable UUID getOwner(Location loc) {
         Island island = SuperiorSkyblockAPI.getIslandAt(loc);
-        if (island != null)
-            return island.getOwner().getUniqueId();
+        if (island != null) return island.getOwner().getUniqueId();
         return null;
     }
 
@@ -73,10 +71,8 @@ public class SuperiorHook implements ProtectionHook, Listener {
         Island island = SuperiorSkyblockAPI.getIslandAt(loc);
         if (island != null) {
             SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
-            return (island.getIslandMembers(true).contains(superiorPlayer)
-                    || island.getIslandMembers().contains(superiorPlayer)
-                    || island.getOwner().equals(superiorPlayer)
-                    || island.getCoopPlayers().contains(superiorPlayer));
+            return (island.getIslandMembers(true).contains(superiorPlayer) || island.getIslandMembers().contains(superiorPlayer) || island.getOwner()
+                .equals(superiorPlayer) || island.getCoopPlayers().contains(superiorPlayer));
         }
         return false;
     }

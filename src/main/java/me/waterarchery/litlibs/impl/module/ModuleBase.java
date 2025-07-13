@@ -19,10 +19,15 @@ public abstract class ModuleBase {
     }
 
     public abstract void onEnable();
+
     public abstract void onDisable();
+
     public abstract String getName();
+
     public abstract String getIdentifier();
+
     public abstract String getDescription();
+
     public abstract ModuleConfig getConfig();
 
 }

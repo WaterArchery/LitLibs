@@ -16,7 +16,10 @@ import me.waterarchery.litlibs.handlers.NPCHandler;
 import me.waterarchery.litlibs.utils.ChunkUtils;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
@@ -80,15 +83,7 @@ public abstract class NPC {
         Location location = getLocation();
         com.github.retrooper.packetevents.protocol.world.Location spawnLocation = SpigotConversionUtil.fromBukkitLocation(location);
 
-        WrapperPlayServerSpawnEntity spawnPacket = new WrapperPlayServerSpawnEntity(
-                entityId,
-                uuid,
-                entityType,
-                spawnLocation,
-                location.getYaw(),
-                0,
-                null
-        );
+        WrapperPlayServerSpawnEntity spawnPacket = new WrapperPlayServerSpawnEntity(entityId, uuid, entityType, spawnLocation, location.getYaw(), 0, null);
 
         queuePacket(spawnPacket, player);
 
@@ -106,21 +101,13 @@ public abstract class NPC {
         this.equipments = equipments;
         if (equipments == null || equipments.isEmpty()) return;
 
-        WrapperPlayServerEntityEquipment equipmentPacket = new WrapperPlayServerEntityEquipment(
-                entityId,
-                equipments
-        );
+        WrapperPlayServerEntityEquipment equipmentPacket = new WrapperPlayServerEntityEquipment(entityId, equipments);
 
         queuePacketSeeing(equipmentPacket);
     }
 
     public void updateRotation() {
-        WrapperPlayServerEntityRotation packet = new WrapperPlayServerEntityRotation(
-                entityId,
-                yaw,
-                pitch,
-                false
-        );
+        WrapperPlayServerEntityRotation packet = new WrapperPlayServerEntityRotation(entityId, yaw, pitch, false);
 
         queuePacketSeeing(packet);
     }
@@ -135,9 +122,7 @@ public abstract class NPC {
     public void despawn(Player player, boolean sync) {
         seeingPlayers.remove(player.getUniqueId());
 
-        WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(
-                entityId
-        );
+        WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(entityId);
 
         if (sync) sendPacketSync(packet, player);
         else queuePacket(packet, player);
@@ -150,11 +135,7 @@ public abstract class NPC {
         EntityData<?> data2 = new EntityData<>(4, EntityDataTypes.BOOLEAN, glowing);
         entityDataList.add(data2);
 
-        WrapperPlayServerEntityMetadata modifyPacket = new WrapperPlayServerEntityMetadata(
-                entityId,
-                entityDataList
-        );
-
+        WrapperPlayServerEntityMetadata modifyPacket = new WrapperPlayServerEntityMetadata(entityId, entityDataList);
         queuePacketSeeing(modifyPacket);
     }
 
@@ -187,8 +168,7 @@ public abstract class NPC {
     }
 
     private void sendPacket(PacketWrapper<?> packet, Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(LitLibsPlugin.getInstance(),
-                () -> sendPacketSync(packet, player));
+        Bukkit.getScheduler().runTaskAsynchronously(LitLibsPlugin.getInstance(), () -> sendPacketSync(packet, player));
     }
 
     private void sendPacketSync(PacketWrapper<?> packet, Player player) {

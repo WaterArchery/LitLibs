@@ -11,8 +11,7 @@ public class AxGensPriceHook implements PriceHook {
     private static AxGensPriceHook instance = null;
 
     public static synchronized AxGensPriceHook getInstance() {
-        if (instance == null)
-            instance = new AxGensPriceHook();
+        if (instance == null) instance = new AxGensPriceHook();
 
         return instance;
     }

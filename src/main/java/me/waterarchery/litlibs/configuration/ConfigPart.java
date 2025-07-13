@@ -1,8 +1,11 @@
 package me.waterarchery.litlibs.configuration;
 
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class ConfigPart {
 
     public static ConfigPart of(String path, Object value, List<String> comments) {
@@ -14,25 +17,13 @@ public class ConfigPart {
     }
 
     private final String path;
-    private Object value;
-    private List<String> comments;
+    private final Object value;
+    private final List<String> comments;
 
     public ConfigPart(String path, Object value, List<String> comments) {
         this.path = path;
         this.value = value;
         this.comments = comments;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public List<String> getComments() {
-        return comments;
     }
 
 }

@@ -18,7 +18,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Deprecated
@@ -43,7 +46,7 @@ public class InventoryImpl {
         VersionHandler versionHandler = VersionHandler.getInstance();
         InventoryHandler inventoryHandler = litLibs.getInventoryHandler();
 
-        for (String itemPath : yaml.getConfigurationSection( path + ".items").getKeys(false)) {
+        for (String itemPath : yaml.getConfigurationSection(path + ".items").getKeys(false)) {
             int slot = yaml.getInt(path + ".items." + itemPath + ".slot");
             int modelData = yaml.getInt(path + ".items." + itemPath + ".customModelData", -9999);
             String action = file.getString(path + ".items." + itemPath + ".action", "NONE");
@@ -68,8 +71,7 @@ public class InventoryImpl {
             ItemStack itemStack = parseItemStack(rawMaterial);
             if (actionType.equalsIgnoreCase("command") || actionType.equalsIgnoreCase("cmd"))
                 itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.COMMAND, file.getName());
-            else if (actionType.equalsIgnoreCase(""))
-                itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.NONE, file.getName());
+            else if (actionType.equalsIgnoreCase("")) itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.NONE, file.getName());
             else {
                 if (action != null && !action.equalsIgnoreCase("none")) {
                     itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.PLUGIN, file.getName());
@@ -82,8 +84,7 @@ public class InventoryImpl {
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(itemName);
             meta.setLore(lore);
-            if (modelData != -9999 && versionHandler.isServerNewerThan(Version.v1_14))
-                meta.setCustomModelData(modelData);
+            if (modelData != -9999 && versionHandler.isServerNewerThan(Version.v1_14)) meta.setCustomModelData(modelData);
             itemStack.setItemMeta(meta);
 
             inventory.setItem(slot, itemStack);
@@ -93,9 +94,7 @@ public class InventoryImpl {
     public ItemStack parseItemStack(String rawMaterial) {
         if (rawMaterial.contains("HEAD-")) {
             rawMaterial = rawMaterial.replace("HEAD-", "");
-            return XSkull.createItem()
-                    .profile(Profileable.detect(rawMaterial))
-                    .apply();
+            return XSkull.createItem().profile(Profileable.detect(rawMaterial)).apply();
         }
         else {
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);

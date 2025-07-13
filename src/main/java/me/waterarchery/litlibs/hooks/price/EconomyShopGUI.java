@@ -16,8 +16,7 @@ public class EconomyShopGUI implements PriceHook {
     private static EconomyShopGUI instance = null;
 
     public static synchronized EconomyShopGUI getInstance() {
-        if (instance == null)
-            instance = new EconomyShopGUI();
+        if (instance == null) instance = new EconomyShopGUI();
 
         return instance;
     }
