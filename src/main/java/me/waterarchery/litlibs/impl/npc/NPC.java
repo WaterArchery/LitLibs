@@ -176,8 +176,8 @@ public abstract class NPC {
             PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
         }
         catch (Exception ex) {
-            Bukkit.getConsoleSender().sendMessage("§b[LitLibs] §cFailed to send packet: " + packet.toString()
-                    + " on player: " + player.getName() + " with uuid: " + player.getUniqueId());
+            Bukkit.getConsoleSender()
+                    .sendMessage("§b[LitLibs] §cFailed to send packet: " + packet.toString() + " on player: " + player.getName() + " with uuid: " + player.getUniqueId());
         }
     }
 

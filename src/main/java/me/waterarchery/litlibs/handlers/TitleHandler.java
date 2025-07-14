@@ -35,11 +35,11 @@ public class TitleHandler {
     private void sendLegacyTitle(Player player, String title, String subtitle, int fadeInTime, int showTime, int fadeOutTime) {
         try {
             Object chatTitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class)
-                .invoke(null, "{\"text\": \"" + title + "\n" + subtitle + "\"}");
+                    .invoke(null, "{\"text\": \"" + title + "\n" + subtitle + "\"}");
 
             Constructor<?> titleConstructor = getNMSClass("PacketPlayOutTitle").getConstructor(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"), int.class, int.class, int.class);
             Object packet = titleConstructor.newInstance(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TITLE")
-                .get(null), chatTitle, fadeInTime, showTime, fadeOutTime);
+                    .get(null), chatTitle, fadeInTime, showTime, fadeOutTime);
 
             sendPacket(player, packet);
         }

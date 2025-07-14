@@ -53,8 +53,7 @@ public class HookHandler {
             hologramHook = CMIHook.getInstance();
             logger.log("Selected hologram hook: CMI");
         }
-        else if (Bukkit.getPluginManager()
-            .isPluginEnabled("HolographicDisplays") && (!checkDefault || defaultHologram.equalsIgnoreCase("HolographicDisplays"))) {
+        else if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays") && (!checkDefault || defaultHologram.equalsIgnoreCase("HolographicDisplays"))) {
             hologramHook = HolographicDisplaysHook.getInstance();
             logger.log("Selected hologram hook: HolographicDisplays");
         }

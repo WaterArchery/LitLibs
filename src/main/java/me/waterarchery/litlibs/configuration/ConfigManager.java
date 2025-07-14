@@ -109,13 +109,13 @@ public class ConfigManager {
 
         if (pluginInfo) {
             getYml().options()
-                .header(desc.getName() + " by " + desc.getAuthors().get(0) + "\n" + "Wiki: https://waterarchery.gitbook.io/" + plugin.getName()
-                    .toLowerCase() + "-wiki/\n" + "Spigot: https://www.spigotmc.org/members/waterarchery.963492/\n" + "Builtbybit: https://builtbybit.com/members/waterarchery.164059/\n" + "\nFile Name: " + name + "\n" + "Plugin Version: " + desc.getVersion() + "\n");
+                    .header(desc.getName() + " by " + desc.getAuthors().get(0) + "\n" + "Wiki: https://waterarchery.gitbook.io/" + plugin.getName()
+                            .toLowerCase() + "-wiki/\n" + "Spigot: https://www.spigotmc.org/members/waterarchery.963492/\n" + "Builtbybit: https://builtbybit.com/members/waterarchery.164059/\n" + "\nFile Name: " + name + "\n" + "Plugin Version: " + desc.getVersion() + "\n");
         }
         else {
             getYml().options()
-                .header(desc.getName() + " by " + desc.getAuthors()
-                    .get(0) + "\n" + "\nFile Name: " + name + "\n" + "Plugin Version: " + desc.getVersion() + "\n");
+                    .header(desc.getName() + " by " + desc.getAuthors()
+                            .get(0) + "\n" + "\nFile Name: " + name + "\n" + "Plugin Version: " + desc.getVersion() + "\n");
         }
     }
 

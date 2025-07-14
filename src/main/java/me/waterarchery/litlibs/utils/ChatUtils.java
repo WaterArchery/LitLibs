@@ -15,17 +15,17 @@ import org.bukkit.entity.Player;
 public class ChatUtils {
 
     public static final MiniMessage MINI_MESSAGE = MiniMessage.builder()
-        .tags(TagResolver.builder().resolver(StandardTags.defaults()).build())
-        .strict(false)
-        .emitVirtuals(false)
-        .postProcessor(component -> component.decoration(TextDecoration.ITALIC, false))
-        .build();
+            .tags(TagResolver.builder().resolver(StandardTags.defaults()).build())
+            .strict(false)
+            .emitVirtuals(false)
+            .postProcessor(component -> component.decoration(TextDecoration.ITALIC, false))
+            .build();
 
     public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
-        .character('§')
-        .hexColors()
-        .useUnusualXRepeatedCharacterHexFormat()
-        .build();
+            .character('§')
+            .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .build();
 
     public static void sendPlayerMessage(Player player, TextComponent component) {
         LitLibsPlugin litLibsPlugin = LitLibsPlugin.getInstance();

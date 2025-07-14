@@ -72,7 +72,7 @@ public class SuperiorHook implements ProtectionHook, Listener {
         if (island != null) {
             SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
             return (island.getIslandMembers(true).contains(superiorPlayer) || island.getIslandMembers().contains(superiorPlayer) || island.getOwner()
-                .equals(superiorPlayer) || island.getCoopPlayers().contains(superiorPlayer));
+                    .equals(superiorPlayer) || island.getCoopPlayers().contains(superiorPlayer));
         }
         return false;
     }

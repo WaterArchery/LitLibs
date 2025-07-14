@@ -75,11 +75,7 @@ public abstract class LitGui extends LitGuiBase {
         invName = parseColorAndPlaceholders(player, invName);
         int size = menuYaml.getInt(menuId + ".size");
 
-        cachedGui = Gui.gui()
-                .title(Component.text(invName))
-                .rows(size / 9)
-                .disableAllInteractions()
-                .create();
+        cachedGui = Gui.gui().title(Component.text(invName)).rows(size / 9).disableAllInteractions().create();
     }
 
     public void handleInteractions() {
