@@ -28,7 +28,7 @@ public class TitleHandler {
         String subTitle = ChatUtils.colorizeLegacy(rawSubTitle);
         VersionHandler versionHandler = VersionHandler.getInstance();
 
-        if (versionHandler.isServerNewerThan(Version.v1_9)) player.sendTitle(title, subTitle, fadeIn, duration, fadeOut);
+        if (versionHandler.isServerNewerThan(Version.v1_10)) player.sendTitle(title, subTitle, fadeIn, duration, fadeOut);
         else sendLegacyTitle(player, title, subTitle, fadeIn, duration, fadeOut);
     }
 

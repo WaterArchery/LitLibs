@@ -6,7 +6,7 @@
 
     <groupId>me.waterarchery</groupId>
     <artifactId>LitLibs</artifactId>
-    <version>1.1.37</version>
+    <version>1.1.38</version>
     <packaging>jar</packaging>
 
     <name>LitLibs</name>
@@ -34,12 +34,12 @@
                 <version>3.6.0</version>
                 <executions>
                     <execution>
+                        <id>default-shade</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputFile>${server.directory}/${project.artifactId}-${project.version}.jar</outputFile>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>false</minimizeJar>
                             <relocations>
@@ -88,18 +88,76 @@
                                     <shadedPattern>me.waterarchery.litlibs.libs.folialib</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludeDefaults>false</excludeDefaults>
-                                    <excludes>
-                                        <exclude>com/cryptomorin/xseries/XBiome*</exclude>
-                                        <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
-                                        <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>server-shade</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${server.directory}/LitLibs-${project.version}.jar</outputFile>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>false</minimizeJar>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.cryptomorin.xseries</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.xseries</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.nbtapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.bstats</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>dev.triumphteam.cmd</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.cmd</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>dev.triumphteam.gui</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.gui</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.fierioziy.particlenativeapi</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.particleapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.adventure</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.adventure</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.retrooper</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.packetevents.litlibs</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper</pattern>
+                                    <shadedPattern>io.github.waterarchery.litlibs</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.byteflux.libby</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.net.byteflux.libby</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.tcoded.folialib</pattern>
+                                    <shadedPattern>me.waterarchery.litlibs.libs.folialib</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>package</phase>
                     </execution>
                 </executions>
             </plugin>
