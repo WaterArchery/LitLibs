@@ -3,7 +3,7 @@ package me.waterarchery.litlibs.configuration;
 
 import lombok.Getter;
 
-import java.util.List;
+import java.util.*;
 
 @Getter
 public class ConfigPart {

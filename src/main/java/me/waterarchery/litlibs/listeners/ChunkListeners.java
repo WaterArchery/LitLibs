@@ -1,5 +1,6 @@
 package me.waterarchery.litlibs.listeners;
 
+import com.tcoded.folialib.FoliaLib;
 import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.handlers.NPCHandler;
 import me.waterarchery.litlibs.impl.npc.NPC;
@@ -12,10 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class ChunkListeners implements Listener {
 
@@ -54,7 +53,9 @@ public class ChunkListeners implements Listener {
         int z = chunk.getZ();
         String worldName = chunk.getWorld().getName();
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(LitLibsPlugin.getInstance(), () -> {
+        LitLibsPlugin plugin = LitLibsPlugin.getInstance();
+        FoliaLib foliaLib = plugin.getFoliaLib();
+        foliaLib.getScheduler().runLaterAsync(() -> {
             World world = Bukkit.getWorld(worldName);
             if (world != null && world.isChunkLoaded(x, z)) return;
 

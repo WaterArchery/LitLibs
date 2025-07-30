@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.waterarchery.litlibs.inventory.ActionType;
 
-import java.util.List;
+import java.util.*;
 
 @Setter
 @Getter

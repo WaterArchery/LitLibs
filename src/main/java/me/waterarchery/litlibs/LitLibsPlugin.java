@@ -2,6 +2,7 @@ package me.waterarchery.litlibs;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
+import com.tcoded.folialib.FoliaLib;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.waterarchery.litlibs.listeners.ChunkListeners;
@@ -11,21 +12,19 @@ import me.waterarchery.litlibs.listeners.PluginDisabledListener;
 import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.version.VersionHandler;
-import net.byteflux.libby.BukkitLibraryManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @Getter
 public class LitLibsPlugin extends JavaPlugin {
 
+    private FoliaLib foliaLib;
     private VersionHandler versionHandler;
     private BukkitAudiences adventure;
     private Logger litLogger;
-    private BukkitLibraryManager bukkitLibraryManager;
     private final ExecutorService guiThread = Executors.newFixedThreadPool(1, r -> {
         Thread t = new Thread(r);
         t.setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
@@ -34,11 +33,6 @@ public class LitLibsPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        bukkitLibraryManager = new BukkitLibraryManager(this);
-        bukkitLibraryManager.addMavenCentral();
-        bukkitLibraryManager.addJitPack();
-        bukkitLibraryManager.addSonatype();
-
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
         PacketEvents.getAPI().load();
     }
@@ -48,6 +42,7 @@ public class LitLibsPlugin extends JavaPlugin {
         PacketEvents.getAPI().getEventManager().registerListener(new PacketListeners(), PacketListenerPriority.NORMAL);
         PacketEvents.getAPI().init();
 
+        foliaLib = new FoliaLib(this);
         adventure = BukkitAudiences.create(this);
         new Metrics(LitLibsPlugin.getInstance(), 21481);
 

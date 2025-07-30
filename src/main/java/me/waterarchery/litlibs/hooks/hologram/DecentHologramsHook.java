@@ -7,7 +7,7 @@ import me.waterarchery.litlibs.hooks.HologramHook;
 import me.waterarchery.litlibs.utils.ChatUtils;
 import org.bukkit.Location;
 
-import java.util.List;
+import java.util.*;
 
 public class DecentHologramsHook extends HologramHook {
 

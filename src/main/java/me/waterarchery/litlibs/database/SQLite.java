@@ -3,10 +3,9 @@ package me.waterarchery.litlibs.database;
 import me.waterarchery.litlibs.LitLibs;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class SQLite {
 

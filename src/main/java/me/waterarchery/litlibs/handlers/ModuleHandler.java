@@ -7,10 +7,8 @@ import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.utils.ReflectionUtils;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 @Getter
 public class ModuleHandler {

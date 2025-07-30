@@ -1,5 +1,6 @@
 package me.waterarchery.litlibs;
 
+import com.tcoded.folialib.FoliaLib;
 import lombok.Getter;
 import me.waterarchery.litlibs.handlers.*;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
@@ -22,6 +23,7 @@ public class LitLibs {
     private final TitleHandler titleHandler;
     private final InventoryHandler inventoryHandler;
     private final NBTAPIHook nbtapiHook;
+    private final FoliaLib foliaLib;
     private HookHandler hookHandler;
 
     public LitLibs(Plugin plugin) {
@@ -32,6 +34,7 @@ public class LitLibs {
         titleHandler = new TitleHandler(this);
         inventoryHandler = new InventoryHandler(this);
         nbtapiHook = new NBTAPIHook(this);
+        foliaLib = new FoliaLib(plugin);
     }
 
     public void reload() {

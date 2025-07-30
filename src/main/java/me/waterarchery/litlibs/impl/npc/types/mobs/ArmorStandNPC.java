@@ -10,9 +10,8 @@ import lombok.Setter;
 import me.waterarchery.litlibs.impl.npc.types.MobNPC;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.function.*;
 
 @Getter
 @Setter

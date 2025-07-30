@@ -6,7 +6,7 @@ import lombok.Setter;
 import me.waterarchery.litlibs.impl.npc.NPC;
 import org.bukkit.entity.Player;
 
-import java.util.function.Consumer;
+import java.util.function.*;
 
 @Getter
 @Setter

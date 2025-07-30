@@ -3,6 +3,7 @@ version: '${project.version}'
 main: me.waterarchery.litlibs.LitLibsPlugin
 api-version: '1.13'
 author: WaterArchery
+folia-supported: true
 softdepend:
   - BentoBox
   - SuperiorSkyblock2

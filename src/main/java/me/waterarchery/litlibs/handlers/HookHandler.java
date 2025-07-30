@@ -8,7 +8,6 @@ import me.waterarchery.litlibs.hooks.ProtectionHook;
 import me.waterarchery.litlibs.hooks.hologram.CMIHook;
 import me.waterarchery.litlibs.hooks.hologram.DecentHologramsHook;
 import me.waterarchery.litlibs.hooks.hologram.FancyHologramsHook;
-import me.waterarchery.litlibs.hooks.hologram.HolographicDisplaysHook;
 import me.waterarchery.litlibs.hooks.other.PlaceholderHook;
 import me.waterarchery.litlibs.hooks.price.*;
 import me.waterarchery.litlibs.hooks.protection.BentoBoxHook;
@@ -52,10 +51,6 @@ public class HookHandler {
         else if (Bukkit.getPluginManager().isPluginEnabled("CMI") && (!checkDefault || defaultHologram.equalsIgnoreCase("CMI"))) {
             hologramHook = CMIHook.getInstance();
             logger.log("Selected hologram hook: CMI");
-        }
-        else if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays") && (!checkDefault || defaultHologram.equalsIgnoreCase("HolographicDisplays"))) {
-            hologramHook = HolographicDisplaysHook.getInstance();
-            logger.log("Selected hologram hook: HolographicDisplays");
         }
         else {
             if (checkDefault) chooseHologramHook(false);

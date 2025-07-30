@@ -4,16 +4,13 @@ import com.github.retrooper.packetevents.event.PacketListener;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
+import com.tcoded.folialib.FoliaLib;
 import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.handlers.NPCHandler;
 import me.waterarchery.litlibs.impl.npc.NPC;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class PacketListeners implements PacketListener {
 
@@ -31,7 +28,10 @@ public class PacketListeners implements PacketListener {
         if (player == null) return;
         if (recentlyClicked.contains(player.getUniqueId())) return;
         recentlyClicked.add(player.getUniqueId());
-        Bukkit.getScheduler().runTaskLater(LitLibsPlugin.getInstance(), () -> recentlyClicked.remove(player.getUniqueId()), 5);
+
+        LitLibsPlugin plugin = LitLibsPlugin.getInstance();
+        FoliaLib foliaLib = plugin.getFoliaLib();
+        foliaLib.getScheduler().runLater(() -> recentlyClicked.remove(player.getUniqueId()), 5);
 
         List<NPC> clone = new ArrayList<>(npcHandler.getNpcs());
         clone.stream().filter(Objects::nonNull).filter(npc -> npc.getEntityId() == entityId).forEach(npc -> npc.execute(player));

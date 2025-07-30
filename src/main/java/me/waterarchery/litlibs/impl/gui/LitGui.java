@@ -1,6 +1,7 @@
 package me.waterarchery.litlibs.impl.gui;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.tcoded.folialib.FoliaLib;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.components.GuiAction;
 import dev.triumphteam.gui.guis.BaseGui;
@@ -18,7 +19,6 @@ import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litlibs.version.Version;
 import me.waterarchery.litlibs.version.VersionHandler;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -57,7 +57,8 @@ public abstract class LitGui extends LitGuiBase {
 
         litLibsPlugin.getGuiThread().submit(() -> {
             BaseGui baseGui = getGui(player);
-            Bukkit.getScheduler().runTask(litLibsPlugin, () -> baseGui.open(player));
+            FoliaLib foliaLib = litLibs.getFoliaLib();
+            foliaLib.getScheduler().runNextTick((task) -> baseGui.open(player));
         });
     }
 

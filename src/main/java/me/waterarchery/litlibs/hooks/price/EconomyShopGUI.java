@@ -8,7 +8,7 @@ import me.waterarchery.litlibs.hooks.PriceHook;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
+import java.util.*;
 
 public class EconomyShopGUI implements PriceHook {
 

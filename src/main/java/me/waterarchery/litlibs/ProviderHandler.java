@@ -7,7 +7,7 @@ import me.waterarchery.litlibs.logger.LogSeverity;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashMap;
+import java.util.*;
 
 @Getter
 public class ProviderHandler {

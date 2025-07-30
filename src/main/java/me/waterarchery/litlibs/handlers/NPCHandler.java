@@ -1,6 +1,8 @@
 package me.waterarchery.litlibs.handlers;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.tcoded.folialib.FoliaLib;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import lombok.Getter;
 import lombok.Setter;
 import me.waterarchery.litlibs.LitLibsPlugin;
@@ -11,17 +13,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.*;
+import java.util.concurrent.*;
 
 @Getter
 @Setter
@@ -35,7 +31,7 @@ public class NPCHandler {
         t.setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
         return t;
     });
-    private BukkitTask updateTask;
+    private WrappedTask updateTask;
 
     public static NPCHandler getInstance() {
         if (instance == null) instance = new NPCHandler();
@@ -52,7 +48,9 @@ public class NPCHandler {
     public void startUpdateTask() {
         if (updateTask != null) updateTask.cancel();
 
-        updateTask = Bukkit.getScheduler().runTaskTimerAsynchronously(LitLibsPlugin.getInstance(), () -> {
+        LitLibsPlugin plugin = LitLibsPlugin.getInstance();
+        FoliaLib foliaLib = plugin.getFoliaLib();
+        updateTask = foliaLib.getScheduler().runTimerAsync(() -> {
             for (NPC npc : new ArrayList<>(npcs)) {
                 if (npc == null) {
                     npcs.remove(null);

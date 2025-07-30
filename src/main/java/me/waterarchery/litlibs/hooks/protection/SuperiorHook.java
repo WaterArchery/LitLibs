@@ -11,8 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 public class SuperiorHook implements ProtectionHook, Listener {
 

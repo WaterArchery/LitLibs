@@ -5,7 +5,7 @@ import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import me.waterarchery.litlibs.hooks.HologramHook;
 import org.bukkit.Location;
 
-import java.util.List;
+import java.util.*;
 
 public class CMIHook extends HologramHook {
 

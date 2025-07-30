@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.protocol.player.Equipment;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
+import com.tcoded.folialib.FoliaLib;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
 import lombok.Getter;
@@ -23,10 +24,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.function.*;
 
 @Getter
 @Setter
@@ -87,7 +86,9 @@ public abstract class NPC {
 
         queuePacket(spawnPacket, player);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(LitLibsPlugin.getInstance(), this::update, 1);
+        LitLibsPlugin plugin = LitLibsPlugin.getInstance();
+        FoliaLib foliaLib = plugin.getFoliaLib();
+        foliaLib.getScheduler().runLater(this::update, 1);
     }
 
     public void update() {
@@ -168,7 +169,9 @@ public abstract class NPC {
     }
 
     private void sendPacket(PacketWrapper<?> packet, Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(LitLibsPlugin.getInstance(), () -> sendPacketSync(packet, player));
+        LitLibsPlugin plugin = LitLibsPlugin.getInstance();
+        FoliaLib foliaLib = plugin.getFoliaLib();
+        foliaLib.getScheduler().runAsync((task) -> sendPacketSync(packet, player));
     }
 
     private void sendPacketSync(PacketWrapper<?> packet, Player player) {
