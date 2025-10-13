@@ -43,16 +43,13 @@ public class HookHandler {
         if (Bukkit.getPluginManager().isPluginEnabled("DecentHolograms") && (!checkDefault || defaultHologram.equalsIgnoreCase("DecentHolograms"))) {
             hologramHook = DecentHologramsHook.getInstance();
             logger.log("Selected hologram hook: DecentHolograms");
-        }
-        else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms") && (!checkDefault || defaultHologram.equalsIgnoreCase("FancyHolograms"))) {
+        } else if (Bukkit.getPluginManager().isPluginEnabled("FancyHolograms") && (!checkDefault || defaultHologram.equalsIgnoreCase("FancyHolograms"))) {
             hologramHook = new FancyHologramsHook(litLibs);
             logger.log("Selected hologram hook: FancyHolograms");
-        }
-        else if (Bukkit.getPluginManager().isPluginEnabled("CMI") && (!checkDefault || defaultHologram.equalsIgnoreCase("CMI"))) {
+        } else if (Bukkit.getPluginManager().isPluginEnabled("CMI") && (!checkDefault || defaultHologram.equalsIgnoreCase("CMI"))) {
             hologramHook = CMIHook.getInstance();
             logger.log("Selected hologram hook: CMI");
-        }
-        else {
+        } else {
             if (checkDefault) chooseHologramHook(false);
             else logger.warn("No hologram hook has been found! The plugins that require holograms may not work!");
         }
@@ -67,26 +64,22 @@ public class HookHandler {
                 priceHook = EssentialsPriceHook.getInstance();
                 logger.log("Found price hook: Essentials");
             }
-        }
-        else if (defaultPrice.equalsIgnoreCase("economyshopgui") || defaultPrice.equalsIgnoreCase("EconomyShopGUI")) {
+        } else if (defaultPrice.equalsIgnoreCase("economyshopgui") || defaultPrice.equalsIgnoreCase("EconomyShopGUI")) {
             if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI") || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
                 priceHook = EconomyShopGUI.getInstance();
                 logger.log("Found price hook: EconomyShopGUI");
             }
-        }
-        else if (defaultPrice.equalsIgnoreCase("shopguiplus") || defaultPrice.equalsIgnoreCase("shopgui") || defaultPrice.equalsIgnoreCase("shopgui+")) {
+        } else if (defaultPrice.equalsIgnoreCase("shopguiplus") || defaultPrice.equalsIgnoreCase("shopgui") || defaultPrice.equalsIgnoreCase("shopgui+")) {
             if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus")) {
                 priceHook = ShopGUIPriceHook.getInstance();
                 logger.log("Found price hook: ShopGUIPlus");
             }
-        }
-        else if (defaultPrice.equalsIgnoreCase("axgens") || defaultPrice.equalsIgnoreCase("axgen")) {
+        } else if (defaultPrice.equalsIgnoreCase("axgens") || defaultPrice.equalsIgnoreCase("axgen")) {
             if (Bukkit.getPluginManager().isPluginEnabled("AxGens")) {
                 priceHook = AxGensPriceHook.getInstance();
                 logger.log("Found price hook: AxGens");
             }
-        }
-        else if (defaultPrice.equalsIgnoreCase("RoyaleEconomy")) {
+        } else if (defaultPrice.equalsIgnoreCase("RoyaleEconomy")) {
             if (Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy")) {
                 priceHook = RoyaleEconomyHook.getInstance();
                 logger.log("Found price hook: RoyaleEconomy");
@@ -98,20 +91,16 @@ public class HookHandler {
             if (Bukkit.getPluginManager().isPluginEnabled("EssentialsX") || Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
                 priceHook = EssentialsPriceHook.getInstance();
                 logger.log("Found price hook: Essentials");
-            }
-            else if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI") || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
+            } else if (Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI") || Bukkit.getPluginManager().isPluginEnabled("EconomyShopGUI-Premium")) {
                 priceHook = EconomyShopGUI.getInstance();
                 logger.log("Found price hook: EconomyShopGUI");
-            }
-            else if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus")) {
+            } else if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus")) {
                 priceHook = ShopGUIPriceHook.getInstance();
                 logger.log("Found price hook: ShopGUIPlus");
-            }
-            else if (Bukkit.getPluginManager().isPluginEnabled("AxGens")) {
+            } else if (Bukkit.getPluginManager().isPluginEnabled("AxGens")) {
                 priceHook = AxGensPriceHook.getInstance();
                 logger.log("Found price hook: AxGens");
-            }
-            else if (Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy")) {
+            } else if (Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy")) {
                 priceHook = RoyaleEconomyHook.getInstance();
                 logger.log("Found price hook: RoyaleEconomy");
             }
@@ -122,16 +111,13 @@ public class HookHandler {
         if (Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2")) {
             logger.log("Selected island hook: SuperiorSkyblock2");
             protectionHook = SuperiorHook.getInstance();
-        }
-        else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox")) {
+        } else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox")) {
             logger.log("Selected island hook: BentoBox");
             protectionHook = BentoBoxHook.getInstance();
-        }
-        else if (Bukkit.getPluginManager().isPluginEnabled("Lands")) {
+        } else if (Bukkit.getPluginManager().isPluginEnabled("Lands")) {
             logger.log("Selected protection hook: Lands");
             protectionHook = LandsHook.getInstance();
-        }
-        else {
+        } else {
             logger.log("No protection hook has been found.");
         }
     }

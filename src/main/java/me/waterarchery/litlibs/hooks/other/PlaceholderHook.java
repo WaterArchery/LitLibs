@@ -3,7 +3,7 @@ package me.waterarchery.litlibs.hooks.other;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.OfflinePlayer;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class PlaceholderHook {
 

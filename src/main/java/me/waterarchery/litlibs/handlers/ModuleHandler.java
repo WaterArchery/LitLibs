@@ -7,8 +7,10 @@ import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.utils.ReflectionUtils;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ModuleHandler {
@@ -22,7 +24,8 @@ public class ModuleHandler {
         return instance;
     }
 
-    private ModuleHandler() { }
+    private ModuleHandler() {
+    }
 
     public void loadModules(Plugin provider, List<Class<? extends ModuleBase>> moduleClasses) {
         List<ModuleBase> modules = pluginModuleMap.get(provider.getName());

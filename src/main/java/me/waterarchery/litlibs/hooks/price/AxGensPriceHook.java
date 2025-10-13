@@ -16,7 +16,8 @@ public class AxGensPriceHook implements PriceHook {
         return instance;
     }
 
-    private AxGensPriceHook() { }
+    private AxGensPriceHook() {
+    }
 
     @Override
     public double getPrice(ItemStack item) {

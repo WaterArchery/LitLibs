@@ -16,7 +16,8 @@ public class ShopGUIPriceHook implements PriceHook {
         return instance;
     }
 
-    private ShopGUIPriceHook() { }
+    private ShopGUIPriceHook() {
+    }
 
     @Override
     public double getPrice(ItemStack item) {

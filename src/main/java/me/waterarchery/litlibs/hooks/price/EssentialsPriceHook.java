@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.*;
+import java.math.BigDecimal;
 
 public class EssentialsPriceHook implements PriceHook {
 
@@ -18,15 +18,15 @@ public class EssentialsPriceHook implements PriceHook {
         return instance;
     }
 
-    private EssentialsPriceHook() { }
+    private EssentialsPriceHook() {
+    }
 
     public double getPrice(ItemStack item) {
         Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         BigDecimal price = essentials.getWorth().getPrice(essentials, item);
         if (price == null) {
             return 0;
-        }
-        else {
+        } else {
             return price.doubleValue() * item.getAmount();
         }
     }

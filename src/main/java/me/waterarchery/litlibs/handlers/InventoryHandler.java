@@ -13,13 +13,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Optional;
 
 public class InventoryHandler {
 
     private final LitLibs litLibs;
 
-    public InventoryHandler(LitLibs litLibs) { this.litLibs = litLibs; }
+    public InventoryHandler(LitLibs litLibs) {
+        this.litLibs = litLibs;
+    }
 
     @Deprecated
     public void fillGUI(Inventory inventory, String path, ConfigManager file) {
@@ -59,11 +61,9 @@ public class InventoryHandler {
         if (rawMaterial.contains("HEAD-")) {
             rawMaterial = rawMaterial.replace("HEAD-", "");
             return headCache.getCachedItem(rawMaterial);
-        }
-        else if (rawMaterial.contains("PLAYER")) {
+        } else if (rawMaterial.contains("PLAYER")) {
             return headCache.getCachedItem(player.getUniqueId().toString());
-        }
-        else {
+        } else {
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
             return material.parseItem();

@@ -18,7 +18,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Deprecated
@@ -72,8 +75,7 @@ public class InventoryImpl {
             else {
                 if (action != null && !action.equalsIgnoreCase("none")) {
                     itemStack = inventoryHandler.setGUIAction(itemStack, action, ActionType.PLUGIN, file.getName());
-                }
-                else {
+                } else {
                     itemStack = inventoryHandler.setGUIAction(itemStack, itemPath, ActionType.PLUGIN, file.getName());
                 }
             }
@@ -92,8 +94,7 @@ public class InventoryImpl {
         if (rawMaterial.contains("HEAD-")) {
             rawMaterial = rawMaterial.replace("HEAD-", "");
             return XSkull.createItem().profile(Profileable.detect(rawMaterial)).apply();
-        }
-        else {
+        } else {
             Optional<XMaterial> optMaterial = XMaterial.matchXMaterial(rawMaterial);
             XMaterial material = optMaterial.orElse(XMaterial.STONE);
             return material.parseItem();

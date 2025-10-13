@@ -3,16 +3,19 @@ package me.waterarchery.litlibs.database;
 import me.waterarchery.litlibs.LitLibs;
 import org.bukkit.plugin.Plugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public class SQLite {
 
     private final LitLibs litLibs;
     private Connection connection;
 
-    public SQLite(LitLibs litLibs) { this.litLibs = litLibs; }
+    public SQLite(LitLibs litLibs) {
+        this.litLibs = litLibs;
+    }
 
     public void createDatabase(ArrayList<String> SQLiteTokens) {
         for (String token : SQLiteTokens) {
@@ -28,8 +31,7 @@ public class SQLite {
             Statement s = connection.createStatement();
             s.executeUpdate(token);
             s.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             litLibs.getLogger().error(e.getMessage());
         }
     }
@@ -38,8 +40,7 @@ public class SQLite {
         connection = getSQLConnection();
         try (PreparedStatement vac = connection.prepareStatement("vacuum")) {
             vac.execute();
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             litLibs.getLogger().error("Unable to retreive connection");
         }
     }
@@ -51,8 +52,7 @@ public class SQLite {
         if (!dataFolder.exists()) {
             try {
                 dataFolder.createNewFile();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 litLibs.getLogger().error("File write error: " + fileName + ".db");
             }
         }
@@ -63,11 +63,9 @@ public class SQLite {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
             return connection;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             litLibs.getLogger().error("SQLite exception on initialize");
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             litLibs.getLogger().error("You need the SQLite JBDC library. Google it. Put it in /lib folder.");
         }
         return null;

@@ -16,7 +16,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Display;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -50,8 +53,7 @@ public class FancyHologramsHook extends HologramHook {
         String rawBillboard = config.getString("FancyHolograms.Billboard", "VERTICAL");
         try {
             billboard = Display.Billboard.valueOf(rawBillboard.toUpperCase(Locale.US));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             litLibs.getLogger().error("Invalid billboard name on FancyHologramsHook: " + rawBillboard);
             billboard = Display.Billboard.VERTICAL;
         }
@@ -94,16 +96,14 @@ public class FancyHologramsHook extends HologramHook {
 
         if (hologram == null) {
             createHologram(loc, lines);
-        }
-        else {
+        } else {
             TextHologramData hologramData = (TextHologramData) hologram.getData();
             if (hologramData.getText().size() == lines.size()) {
                 lines = parseColors(lines);
 
                 hologramData.setText(lines);
                 hologram.queueUpdate();
-            }
-            else {
+            } else {
                 deleteHologram(loc);
                 createHologram(loc, lines);
             }
@@ -123,8 +123,7 @@ public class FancyHologramsHook extends HologramHook {
             for (String s : hologramData.getText()) {
                 if (i == lineNumber) {
                     lines.add(ChatUtils.colorizeLegacy(line));
-                }
-                else {
+                } else {
                     lines.add(s);
                 }
             }

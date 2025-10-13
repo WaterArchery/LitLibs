@@ -10,7 +10,10 @@ import me.waterarchery.litlibs.handlers.NPCHandler;
 import me.waterarchery.litlibs.impl.npc.NPC;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class PacketListeners implements PacketListener {
 

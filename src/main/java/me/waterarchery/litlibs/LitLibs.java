@@ -45,11 +45,17 @@ public class LitLibs {
         ProviderHandler.getInstance().unregister(plugin);
     }
 
-    public VersionHandler getVersionHandler() { return VersionHandler.getInstance(); }
+    public VersionHandler getVersionHandler() {
+        return VersionHandler.getInstance();
+    }
 
-    public ModuleHandler getModuleHandler() { return ModuleHandler.getInstance(); }
+    public ModuleHandler getModuleHandler() {
+        return ModuleHandler.getInstance();
+    }
 
-    public NBTAPIHook getNBTAPIHook() { return nbtapiHook; }
+    public NBTAPIHook getNBTAPIHook() {
+        return nbtapiHook;
+    }
 
     public HookHandler getHookHandler() {
         if (hookHandler == null) hookHandler = new HookHandler(this);

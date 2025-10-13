@@ -15,7 +15,9 @@ public class VersionHandler {
         return instance;
     }
 
-    private VersionHandler() { assignVersion(); }
+    private VersionHandler() {
+        assignVersion();
+    }
 
     public void assignVersion() {
         String rawVersion = Bukkit.getBukkitVersion().split("-")[0];

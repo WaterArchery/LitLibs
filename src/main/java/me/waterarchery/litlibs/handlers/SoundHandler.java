@@ -11,7 +11,9 @@ public class SoundHandler {
 
     private final LitLibs litLibs;
 
-    public SoundHandler(LitLibs litLibs) { this.litLibs = litLibs; }
+    public SoundHandler(LitLibs litLibs) {
+        this.litLibs = litLibs;
+    }
 
 
     public void sendSound(Player p, String configPath) {
@@ -38,8 +40,7 @@ public class SoundHandler {
 
             if (xSound == null) return;
             xSound.play(p, (float) volume, (float) pitch);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             litLibs.getLogger().error("Error sound playing: " + soundName);
             e.printStackTrace();
         }

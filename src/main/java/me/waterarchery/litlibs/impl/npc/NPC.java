@@ -24,8 +24,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 @Getter
 @Setter
@@ -177,8 +179,7 @@ public abstract class NPC {
     private void sendPacketSync(PacketWrapper<?> packet, Player player) {
         try {
             PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Bukkit.getConsoleSender()
                     .sendMessage("§b[LitLibs] §cFailed to send packet: " + packet.toString() + " on player: " + player.getName() + " with uuid: " + player.getUniqueId());
         }

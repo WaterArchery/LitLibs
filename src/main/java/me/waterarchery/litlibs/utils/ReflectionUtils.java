@@ -6,8 +6,8 @@ import me.waterarchery.litlibs.impl.module.ModuleBase;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 public class ReflectionUtils {
 
@@ -21,8 +21,7 @@ public class ReflectionUtils {
             ModuleBase module = moduleBaseClass.getDeclaredConstructor(argTypes).newInstance(args);
             logger.log(String.format("Module loaded: %s", module.getName()));
             moduleHandler.getPluginModuleMap().get(provider.getName()).add(module);
-        }
-        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ex) {
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
     }

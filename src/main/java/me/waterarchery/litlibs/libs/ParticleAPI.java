@@ -29,8 +29,7 @@ public class ParticleAPI {
                 if (particle.name().contains("DUST")) {
                     Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromARGB(255, 255, 255, 255), 1);
                     location.getWorld().spawnParticle(particle, location, 0, 0, 0, 0, 1, dustOptions);
-                }
-                else {
+                } else {
                     location.getWorld().spawnParticle(particle, location, 0, 0, 0, 0, 1);
                 }
                 return;

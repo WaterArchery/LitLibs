@@ -13,12 +13,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ChunkListeners implements Listener {
 
-    private final ExecutorService chunkThreadPool = Executors.newFixedThreadPool(5);
+    private final ExecutorService chunkThreadPool = Executors.newFixedThreadPool(2);
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onNpcLoad(ChunkLoadEvent event) {

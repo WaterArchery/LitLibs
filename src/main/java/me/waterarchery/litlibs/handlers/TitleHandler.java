@@ -7,13 +7,15 @@ import me.waterarchery.litlibs.version.VersionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 
 public class TitleHandler {
 
     private final LitLibs litLibs;
 
-    public TitleHandler(LitLibs litLibs) { this.litLibs = litLibs; }
+    public TitleHandler(LitLibs litLibs) {
+        this.litLibs = litLibs;
+    }
 
     public void sendTitle(Player player, String rawTitle, String rawSubTitle) {
         sendTitle(player, rawTitle, rawSubTitle, 5, 30, 5);
@@ -42,9 +44,7 @@ public class TitleHandler {
                     .get(null), chatTitle, fadeInTime, showTime, fadeOutTime);
 
             sendPacket(player, packet);
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             litLibs.getLogger().error(ex.getMessage());
         }
     }
@@ -54,8 +54,7 @@ public class TitleHandler {
             Object handle = player.getClass().getMethod("getHandle").invoke(player);
             Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
             playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             litLibs.getLogger().error(ex.getMessage());
         }
     }
@@ -70,8 +69,7 @@ public class TitleHandler {
     private Class<?> getNMSClass(String name) {
         try {
             return Class.forName("net.minecraft.server" + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3] + "." + name);
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             litLibs.getLogger().error(ex.getMessage());
         }
         return null;

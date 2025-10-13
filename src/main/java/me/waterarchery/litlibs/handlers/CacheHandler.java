@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -21,7 +21,8 @@ public class CacheHandler {
         return cacheHandler;
     }
 
-    private CacheHandler() { }
+    private CacheHandler() {
+    }
 
     public void cacheItem(String key, ItemStack item) {
         if (!cachedPlayerHeads.containsKey(key)) cachedPlayerHeads.put(key, item);
@@ -34,8 +35,7 @@ public class CacheHandler {
             try {
                 item = XSkull.createItem().profile(Profileable.detect(key)).apply();
                 cachedPlayerHeads.put(key, item);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return new ItemStack(Material.PLAYER_HEAD);
             }
         }

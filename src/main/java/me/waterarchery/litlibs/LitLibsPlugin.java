@@ -16,7 +16,8 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Getter
 public class LitLibsPlugin extends JavaPlugin {
@@ -79,6 +80,8 @@ public class LitLibsPlugin extends JavaPlugin {
         return getPlugin(LitLibsPlugin.class);
     }
 
-    public ProviderHandler getProviderHandler() { return ProviderHandler.getInstance(); }
+    public ProviderHandler getProviderHandler() {
+        return ProviderHandler.getInstance();
+    }
 
 }

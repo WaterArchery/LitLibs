@@ -13,7 +13,9 @@ public class NBTAPIHook {
 
     private final LitLibs litLibs;
 
-    public NBTAPIHook(LitLibs litLibs) { this.litLibs = litLibs; }
+    public NBTAPIHook(LitLibs litLibs) {
+        this.litLibs = litLibs;
+    }
 
     public ItemStack setGUIAction(String action, ItemStack item, String guiName, ActionType actionType) {
         NBTItem nbti = new NBTItem(item);
@@ -38,14 +40,12 @@ public class NBTAPIHook {
             if (nbti.hasTag("GUIAction")) {
                 String action = nbti.getString("GUIAction");
                 actionModel = new Action(action, guiName, ActionType.PLUGIN);
-            }
-            else {
+            } else {
                 String action = nbti.getString("GUICommand");
                 actionModel = new Action(action, guiName, ActionType.COMMAND);
             }
             return actionModel;
-        }
-        else {
+        } else {
             return null;
         }
     }

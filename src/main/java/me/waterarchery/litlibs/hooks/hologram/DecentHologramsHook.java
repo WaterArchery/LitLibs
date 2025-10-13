@@ -7,7 +7,7 @@ import me.waterarchery.litlibs.hooks.HologramHook;
 import me.waterarchery.litlibs.utils.ChatUtils;
 import org.bukkit.Location;
 
-import java.util.*;
+import java.util.List;
 
 public class DecentHologramsHook extends HologramHook {
 
@@ -19,7 +19,8 @@ public class DecentHologramsHook extends HologramHook {
         return instance;
     }
 
-    private DecentHologramsHook() { }
+    private DecentHologramsHook() {
+    }
 
     @Override
     public void createHologram(Location loc, List<String> lines) {
@@ -40,8 +41,7 @@ public class DecentHologramsHook extends HologramHook {
 
         if (hologram == null) {
             createHologram(loc, lines);
-        }
-        else {
+        } else {
             HologramPage page = hologram.getPage(0);
             lines = parseColors(lines);
 
@@ -51,8 +51,7 @@ public class DecentHologramsHook extends HologramHook {
                     page.setLine(i, lineText);
                     i++;
                 }
-            }
-            else {
+            } else {
                 deleteHologram(loc);
                 createHologram(loc, lines);
             }

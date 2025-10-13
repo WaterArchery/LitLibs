@@ -5,7 +5,8 @@ import lombok.Setter;
 import me.waterarchery.litlibs.utils.ChatUtils;
 import org.bukkit.Location;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter

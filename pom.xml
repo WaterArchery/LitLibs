@@ -286,13 +286,13 @@
             <version>13.3.3</version>
         </dependency>
 
-        <!--Guis-->
+        <!--For command lib-->
         <dependency>
             <groupId>dev.triumphteam</groupId>
-            <artifactId>triumph-gui</artifactId>
-            <version>3.1.11</version>
+            <artifactId>triumph-cmd-bukkit</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
-
         <!--PlaceholderAPI for placeholders-->
         <dependency>
             <groupId>me.clip</groupId>

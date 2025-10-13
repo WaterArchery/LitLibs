@@ -4,7 +4,7 @@ import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.configuration.ConfigPart;
 
-import java.util.*;
+import java.util.List;
 
 public class ModuleConfig extends ConfigManager {
 
