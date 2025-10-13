@@ -87,11 +87,11 @@ public abstract class LitGui extends LitGuiBase {
 
     public void createItems(OfflinePlayer player) {
         for (LitMenuItem item : getMenuItems(player)) {
-            if (!item.slots().isEmpty()) {
-                item.slots().forEach(slot -> {
-                    if (slot != -1) cachedGui.setItem(slot, item.guiItem());
+            if (!item.getSlots().isEmpty()) {
+                item.getSlots().forEach(slot -> {
+                    if (slot != -1) cachedGui.setItem(slot, item.getGuiItem());
                 });
-            } else cachedGui.addItem(item.guiItem());
+            } else cachedGui.addItem(item.getGuiItem());
         }
     }
 

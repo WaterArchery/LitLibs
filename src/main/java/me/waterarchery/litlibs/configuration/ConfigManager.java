@@ -86,9 +86,9 @@ public class ConfigManager {
     }
 
     public void addDefault(ConfigPart configPart) {
-        String path = configPart.path();
-        Object value = configPart.value();
-        List<String> comments = configPart.comments();
+        String path = configPart.getPath();
+        Object value = configPart.getValue();
+        List<String> comments = configPart.getComments();
 
         if (value != null) yml.addDefault(path, value);
 
