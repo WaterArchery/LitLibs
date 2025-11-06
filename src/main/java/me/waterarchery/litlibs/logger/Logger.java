@@ -38,6 +38,11 @@ public class Logger {
         Bukkit.getConsoleSender().sendMessage("§7[§b" + name + "§7] §4[ERROR] §f" + mes);
     }
 
+    public void error(Throwable throwable) {
+        Bukkit.getConsoleSender().sendMessage("§7[§b" + name + "§7] §4[ERROR] §f" + throwable.getMessage());
+        throwable.printStackTrace();
+    }
+
     public void warn(String mes) {
         mes = mes.replace("&", "§");
         Bukkit.getConsoleSender().sendMessage("§7[§b" + name + "§7] §e[WARN] §f" + mes);
@@ -47,5 +52,4 @@ public class Logger {
         mes = mes.replace("&", "§");
         Bukkit.getConsoleSender().sendMessage("§7[§bLitLibs§7] §f" + mes);
     }
-
 }

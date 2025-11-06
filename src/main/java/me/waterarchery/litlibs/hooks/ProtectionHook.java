@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public interface ProtectionHook {
@@ -15,7 +16,7 @@ public interface ProtectionHook {
 
     @Nullable UUID getOwner(Location loc);
 
-    ArrayList<UUID> getMembers(Location loc);
+    List<UUID> getMembers(Location loc);
 
     boolean canPlayerBuild(Location loc, Player player);
 
@@ -23,4 +24,7 @@ public interface ProtectionHook {
 
     boolean isInternalChatEnabled(Player player);
 
+    Location getCenter(Location loc);
+
+    boolean isInside(Location loc);
 }

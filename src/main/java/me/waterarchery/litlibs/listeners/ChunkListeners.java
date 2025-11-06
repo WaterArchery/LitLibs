@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 
 public class ChunkListeners implements Listener {
 
-    private final ExecutorService chunkThreadPool = Executors.newFixedThreadPool(2);
+    private final ExecutorService chunkThreadPool = Executors.newFixedThreadPool(1);
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onNpcLoad(ChunkLoadEvent event) {
@@ -29,12 +29,11 @@ public class ChunkListeners implements Listener {
         int z = chunk.getZ();
         String world = chunk.getWorld().getName();
 
-        // Copying array list to preventing the concurrent modification
         chunkThreadPool.submit(() -> {
             boolean nullCheck = false;
 
             NPCHandler npcHandler = NPCHandler.getInstance();
-            for (NPC npc : new ArrayList<>(npcHandler.getNpcs())) {
+            for (NPC npc : npcHandler.getNpcs()) {
                 if (npc == null) {
                     nullCheck = true;
                     continue;

@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public class EconomyShopGUI implements PriceHook {
 
-
     private static EconomyShopGUI instance = null;
 
     public static synchronized EconomyShopGUI getInstance() {

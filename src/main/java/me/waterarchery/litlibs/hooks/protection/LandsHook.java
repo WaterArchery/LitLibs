@@ -1,15 +1,20 @@
 package me.waterarchery.litlibs.hooks.protection;
 
 import me.angeschossen.lands.api.LandsIntegration;
+import me.angeschossen.lands.api.events.LandDeleteEvent;
+import me.angeschossen.lands.api.events.PlayerLeaveLandEvent;
 import me.angeschossen.lands.api.land.Land;
 import me.angeschossen.lands.api.player.LandPlayer;
 import me.angeschossen.lands.api.player.chat.ChatMode;
 import me.waterarchery.litlibs.LitLibsPlugin;
+import me.waterarchery.litlibs.events.LitIslandDisbandEvent;
+import me.waterarchery.litlibs.events.LitIslandLeaveEvent;
 import me.waterarchery.litlibs.hooks.ProtectionHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,11 +41,7 @@ public class LandsHook implements ProtectionHook, Listener {
 
     @Override
     public @Nullable UUID getIslandUUID(Location loc) {
-        World world = loc.getWorld();
-        int chunkX = loc.getChunk().getX();
-        int chunkZ = loc.getChunk().getZ();
-
-        Land land = landsIntegration.getLandByChunk(world, chunkX, chunkZ);
+        Land land = getLandAt(loc);
         return land != null ? land.getOwnerUID() : null; // Temp solution
     }
 
@@ -52,24 +53,16 @@ public class LandsHook implements ProtectionHook, Listener {
 
     @Override
     public @Nullable UUID getOwner(Location loc) {
-        World world = loc.getWorld();
-        int chunkX = loc.getChunk().getX();
-        int chunkZ = loc.getChunk().getZ();
-
-        Land land = landsIntegration.getLandByChunk(world, chunkX, chunkZ);
+        Land land = getLandAt(loc);
         return land != null ? land.getOwnerUID() : null;
     }
 
     @Override
-    public ArrayList<UUID> getMembers(Location loc) {
-        ArrayList<UUID> members = new ArrayList<>();
-        World world = loc.getWorld();
-        int chunkX = loc.getChunk().getX();
-        int chunkZ = loc.getChunk().getZ();
+    public List<UUID> getMembers(Location loc) {
+        List<UUID> members = new ArrayList<>();
+        Land land = getLandAt(loc);
 
-        Land land = landsIntegration.getLandByChunk(world, chunkX, chunkZ);
         if (land != null) members.addAll(land.getTrustedPlayers());
-
         return members;
     }
 
@@ -94,4 +87,44 @@ public class LandsHook implements ProtectionHook, Listener {
         return mode == ChatMode.LAND;
     }
 
+    @Override
+    public Location getCenter(Location loc) {
+        Land land = getLandAt(loc);
+        return land != null && land.getSpawnPosition() != null ? land.getSpawnPosition().toLocation() : null;
+    }
+
+    @Override
+    public boolean isInside(Location loc) {
+        Land land = getLandAt(loc);
+        return land != null && land.getArea(loc) != null;
+    }
+
+    @EventHandler
+    public void onLandDelete(LandDeleteEvent e) {
+        Land land = e.getLand();
+        List<UUID> members = new ArrayList<>(land.getTrustedPlayers());
+        members.add(land.getOwnerUID());
+
+        LitIslandDisbandEvent litEvent = new LitIslandDisbandEvent(land.getOwnerUID(), members);
+        Bukkit.getServer().getPluginManager().callEvent(litEvent);
+    }
+
+    @EventHandler
+    public void onLandLeave(PlayerLeaveLandEvent e) {
+        Land land = e.getLand();
+        LandPlayer player = e.getLandPlayer();
+
+        LitIslandLeaveEvent litEvent = new LitIslandLeaveEvent(land.getOwnerUID(), player.getUID());
+        Bukkit.getServer().getPluginManager().callEvent(litEvent);
+    }
+
+    private Land getLandAt(Location loc) {
+        World world = loc.getWorld();
+        if (world == null) return null;
+
+        int chunkX = loc.getChunk().getX();
+        int chunkZ = loc.getChunk().getZ();
+
+        return landsIntegration.getLandByUnloadedChunk(world, chunkX, chunkZ);
+    }
 }

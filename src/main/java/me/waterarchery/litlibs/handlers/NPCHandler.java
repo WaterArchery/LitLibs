@@ -1,12 +1,12 @@
 package me.waterarchery.litlibs.handlers;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 import lombok.Getter;
 import lombok.Setter;
 import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.impl.npc.NPC;
+import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litlibs.utils.ChunkUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,26 +16,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 @Getter
 @Setter
+@SuppressWarnings("unused")
 public class NPCHandler {
 
     private static NPCHandler instance;
-    private final List<NPC> npcs = new ArrayList<>();
-    private final ThreadFactory namedThreadFactory;
-    private final ExecutorService executor = Executors.newFixedThreadPool(1, r -> {
-        Thread t = new Thread(r);
-        t.setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
-        return t;
-    });
+    private final Logger logger;
+    private final List<NPC> npcs;
+    private final ExecutorService executor;
     private WrappedTask updateTask;
 
     public static NPCHandler getInstance() {
@@ -45,7 +39,14 @@ public class NPCHandler {
     }
 
     private NPCHandler() {
-        namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("litlibs-%d").build();
+        logger = LitLibsPlugin.getInstance().getLitLogger();
+        npcs = Collections.synchronizedList(new ArrayList<>());
+
+        ThreadFactory factory = Thread.ofVirtual()
+                .name("litlibs-npc-worker-", 0)
+                .uncaughtExceptionHandler((thread, throwable) -> logger.error(throwable))
+                .factory();
+        executor = Executors.newSingleThreadExecutor(factory);
 
         startUpdateTask();
     }
@@ -56,7 +57,7 @@ public class NPCHandler {
         LitLibsPlugin plugin = LitLibsPlugin.getInstance();
         FoliaLib foliaLib = plugin.getFoliaLib();
         updateTask = foliaLib.getScheduler().runTimerAsync(() -> {
-            for (NPC npc : new ArrayList<>(npcs)) {
+            for (NPC npc : npcs) {
                 if (npc == null) {
                     npcs.remove(null);
                     continue;
@@ -101,7 +102,10 @@ public class NPCHandler {
     }
 
     public void deleteNPC(UUID uuid) {
-        List<NPC> deletedNpcs = new ArrayList<>(npcs).stream().filter(npc -> npc != null && npc.getUuid().equals(uuid)).toList();
+        List<NPC> deletedNpcs = npcs.stream()
+                .filter(npc -> npc != null && npc.getUuid().equals(uuid))
+                .toList();
+
         deletedNpcs.forEach(npc -> {
             npcs.remove(npc);
 
@@ -111,7 +115,7 @@ public class NPCHandler {
     }
 
     public Team getColorTeam(ChatColor color) {
-        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        Scoreboard board = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard();
         String teamName = color.toString() + "_LitNPC";
         Team team = board.getTeam(teamName);
 
@@ -122,5 +126,4 @@ public class NPCHandler {
 
         return team;
     }
-
 }

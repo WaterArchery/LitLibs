@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class AxGensPriceHook implements PriceHook {
 
-
     private static AxGensPriceHook instance = null;
 
     public static synchronized AxGensPriceHook getInstance() {

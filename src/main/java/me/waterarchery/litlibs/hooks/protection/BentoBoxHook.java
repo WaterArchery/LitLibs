@@ -1,17 +1,23 @@
 package me.waterarchery.litlibs.hooks.protection;
 
 import me.waterarchery.litlibs.LitLibsPlugin;
+import me.waterarchery.litlibs.events.LitIslandDisbandEvent;
+import me.waterarchery.litlibs.events.LitIslandKickEvent;
 import me.waterarchery.litlibs.hooks.ProtectionHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.api.events.island.IslandDeleteEvent;
+import world.bentobox.bentobox.api.events.team.TeamKickEvent;
 import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.database.objects.Players;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,19 +39,14 @@ public class BentoBoxHook implements ProtectionHook, Listener {
     @Override
     public @Nullable UUID getIslandUUID(Location loc) {
         Optional<Island> island = BentoBox.getInstance().getIslands().getIslandAt(loc);
-        if (island.isPresent()) {
-            String rawUUID = island.get().getUniqueId().replace("BSkyBlock", "");
-            return UUID.fromString(rawUUID);
-        }
-        return null;
+        return island.map(value -> parseUUID(value.getUniqueId())).orElse(null);
     }
 
     @Override
     public @Nullable UUID getIslandUUID(Player player) {
         Island island = BentoBox.getInstance().getIslandsManager().getIsland(player.getWorld(), player.getUniqueId());
         if (island != null) {
-            String rawUUID = island.getUniqueId().replace("BSkyBlock", "");
-            return UUID.fromString(rawUUID);
+            return parseUUID(island.getUniqueId());
         }
         return null;
     }
@@ -57,7 +58,7 @@ public class BentoBoxHook implements ProtectionHook, Listener {
     }
 
     @Override
-    public ArrayList<UUID> getMembers(Location loc) {
+    public List<UUID> getMembers(Location loc) {
         Optional<Island> island = BentoBox.getInstance().getIslands().getIslandAt(loc);
         ArrayList<UUID> members = new ArrayList<>();
         island.ifPresent(value -> members.addAll(value.getMemberSet()));
@@ -68,7 +69,8 @@ public class BentoBoxHook implements ProtectionHook, Listener {
     @Override
     public boolean canPlayerBuild(Location loc, Player player) {
         Optional<Island> island = BentoBox.getInstance().getIslands().getIslandAt(loc);
-        return island.filter(value -> value.getMemberSet().contains(player.getUniqueId()) || value.getOwner().equals(player.getUniqueId())).isPresent();
+        return island.filter(value -> value.getMemberSet().contains(player.getUniqueId())
+                || value.getOwner().equals(player.getUniqueId())).isPresent();
     }
 
     @Override
@@ -83,4 +85,46 @@ public class BentoBoxHook implements ProtectionHook, Listener {
         return false; // I couldn't find the proper boolean :(
     }
 
+    @Override
+    public Location getCenter(Location loc) {
+        Island island = BentoBox.getInstance()
+                .getIslandsManager()
+                .getIslandAt(loc)
+                .orElse(null);
+
+        return island != null ? island.getCenter() : null;
+    }
+
+    @Override
+    public boolean isInside(Location loc) {
+        Island island = BentoBox.getInstance()
+                .getIslandsManager()
+                .getIslandAt(loc)
+                .orElse(null);
+
+        return island != null && island.inIslandSpace(loc);
+    }
+
+    @EventHandler
+    public void onIslandDisband(IslandDeleteEvent e) {
+        Island island = e.getIsland();
+        List<UUID> members = new ArrayList<>(island.getMemberSet());
+
+        LitIslandDisbandEvent litEvent = new LitIslandDisbandEvent(parseUUID(island.getUniqueId()), members);
+        Bukkit.getServer().getPluginManager().callEvent(litEvent);
+    }
+
+    @EventHandler
+    public void onIslandKick(TeamKickEvent e) {
+        Island island = e.getIsland();
+        UUID uuid = e.getPlayerUUID();
+
+        LitIslandKickEvent litEvent = new LitIslandKickEvent(parseUUID(island.getUniqueId()), uuid, null);
+        Bukkit.getServer().getPluginManager().callEvent(litEvent);
+    }
+
+    private UUID parseUUID(String rawUUID) {
+        String cleanedUUID = rawUUID.replace("BSkyBlock", "");
+        return UUID.fromString(cleanedUUID);
+    }
 }

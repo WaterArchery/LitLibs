@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class RoyaleEconomyHook implements PriceHook {
 
-
     private static RoyaleEconomyHook instance = null;
 
     public static synchronized RoyaleEconomyHook getInstance() {

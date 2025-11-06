@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class ShopGUIPriceHook implements PriceHook {
 
-
     private static ShopGUIPriceHook instance = null;
 
     public static synchronized ShopGUIPriceHook getInstance() {

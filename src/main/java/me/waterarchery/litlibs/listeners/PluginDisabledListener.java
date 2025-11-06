@@ -23,5 +23,4 @@ public class PluginDisabledListener implements Listener {
 
         if (handler.isRegistered(provider)) handler.unregister(provider);
     }
-
 }
