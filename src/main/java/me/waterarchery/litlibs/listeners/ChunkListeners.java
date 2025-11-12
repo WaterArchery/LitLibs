@@ -62,7 +62,7 @@ public class ChunkListeners implements Listener {
 
             NPCHandler npcHandler = NPCHandler.getInstance();
             List<NPC> validNpcs = new ArrayList<>(npcHandler.getNpcs()).stream()
-                    .filter(npc -> npc != null && worldName.equalsIgnoreCase(npc.getWorldName()) && npc.getChunkX() == x && npc.getChunkZ() == z)
+                    .filter(npc -> npc != null && npc.getChunkX() == x && npc.getChunkZ() == z && worldName.equalsIgnoreCase(npc.getWorldName()))
                     .toList();
 
             validNpcs.forEach(NPC::despawn);

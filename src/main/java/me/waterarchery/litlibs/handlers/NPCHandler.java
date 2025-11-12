@@ -58,10 +58,7 @@ public class NPCHandler {
         FoliaLib foliaLib = plugin.getFoliaLib();
         updateTask = foliaLib.getScheduler().runTimerAsync(() -> {
             for (NPC npc : npcs) {
-                if (npc == null) {
-                    npcs.remove(null);
-                    continue;
-                }
+                if (npc == null) continue;
                 if (npc.isDespawned()) continue;
 
                 Location location = npc.getLocation();
