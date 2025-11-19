@@ -95,31 +95,39 @@ public abstract class NPC {
 
     public void update() {
         if (!visible) return;
+        if (despawned) return;
 
         updateRotation();
         updateEquipment(equipments);
     }
 
     public void updateEquipment(List<Equipment> equipments) {
+        if (despawned) return;
+
         this.equipments = equipments;
         if (equipments == null || equipments.isEmpty()) return;
 
         WrapperPlayServerEntityEquipment equipmentPacket = new WrapperPlayServerEntityEquipment(entityId, equipments);
-
         queuePacketSeeing(equipmentPacket);
     }
 
     public void updateRotation() {
-        WrapperPlayServerEntityRotation packet = new WrapperPlayServerEntityRotation(entityId, yaw, pitch, false);
+        if (despawned) return;
 
+        WrapperPlayServerEntityRotation packet = new WrapperPlayServerEntityRotation(entityId, yaw, pitch, false);
         queuePacketSeeing(packet);
     }
 
     public void despawn() {
         despawned = true;
-        seeingPlayers.clear();
 
-        Bukkit.getOnlinePlayers().forEach(player -> despawn(player, true));
+        seeingPlayers.forEach(uuid -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) despawn(player, true);
+        });
+
+        seeingPlayers.clear();
+        //Bukkit.getOnlinePlayers().forEach(player -> despawn(player, true));
     }
 
     public void despawn(Player player, boolean sync) {
@@ -133,6 +141,7 @@ public abstract class NPC {
 
     public void setGlowing(boolean glowing) {
         if (!visible) return;
+        if (despawned) return;
 
         List<EntityData<?>> entityDataList = new ArrayList<>();
         EntityData<?> data2 = new EntityData<>(4, EntityDataTypes.BOOLEAN, glowing);
@@ -143,6 +152,8 @@ public abstract class NPC {
     }
 
     public void setGlowingColor(ChatColor color) {
+        if (despawned) return;
+
         setGlowing(true);
 
         Team team = npcHandler.getColorTeam(color);
@@ -210,5 +221,4 @@ public abstract class NPC {
         this.z = location.getZ();
         this.worldName = location.getWorld().getName();
     }
-
 }

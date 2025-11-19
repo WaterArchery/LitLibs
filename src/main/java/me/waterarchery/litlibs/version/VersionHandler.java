@@ -4,6 +4,9 @@ import lombok.Getter;
 import me.waterarchery.litlibs.logger.Logger;
 import org.bukkit.Bukkit;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Getter
 public class VersionHandler {
 
@@ -21,7 +24,8 @@ public class VersionHandler {
 
     public void assignVersion() {
         String rawVersion = Bukkit.getBukkitVersion().split("-")[0];
-        for (Version versionEnum : Version.values()) {
+        List<Version> versions = Arrays.stream(Version.values()).toList();
+        for (Version versionEnum : versions.reversed()) {
             if (rawVersion.contains(versionEnum.toString())) {
                 version = versionEnum;
                 Logger.logMessage("Version found: " + version);

@@ -18,5 +18,4 @@ public abstract class LitGuiBase {
     public abstract GuiAction<@NotNull InventoryClickEvent> getDefaultTopClickAction();
 
     public abstract GuiAction<@NotNull InventoryCloseEvent> getCloseGuiAction();
-
 }

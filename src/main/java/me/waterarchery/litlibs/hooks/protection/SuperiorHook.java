@@ -112,8 +112,8 @@ public class SuperiorHook implements ProtectionHook, Listener {
     }
 
     @EventHandler
-    public void onIslandDisband(IslandDisbandEvent e) {
-        Island island = e.getIsland();
+    public void onIslandDisband(IslandDisbandEvent event) {
+        Island island = event.getIsland();
         List<UUID> members = island.getIslandMembers(true)
                 .stream()
                 .map(SuperiorPlayer::getUniqueId)
@@ -124,19 +124,19 @@ public class SuperiorHook implements ProtectionHook, Listener {
     }
 
     @EventHandler
-    public void onIslandKick(IslandKickEvent e) {
-        Island island = e.getIsland();
-        Player kicker = e.getPlayer().asPlayer();
-        UUID player = e.getTarget().getUniqueId();
+    public void onIslandKick(IslandKickEvent event) {
+        Island island = event.getIsland();
+        Player kicker = event.getPlayer().asPlayer();
+        UUID player = event.getTarget().getUniqueId();
 
         LitIslandKickEvent litEvent = new LitIslandKickEvent(island.getUniqueId(), player, kicker);
         Bukkit.getServer().getPluginManager().callEvent(litEvent);
     }
 
     @EventHandler
-    public void onIslandLeave(IslandQuitEvent e) {
-        Island island = e.getIsland();
-        UUID player = e.getPlayer().getUniqueId();
+    public void onIslandLeave(IslandQuitEvent event) {
+        Island island = event.getIsland();
+        UUID player = event.getPlayer().getUniqueId();
 
         LitIslandLeaveEvent litEvent = new LitIslandLeaveEvent(island.getUniqueId(), player);
         Bukkit.getServer().getPluginManager().callEvent(litEvent);

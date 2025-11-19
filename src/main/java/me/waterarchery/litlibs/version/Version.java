@@ -30,6 +30,8 @@ public enum Version {
     v1_21_6(26, "1.21.6"),
     v1_21_7(27, "1.21.7"),
     v1_21_8(28, "1.21.8"),
+    v1_21_9(28, "1.21.9"),
+    v1_21_10(28, "1.21.10"),
     UNKNOWN(999, "UNKNOWN");
 
     private final int versionNumber;
