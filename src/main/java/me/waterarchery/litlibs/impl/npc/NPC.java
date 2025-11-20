@@ -121,12 +121,13 @@ public abstract class NPC {
     public void despawn() {
         despawned = true;
 
-        seeingPlayers.forEach(uuid -> {
+        List<UUID> clone = new ArrayList<>(seeingPlayers);
+        seeingPlayers.clear();
+
+        clone.forEach(uuid -> {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) despawn(player, true);
         });
-
-        seeingPlayers.clear();
         //Bukkit.getOnlinePlayers().forEach(player -> despawn(player, true));
     }
 
