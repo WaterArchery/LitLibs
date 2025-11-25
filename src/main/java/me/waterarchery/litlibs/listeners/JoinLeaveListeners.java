@@ -8,8 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class JoinLeaveListeners implements Listener {
 
@@ -18,12 +17,11 @@ public class JoinLeaveListeners implements Listener {
         NPCHandler npcHandler = NPCHandler.getInstance();
         Player player = event.getPlayer();
 
-        List<NPC> clone = new ArrayList<>(npcHandler.getNpcs());
+        Collection<NPC> clone = npcHandler.getNpcs().values();
         clone.forEach(npc -> {
             if (npc == null) return;
 
             npc.getSeeingPlayers().remove(player.getUniqueId());
         });
     }
-
 }

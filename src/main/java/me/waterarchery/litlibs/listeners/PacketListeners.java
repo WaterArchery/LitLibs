@@ -36,8 +36,10 @@ public class PacketListeners implements PacketListener {
         FoliaLib foliaLib = plugin.getFoliaLib();
         foliaLib.getScheduler().runLater(() -> recentlyClicked.remove(player.getUniqueId()), 5);
 
-        List<NPC> clone = new ArrayList<>(npcHandler.getNpcs());
-        clone.stream().filter(Objects::nonNull).filter(npc -> npc.getEntityId() == entityId).forEach(npc -> npc.execute(player));
+        npcHandler.getNpcs().values()
+                .stream()
+                .filter(Objects::nonNull).filter(npc -> npc.getEntityId() == entityId)
+                .forEach(npc -> npc.execute(player));
     }
 
 }

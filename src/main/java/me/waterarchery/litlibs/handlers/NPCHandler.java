@@ -17,6 +17,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -27,8 +28,8 @@ import java.util.concurrent.ThreadFactory;
 public class NPCHandler {
 
     private static NPCHandler instance;
+    private final ConcurrentHashMap<UUID, NPC> npcs = new ConcurrentHashMap<>();
     private final Logger logger;
-    private final List<NPC> npcs;
     private final ExecutorService executor;
     private WrappedTask updateTask;
 
@@ -40,7 +41,6 @@ public class NPCHandler {
 
     private NPCHandler() {
         logger = LitLibsPlugin.getInstance().getLitLogger();
-        npcs = Collections.synchronizedList(new ArrayList<>());
 
         ThreadFactory factory = Thread.ofVirtual()
                 .name("litlibs-npc-worker-", 0)
@@ -57,7 +57,7 @@ public class NPCHandler {
         LitLibsPlugin plugin = LitLibsPlugin.getInstance();
         FoliaLib foliaLib = plugin.getFoliaLib();
         updateTask = foliaLib.getScheduler().runTimerAsync(() -> {
-            for (NPC npc : npcs) {
+            for (NPC npc : npcs.values()) {
                 if (npc == null) continue;
                 if (npc.isDespawned()) continue;
 
@@ -99,16 +99,11 @@ public class NPCHandler {
     }
 
     public void deleteNPC(UUID uuid) {
-        List<NPC> deletedNpcs = npcs.stream()
-                .filter(npc -> npc != null && npc.getUuid().equals(uuid))
-                .toList();
+        NPC npc = npcs.get(uuid);
+        npcs.remove(uuid);
 
-        deletedNpcs.forEach(npc -> {
-            npcs.remove(npc);
-
-            if (npc == null) return;
-            npc.despawn();
-        });
+        if (npc == null) return;
+        npc.despawn();
     }
 
     public Team getColorTeam(ChatColor color) {

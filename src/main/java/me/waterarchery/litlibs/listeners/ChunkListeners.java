@@ -33,7 +33,7 @@ public class ChunkListeners implements Listener {
             boolean nullCheck = false;
 
             NPCHandler npcHandler = NPCHandler.getInstance();
-            for (NPC npc : npcHandler.getNpcs()) {
+            for (NPC npc : npcHandler.getNpcs().values()) {
                 if (npc == null) {
                     nullCheck = true;
                     continue;
@@ -61,7 +61,7 @@ public class ChunkListeners implements Listener {
             if (world != null && world.isChunkLoaded(x, z)) return;
 
             NPCHandler npcHandler = NPCHandler.getInstance();
-            List<NPC> validNpcs = new ArrayList<>(npcHandler.getNpcs()).stream()
+            List<NPC> validNpcs = npcHandler.getNpcs().values().stream()
                     .filter(npc -> npc != null && npc.getChunkX() == x && npc.getChunkZ() == z && worldName.equalsIgnoreCase(npc.getWorldName()))
                     .toList();
 
