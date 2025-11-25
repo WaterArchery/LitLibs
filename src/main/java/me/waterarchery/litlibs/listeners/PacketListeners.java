@@ -7,7 +7,6 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientIn
 import com.tcoded.folialib.FoliaLib;
 import me.waterarchery.litlibs.LitLibsPlugin;
 import me.waterarchery.litlibs.handlers.NPCHandler;
-import me.waterarchery.litlibs.impl.npc.NPC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
